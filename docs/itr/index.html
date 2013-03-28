@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Управляющая компания</title>
+  
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script src="js/scripts.js" type="text/javascript"></script>
+  <script src="js/jquery.jcarousel.min.js" type="text/javascript"></script>
+  <script src="js/jquery.timers.js" type="text/javascript"></script>
+  <script src="js/modernizr.min.js"></script>
+  <link href="styles.css" rel="stylesheet" type="text/css" />
+  
+  
+  	<link type="text/css" href="jquery.datepick.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery.datepick.js"></script>
+<script type="text/javascript">
+$(function() {
+	
+	$('#inlineDatepicker').datepick({onSelect: showDate});
+});
+
+function showDate(date) {
+	alert('Вывод ' + date);// тут нужно вставить функцию аякс запроса
+}
+</script>
+  <!--[if lte IE 6]>
+		<script src="js/png.js"></script>
+		<script>DD_belatedPNG.fix('div, a, img, span');</script>
+	<![endif]-->
+    <!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+    <![endif]-->
+	
+<!--[if lt IE 9]>
+<script>
+var e = ("abbr,article,aside,audio,canvas,datalist,details," +
+"figure,footer,header,hgroup,mark,menu,meter,nav,output," +
+"progress,section,time,video").split(',');
+for (var i = 0; i < e.length; i++) {
+document.createElement(e[i]);
+}
+</script>
+<![endif]-->
+<script>
+jQuery(document).ready(function() {
+   jQuery('#partners_carousel').jcarousel({
+      
+   });
+   jQuery('#popular_projects_carousel').jcarousel({
+     
+   });
+});
+</script>	
+</head>
+    <body>
+       <header class="header">
+	      <div class="center">
+		    <div class="account_link"><a href="/">Вход</a></div>
+		    <div class="social">
+			     <ul>
+		           <li><noindex><a class="vk" href="http://vkontakte.ru/share.php?url=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank"></a></noindex></li>
+		           <li><noindex><a class="odn" rel="nofollow" target="_blank" href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>"></a></noindex></li>
+				   <li><noindex><a class="mail" href="http://connect.mail.ru/share?share_url=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank" ></a></noindex></li>
+				   <li><noindex><a class="tw" href="http://twitter.com/home?status=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank" ></a></noindex></li>
+				   <li><noindex><a  class="fbook" href="http://www.facebook.com/sharer.php?u=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank"></a></noindex></li>
+		           
+		          
+		          
+		        </ul>
+			</div>
+			
+			<div class="logo"><a href="/"></a></div>
+			
+			<nav>
+			  <ul>
+			    <li class="first"><a href="/">О нас</a></li>
+			    <li><a href="/">Новости</a></li>
+			    <li><a href="/">Форум</a></li>
+			    <li><a href="/">Календарь</a></li>
+			  </ul>
+			</nav>
+			
+			<div class="search">
+		      <form> 
+			     <input type="text" name="query" class="search_field" value="" />
+			     <input type="submit" name="submit_search" class="search_button" value="" />
+			 </form>
+		    </div>
+			
+			<div class="ed_project">
+			  <a href="/" class="add_project">Добавить Проект</a>
+			  <a href="/" class="dev_project">Развить Проект</a>
+		    </div>
+		  
+		  </div>
+	   </header>
+	   <div class="header_slider">
+	      <div class="slider_bg">
+	        <div class="slider">
+			  
+			   
+			   <div id="img_box">
+			     <div class="item">
+				   <img id="img1" class="item_img" src="boy.jpg" border="0" width="231" height="249">
+				   <div class="description">
+				     <h1>О нас</h1>
+					 <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
+					 <a href="/" class="read_more"></a>
+				   </div>
+				 </div>
+				 <div class="item">
+				    <img id="img2" class="item_img" src="boy.jpg" border="0" width="231" height="249">
+					<div class="description">
+				     <h1>О вас</h1>
+					 <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
+					 <a href="/" class="read_more"></a>
+				   </div>
+				 </div>
+				 <div class="item">
+				    <img id="img3" class="item_img" src="boy.jpg" border="0" width="231" height="249">
+					<div class="description">
+				     <h1>О них</h1>
+					 <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
+					 <a href="/" class="read_more"></a>
+				   </div>
+				</div>
+				</div>
+				<div id="imgthumb_shape">
+				  <a href="" class="thumblink_shape" id="imglink_shape1"></a>
+				  <a href="" class="thumblink_shape" id="imglink_shape2"></a>
+				  <a href="" class="thumblink_shape" id="imglink_shape3"></a>
+				  <div class="clear"></div>
+				</div>
+            </div>	  
+		  </div>
+	   
+	   </div>
+	   
+	   <!--проекты-->
+	   <div class="center projects">
+	      
+		  
+		  <div class="project">
+		     <h2> Проекты / <span>Техника</span></h2>
+			 <div class="item">
+			    <div class="img"> <img src="lumen.jpg" border="0"></div>
+			    <div class="description">
+				  <h3><a href="/">Проектор LUMEN для школоты в основном таки. Моднейшая вещь.</a></h3>
+				  <p>Небольшой , бюджетный проектор , простой как грабли, очень хорошо подходит  для классных мероприятий ...</p>
+				  <div class="icons">
+				    <ul> 
+					  <li><img src="1.jpg" border="0"></li>
+					  <li><img src="1.jpg" border="0"></li>
+					  <li><img src="1.jpg" border="0"></li>
+					  <li><img src="1.jpg" border="0"></li>
+				    </ul>
+				  </div>
+				</div>
+				
+			 </div>
+			 <a href="/" class="more_tech">Все проекты >></a>
+               
+		  
+		  </div>
+		  
+		  <div class="calendar">
+		       <h2> Календарь </h2>
+			   
+			   <div class="cal_nav">
+			     <a href="" class="day">День</a>
+			     <a href="" class="month">Месяц</a>
+				 <div class="today"><b>27</b> марта, вторник</div >
+			   </div>
+               <div id="inlineDatepicker"></div>
+
+		  
+		  </div>
+		  
+		  <div class="projects_from_cal"> 
+		      <select name="???">
+			    <option>Все</option>
+			    <option>Не совсем Все</option>
+		      </select>
+
+             <article>
+			      <header>
+				   	 <h1>  <a href="#"  rel="bookmark" title="ссылка на этот пост"> Презентация роектов DEMO Spring - China Шанхай </a></h1>
+                  </header>
+                  <p>Встреча с инвестором /экспертом Russian StartUp Tour Тюмень</p>
+                </article>
+             <article>
+			      <header>
+				   	 <h1>  <a href="#"  rel="bookmark" title="ссылка на этот пост"> Презентация роектов DEMO Spring - China Шанхай </a></h1>
+                  </header>
+                  <p>Встреча с инвестором /экспертом Russian StartUp Tour Тюмень</p>
+                </article>
+             <article>
+			      <header>
+				   	 <h1>  <a href="#"  rel="bookmark" title="ссылка на этот пост"> Презентация роектов DEMO Spring - China Шанхай </a></h1>
+                  </header>
+                  <p>Встреча с инвестором /экспертом Russian StartUp Tour Тюмень</p>
+                </article>
+		  </div>
+	   
+	   
+	     
+	   </div>
+	   
+	   <!--Популярные проекты, форум, фэйс-->
+	   <div class="popular_projects">
+	     <div class="center">
+		   <div class="slider_popular_projects">
+		    <h2>Популярные проекты</h2>
+		    <div class="jcarousel-skin-tango">
+              <div class="jcarousel-container">
+                <div class="jcarousel-clip">
+                  <ul class="jcarousel-list" id="popular_projects_carousel">
+                     <li class="jcarousel-item-1">
+					   <a href="/">
+					     <img  src="p1.jpg" border="0" >
+						 <h3>Один из моднейших проектов нашего времени</h3>
+						 <p>коротко о моднейшем проекте нашего времени</p>
+						</a>
+					  </li>
+                     <li class="jcarousel-item-2">
+					  <a href="/">
+					     <img  src="p2.jpg" border="0" >
+						 <h3>Один из моднейших проектов нашего времени</h3>
+						 <p>коротко о моднейшем проекте нашего времени</p>
+						</a>
+					 </li>
+                     <li class="jcarousel-item-3">
+					  <a href="/">
+					     <img  src="p3.jpg" border="0" >
+						 <h3>Один из моднейших проектов нашего времени</h3>
+						 <p>коротко о моднейшем проекте нашего времени</p>
+						</a>
+					</li>
+					 <li class="jcarousel-item-4">
+					  <a href="/">
+					     <img  src="p2.jpg" border="0" >
+						 <h3>Один из моднейших проектов нашего времени</h3>
+						 <p>коротко о моднейшем проекте нашего времени</p>
+						</a>
+					 </li>
+                    <li class="jcarousel-item-5">
+					  <a href="/">
+					     <img  src="p1.jpg" border="0" >
+						 <h3>Один из моднейших проектов нашего времени</h3>
+						 <p>коротко о моднейшем проекте нашего времени</p>
+						</a>
+					 </li>
+					 
+                  </ul>
+                </div>
+               <div disabled="disabled" class="jcarousel-prev jcarousel-prev-disabled"></div>
+               <div class="jcarousel-next"></div>
+             </div>
+           </div>
+	     </div>
+	     
+		 <div class="forums">
+		       <h2>Форум</h2>
+			   
+			   <article>
+			      <header>
+				     <time datetime="2012-11-15" pubdate> 15.11.2012 </time><br/>
+				     <time datetime="2012-11-15T10:00:00+07:00" pubdate> 10:00 </time>
+					 <h1>  <a href="#"  rel="bookmark" title="ссылка на этот пост"> "Материалы. Технологии. Композиты." II Международная инжиниринговая конференция </a></h1>
+                  </header>
+                  <p>II Международная Инжиниринговая Конференция Холдинговой компании "Композит" «Материалы. Технологии. Композиты» пройдет 15 ноября в конференц-залах гостиницы Холидей Инн Сокольники.</p>
+                </article>
+			   <article>
+			      <header>
+				     <time datetime="2012-11-15" pubdate> 15.11.2012 </time><br/>
+				     <time datetime="2012-11-15T10:00:00+07:00" pubdate> 10:00 </time>
+					 <h1>  <a href="#"  rel="bookmark" title="ссылка на этот пост"> "Материалы. Технологии. Композиты." II Международная инжиниринговая конференция </a></h1>
+                  </header>
+                  <p>II Международная Инжиниринговая Конференция Холдинговой компании "Композит" «Материалы. Технологии. Композиты» пройдет 15 ноября в конференц-залах гостиницы Холидей Инн Сокольники.</p>
+                </article>
+				
+				
+		 </div>
+		 
+		 <div class="fb_group"> <img  src="fb_group.jpg" border="0" ></div>
+		 
+	    </div>
+	   </div>
+	   
+	   
+	   <!--Партнеры-->
+	   <div class="center partners">
+	     <h2>Партнеры</h2>
+		 <div class="slider_partners">
+		    <div class="jcarousel-skin-tango">
+              <div class="jcarousel-container">
+                <div class="jcarousel-clip">
+                  <ul class="jcarousel-list" id="partners_carousel">
+                     <li class="jcarousel-item-1"><a href="/" target="_blank"><img  src="rvk.jpg" border="0" ></a></li>
+                     <li class="jcarousel-item-2"><img  src="sk.jpg" border="0" ></li>
+                     <li class="jcarousel-item-3"><img  src="fenam.jpg" border="0" ></li>
+                     <li class="jcarousel-item-4"><img  src="ventures.jpg" border="0" ></li>
+                     <li class="jcarousel-item-5"><img  src="do.jpg" border="0" ></li>
+					 
+					 <li class="jcarousel-item-6"><img  src="fenam.jpg" border="0" ></li>
+                     <li class="jcarousel-item-7"> <img  src="rvk.jpg" border="0" ></li>
+                     <li class="jcarousel-item-8"><img  src="do.jpg" border="0" ></li>
+                     <li class="jcarousel-item-9"><img  src="ventures.jpg" border="0" ></li>
+                  </ul>
+                </div>
+               <div disabled="disabled" class="jcarousel-prev jcarousel-prev-disabled"></div>
+               <div class="jcarousel-next"></div>
+             </div>
+           </div>
+	     </div>
+	   </div>
+	   
+	   
+	   <!--футер-->
+	   <div class="pad"></div>
+	   <footer>
+	      <div class="footer_center">
+		   <div class="copyr">
+		     <p>ООО "РС-Групп" г.Кемерово</p>
+		     <p>И любая дополнительная информация о предприятии.</p>
+		     <p>Возможно дублировать майнменю.</p>
+		   </div>
+		   <div class="social">
+			     <ul>
+		           <li><noindex><a class="vk" href="http://vkontakte.ru/share.php?url=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank"></a></noindex></li>
+		           <li><noindex><a class="odn" rel="nofollow" target="_blank" href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>"></a></noindex></li>
+				   <li><noindex><a class="mail" href="http://connect.mail.ru/share?share_url=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank" ></a></noindex></li>
+				   <li><noindex><a class="tw" href="http://twitter.com/home?status=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank" ></a></noindex></li>
+				   <li><noindex><a  class="fbook" href="http://www.facebook.com/sharer.php?u=http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] ?>" rel="nofollow" target="_blank"></a></noindex></li>
+		           
+		          
+		          
+		        </ul>
+			</div>
+			
+			
+
+	      </div>
+	   </footer>
+  
+	</body>
+</html>
