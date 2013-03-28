@@ -1,0 +1,50 @@
+<div class="clear"></div>
+
+<h1>Редактировать раздел</h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="/menu/edit/id/<?php echo $this->escape($this->menuItem->id); ?>/" method="post">
+        <table>
+            <tr>
+                <td class="ttovar" width="200">Название</td>
+                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->menuItem->title); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Ссылка</td>
+                <td class="ttovar"><input name="data[link]" value="<?php echo $this->escape($this->menuItem->link); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Группа</td>
+                <td class="ttovar">
+                    <select name="data[group_id]">
+                        <?php foreach ($this->groupList as $group): ?>
+                        <option value="<?php echo $this->escape($group->id); ?>" <?php if ($this->menuItem->group->id == $group->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($group->title); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ttovar">Обработчик</td>
+                <td class="ttovar">
+                    <select name="data[handler_id]">
+                        <?php foreach ($this->handlerList as $handler): ?>
+                        <option value="<?php echo $this->escape($handler->id); ?>" <?php if ($this->menuItem->handler->id == $handler->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($handler->title); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ttovar">Отображать?</td>
+                <td class="ttovar"><input type="checkbox" name="data[is_visible]" <?php if ($this->menuItem->isVisible): ?>checked="checked"<?php endif; ?> /></td>
+            </tr>
+        </table>
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>

@@ -1,0 +1,36 @@
+<h1><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Новости<?php endif; ?></h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <div class="sub-menu">
+        <img src="/images/add.png"/>&nbsp;<a href="/news/add/link/<?php echo $this->escape($this->link); ?>/">добавить</a>
+    </div>
+
+    <table width="100%">
+        <tr>
+            <td class="ttovar">Дата</td>
+            <td class="ttovar">Название</td>
+            <td class="ttovar">Анонс</td>
+            <td class="ttovar"></td>
+        </tr>
+
+        <?php if ($this->newsList !== false): ?>
+        <?php foreach ($this->newsList as $item): ?>
+            <tr>
+                <td class="ttovar"><?php echo $this->escape(date('d.m.Y', strtotime($item->datePublic))); ?></td>
+                <td class="ttovar"><?php echo $this->escape($item->title); ?></td>
+                <td class="ttovar"><?php echo $this->escape($item->shortText); ?></td>
+                <td class="tedit">
+                    <img src="/images/edit.png"/>&nbsp;<a href="/news/edit/id/<?php echo $item->id; ?>/link/<?php echo $this->escape($this->link); ?>/">редактировать</a><br/>
+                    <img src="/images/delete.png"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'delete', 'id' => $item->id)) ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');" style="color: #830000">удалить</a></td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </table>
+
+</div>

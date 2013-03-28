@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Официальный сайт администрации Арсентьевского сельского поселения</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/js/jquery-ui.js"></script>
+    <script type="text/javascript" language="javascript" src="/js/i18n/jquery.ui.datepicker-ru.js"></script>
+
+    <script src="/js/scripts.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css"/>
+    <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
+
+    <!--[if lte IE 6]>
+    <script src="/js/png.js"></script>
+    <script>DD_belatedPNG.fix('div, a, img, span');</script>
+    <![endif]-->
+    <!--[if !IE 7]>
+    <style type="text/css">
+        #wrap {
+            display: table;
+            height: 100%
+        }
+    </style>
+    <![endif]-->
+
+</head>
+<body>
+<div id="wrapper">
+    <div id="header">
+        <div class="icon_sitemap"><a href="/"></a></div>
+        <div class="icon_mail"><a href="/"></a></div>
+
+        <div class="sitename">
+            <a href="/">
+                <p class="big">Арсентьевское сельское поселение</p>
+
+                <p>Органы местного самоуправления муниципального образования Арсентьевского сельского поселения</p>
+
+                <p>Кемеровского муниципального района Кемеровской области</p>
+            </a>
+        </div>
+        <div class="search">
+            <form action="/search/index/" method="post">
+                <input type="text" name="query" class="search_field" value=""/>
+                <input type="submit" name="submit_search" class="search_button" value=""/>
+            </form>
+
+        </div>
+
+
+    </div>
+
+    <div id="center">
+        <div class="sidebar">
+            <div id="mainmenu">
+                <ul class="menu">
+                    <?php foreach ($this->menuList as $group): ?>
+                        <li>
+                            <?php if ($group->getHandler() !== null): ?>
+                                <a href="<?php echo $this->escape($group->getUrl($this->authUserRole)); ?>" class="uppercase
+                            <?php if ($this->menuActiveGroup !== false && $this->menuActiveGroup->link == $group->link): ?>
+                            selected
+                            <?php endif; ?>"><?php echo $this->escape($group->title) ?></a>
+
+                            <?php else: ?>
+                                <img src="/images/menu_icon.png" class="menu_icon"/>
+                                <a class="uppercase"><?php echo $this->escape($group->title) ?></a>
+                            <?php endif; ?>
+                            <?php $itemList = $group->getItemList();
+                            if ($itemList !== false): ?>
+
+                                <ul <?php if ($this->menuActiveGroup !== false && $this->menuActiveGroup->link == $group->link): ?>
+                                    style=" display: block;"
+                                <?php endif; ?> >
+                                    <?php
+
+                                    foreach ($itemList as $item): ?>
+                                        <?php if ($item->isVisible): ?>
+                                            <li><a href="<?php echo $this->escape($item->getUrl($this->authUserRole)); ?>"
+                                                    <?php if ($this->menuActiveItem !== false && $item->link == $this->menuActiveItem->link): ?>
+                                                    class="selected"
+                                                <?php endif; ?> ><?php echo $this->escape($item->title) ?></a></li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+
+                    <?php if ($this->authUserRole !== 'guest'): ?>
+                        <li><a href="/menu/" class="uppercase">Управление разделами</a></li>
+                        <li><a href="/banner/" class="uppercase">Баннеры</a></li>
+                        <li><a href="/phone/" class="uppercase">Телефоны</a></li>
+                        <li><a href="/login/logout/" class="uppercase"><?php echo $this->authUser; ?> (выход)</a></li>
+                    <?php endif; ?>
+
+                </ul>
+            </div>
+
+        </div>
+        <div class="content">
+            <div class="content_header"></div>
+
+            <div class="content_center">
+                <?php echo $this->layout()->content; ?>
+            </div>
+
+        </div>
+
+
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+<div class="pad"></div>
+<div id="footer">
+    <div class="footer_center">
+
+        <div class="contacts">
+            <div class="title">Контакты</div>
+            <div class="phone">
+                <?php echo $this->escape($this->mainPhone->phone); ?>
+            </div>
+            <p><?php echo $this->mainPhone->address; ?></p>
+
+            <p><?php echo $this->escape($this->mainPhone->postIndex); ?></p>
+        </div>
+
+        <div class="copyr">&copy; <?php echo date('Y'); ?> «Арсентьевское сельское поселение»</div>
+        <div class="footer_line"></div>
+
+        <div class="news">
+            <div class="title">Новости</div>
+
+            <?php if ($this->newsListMain !== false): ?>
+                <?php foreach ($this->newsListMain as $item): ?>
+
+                    <div class="item">
+                        <div class="img">
+                            <?php if ($item->file->getName()): ?>
+                                <img src="/files<?php echo $this->escape($item->file->getSubPath()); ?>/<?php echo $this->escape($item->file->getPreview()); ?>"/>
+                            <?php endif; ?>
+                        </div>
+                        <div class="descript">
+                            <p class="date"><?php echo $this->escape(date('d.m.Y', strtotime($item->datePublic))); ?></p>
+
+                            <p>
+                            <?php if ($item->link instanceof SM_Menu_Group): ?>
+                                <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $item->link->link . '-viewnews') ?>">
+                                <?php echo $this->escape($item->title); ?></a>
+                            <?php else: ?>
+                                <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $item->link->group->getLink() . '-' . $item->link->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a>
+                            <? endif; ?>
+                            </p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            <div class="all_news"><a href="/anon_meopiyaiy/">Остальные новости</a></div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

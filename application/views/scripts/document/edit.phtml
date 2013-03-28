@@ -1,0 +1,49 @@
+<div class="clear"></div>
+
+<h1>Добавить документ</h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url(array('controller' => 'document', 'action' => 'edit', 'id' => $this->escape($this->document->id))); ?>" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td class="ttovar" width="200">Название</td>
+                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->document->title); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Папку</td>
+                <td class="ttovar">
+                    <select name="data[parent]">
+                        <option value="">корень</option>
+                        <?php foreach ($this->documentFolderList as $item): ?>
+                        <option value="<?php echo $this->escape($item->id); ?>" <?php if (is_object($this->document->parent) && $this->document->parent->id == $item->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($item->title); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ttovar_title">Файл</td>
+                <td class="ttovar">
+                    <?php if ($this->document->file->getName()): ?><a href="/files<?php echo $this->escape($this->document->file->getSubPath()); ?>/<?php echo $this->escape($this->document->file->getName()); ?>" target="_blank">загрузить</a><?php endif; ?>
+                    <input type="file" name="file"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="ttovar">Краткое описание</td>
+                <td class="ttovar"><textarea name="data[short_text]"><?php echo $this->escape($this->document->shortText); ?></textarea></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Полный текст</td>
+                <td class="ttovar"><textarea name="data[full_text]"><?php echo $this->escape($this->document->fullText); ?></textarea></td>
+            </tr>
+        </table>
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>

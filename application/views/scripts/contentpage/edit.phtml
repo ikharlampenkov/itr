@@ -1,0 +1,18 @@
+<h1><?php echo $this->escape($this->contentPage->title); ?></h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'edit', 'title' => $this->contentPage->pageTitle)); ?>" method="post">
+
+        <div><?php echo $this->ckeditor; ?></div>
+
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+
+</div>

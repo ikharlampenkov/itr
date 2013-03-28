@@ -1,0 +1,30 @@
+<h1>Результаты поиска</h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <p style="font-size: 14px;">Вы искали: <span style="font-weight: bold;"><?php echo $this->escape($this->query); ?></span></p>
+
+    <?php if ($this->documentList !== false): ?>
+    <ul class="document">
+
+           <?php foreach ($this->documentList as $item): ?>
+               <li><img src="/images/document.png"/>&nbsp;
+                   <?php if (is_object($item->parent)): ?>
+                       <a href="<?php echo $this->url(array('controller' => 'document', 'action' => 'viewdoc', 'id' => $item->id, 'parent' => $item->parent->id), $this->linkInfo->group->getLink() . '-' . $this->linkInfo->link . '-viewdoc') ?>"><?php echo $this->escape($item->title); ?></a>
+                       <?php else: ?>
+                       <a href="<?php echo $this->url(array('controller' => 'document', 'action' => 'viewdoc', 'id' => $item->id, 'parent' => '0'), $this->linkInfo->group->getLink() . '-' . $this->linkInfo->link . '-viewdoc') ?>"><?php echo $this->escape($item->title); ?></a>
+                       <?php endif; ?>
+               </li>
+               <?php endforeach; ?>
+       </ul>
+        <?php else: ?>
+    <p style="font-size: 14px;">По вашему запросу документов не найдено.</p>
+    <?php endif; ?>
+
+
+</div>

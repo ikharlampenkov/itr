@@ -1,0 +1,30 @@
+
+<h1>Баннеры</h1>
+
+<div class="cont_text">
+
+    <div class="sub-menu">
+        <img src="/images/add.png" alt="Добавить"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'add')); ?>">добавить баннер</a>&nbsp;&nbsp;
+        <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'viewPlace')); ?>">Площадки</a>
+    </div>
+
+    <table width="100%">
+
+        <?php if ($this->bannerList!==false): ?>
+        <?php foreach ($this->bannerList as $banner): ?>
+        <tr>
+            <td class="ttovar"><?php if ($banner->img->getName()): ?><img src="/banners/<?php echo $banner->img->getPreview(); ?>"/><?php endif; ?></td>
+            <td class="ttovar"><?php echo $this->escape($banner->title); ?></td>
+            <td class="ttovar"><?php echo $this->escape($banner->link); ?></td>
+            <td class="tedit">
+                <a href="<?php echo $this->url(array('controller' => 'banner','action' => 'edit', 'id' => $banner->id)); ?>">редактировать</a><br/>
+                <a href="<?php echo $this->url(array('controller' => 'banner','action' => 'delete', 'id' => $banner->id)); ?>" onclick="return confirmDelete('<?php echo $this->escape($banner->title); ?>');" style="color: #830000">удалить</a>
+            </td>
+
+        </tr>
+        <?php endforeach; ?>
+        <?php endif; ?>
+
+    </table>
+
+</div>

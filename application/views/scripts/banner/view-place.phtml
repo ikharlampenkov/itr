@@ -1,0 +1,35 @@
+
+<h1>Площадки</h1>
+
+<div class="cont_text">
+
+    <div class="sub-menu">
+        <img src="/images/add.png" alt="Добавить"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'addPlace')); ?>">добавить площадку</a>
+    </div>
+
+    <table width="100%">
+
+        <?php if ($this->placeList !== false): ?>
+        <?php foreach ($this->placeList as $place): ?>
+            <tr>
+                <td class="ttovar"><?php echo $this->escape($place->title); ?></td>
+                <td class="ttovar"><?php echo $this->escape($place->width); ?></td>
+                <td class="ttovar"><?php echo $this->escape($place->height); ?></td>
+                <td class="ttovar"><?php echo $this->escape($place->changeTime); ?></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'placemark', 'id' => $place->id)); ?>">размещение</a><br/>
+                    <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'editPlace', 'id' => $place->id)); ?>">редактировать</a><br/>
+                    <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'deletePlace', 'id' => $place->id)); ?>" onclick="return confirmDelete('<?php echo $this->escape($place->title); ?>');" style="color: #830000">удалить</a>
+                </td>
+
+            </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+    </table>
+
+</div>
+
+
+
+

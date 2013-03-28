@@ -1,0 +1,40 @@
+
+<h1>Размещение баннеров. Площадка <?php echo $this->escape($this->place->title); ?></h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <div class="sub-menu">
+        <a href="<?php $this->url(array('controller' => 'banner', 'action' => 'viewPlace')); ?>">Все Площадки</a>
+    </div>
+    <br/>
+
+    <form action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'placemark', 'idPlace' => $this->place->id)); ?>" method="post" enctype="multipart/form-data">
+
+        <table width="100%">
+            <tr>
+                <td class="ttovar_title">Пользователь</td>
+                <td class="ttovar" style="width: 90px;">Разместить</td>
+                <td class="ttovar"></td>
+            </tr>
+
+            <?php if ($this->bannerList !== false): ?>
+            <?php foreach ($this->bannerList as $banner): ?>
+                <tr>
+                    <td class="ttovar_title"><?php echo $this->escape($banner->title); ?></td>
+                    <td class="ttovar"><input type="checkbox" name="data[<?php echo $this->escape($banner->id); ?>][place]" <?php if (isset($this->placeAcl[$banner->id])): ?>checked="checked"<?php endif; ?> /></td>
+                    <td class="ttovar"></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+        </table>
+
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>

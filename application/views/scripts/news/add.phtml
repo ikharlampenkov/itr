@@ -1,0 +1,39 @@
+<div class="clear"></div>
+
+<h1>Добавить новость</h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url(array('controller' => 'news', 'action' => 'add')); ?>" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td class="ttovar" width="170">Название</td>
+                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->news->title); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar" width="200">Дата публикации</td>
+                <td class="ttovar"><input name="data[date]" value="<?php echo $this->escape(date('d.m.Y', strtotime($this->news->datePublic))); ?>" class="datepicker"/></td>
+            </tr>
+
+            <tr>
+                <td class="ttovar_title">Файл</td>
+                <td class="ttovar"><input type="file" name="file"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Анонс</td>
+                <td class="ttovar"><textarea name="data[short_text]"><?php echo $this->escape($this->news->shortText); ?></textarea></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Полный текст</td>
+                <td class="ttovar"><?php echo $this->ckeditor; ?></td>
+            </tr>
+        </table>
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>

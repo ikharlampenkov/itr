@@ -1,0 +1,14 @@
+<h1><?php echo $this->escape($this->news->title); ?></h1>
+
+<div class="cont_text">
+<br/>
+    <div class="news">
+        <p><?php echo $this->escape(date('d.m.Y', strtotime($this->news->datePublic))); ?></p>
+
+        <?php if ($this->news->file->getName()): ?>
+        <img src="/files<?php echo $this->escape($this->news->file->getSubPath()); ?>/<?php echo $this->escape($this->news->file->getName()); ?>"/>
+        <?php endif; ?>
+
+        <p><?php echo $this->news->fullText; ?></p>
+    </div>
+</div>

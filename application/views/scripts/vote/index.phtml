@@ -1,0 +1,20 @@
+<h1><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Обращения<?php endif; ?></h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url(array('controller' => 'vote', 'action' => 'index')); ?>" method="post">
+        <table>
+            <tr>
+                <td class="ttovar" width="170">E-mail</td>
+                <td class="ttovar"><input name="data[email]" value="<?php echo $this->escape($this->voteEmail['email']); ?>"/></td>
+            </tr>
+        </table>
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>

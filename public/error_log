@@ -1,0 +1,399 @@
+[06-Sep-2012 22:29:37] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/controllers/ContentpageController.php on line 17
+[06-Sep-2012 22:57:16] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 22:57:16] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 22:59:06] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(168): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 22:59:08] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 22:59:08] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 22:59:22] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(168): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 22:59:24] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 22:59:24] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 22:59:40] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 22:59:40] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 22:59:43] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(168): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 22:59:44] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 22:59:44] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 22:59:48] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(168): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 22:59:49] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 22:59:49] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 23:00:08] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:00:08] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 23:00:12] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:00:12] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 23:00:14] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:00:14] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 162
+[06-Sep-2012 23:01:14] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:01:16] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:01:20] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:01:25] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:01:26] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:01:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:02:06] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:02:07] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:02:11] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:02:14] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:02:15] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:02:21] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:03:23] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:03:24] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:03:27] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:03:28] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:04:38] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:04:39] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:05:51] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:05:52] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:05:57] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:05:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:06:35] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:06:36] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:06:37] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:06:38] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:07:31] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:07:32] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:07:33] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:07:34] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:07:35] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:07:36] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:07:57] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route -viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('-viewnews')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, '-viewnews', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, '-viewnews')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(150): Zend_View->url(Array, '-viewnews')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/p...')
+#7 /home/dnevnik/public_html/arsentevskoe/library/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[06-Sep-2012 23:07:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:09:52] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:09:54] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:09:57] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:09:59] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:13:52] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:13:54] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 139
+[06-Sep-2012 23:14:59] PHP Fatal error:  Cannot redeclare class ShowMenu in /home/dnevnik/public_html/arsentevskoe/application/plugins/ShowNews.php on line 20
+[06-Sep-2012 23:14:59] PHP Fatal error:  Cannot redeclare class ShowMenu in /home/dnevnik/public_html/arsentevskoe/application/plugins/ShowNews.php on line 20
+[07-Sep-2012 12:22:59] PHP Parse error:  syntax error, unexpected T_STATIC in /home/dnevnik/public_html/arsentevskoe/application/models/SM/Module/Vote.php on line 71
+[25-Sep-2012 11:26:19] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:29:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[25-Sep-2012 11:31:19] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:32:11] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[25-Sep-2012 11:32:42] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:36:43] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:37:45] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:39:01] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:39:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[25-Sep-2012 11:40:13] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[25-Sep-2012 11:40:28] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[25-Sep-2012 11:40:42] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:41:49] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:42:31] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:43:52] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:45:12] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:46:19] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[25-Sep-2012 11:47:19] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[26-Sep-2012 13:47:54] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[14-Nov-2012 12:27:12] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:27:40] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:27:56] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:28:15] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:28:31] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:28:54] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:29:45] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:30:04] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:30:37] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:31:01] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:31:25] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:31:59] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[14-Nov-2012 12:32:18] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[30-Nov-2012 01:49:01] PHP Fatal error:  Uncaught exception 'Zend_Session_Exception' with message 'Zend_Session::start() - /home/dnevnik/public_html/arsentevskoe/library/Zend/Session.php(Line:469): Error #2 session_start() [<a href='function.session-start'>function.session-start</a>]: open(/tmp/sess_deleted, O_RDWR) failed: Permission denied (13) Array
+/home/dnevnik/public_html/arsentevskoe/library/Zend/Session.php(Line:479): Error #2 session_write_close() [<a href='function.session-write-close'>function.session-write-close</a>]: open(/tmp/sess_deleted, O_RDWR) failed: Permission denied (13) Array
+/home/dnevnik/public_html/arsentevskoe/library/Zend/Session.php(Line:479): Error #2 session_write_close() [<a href='function.session-write-close'>function.session-write-close</a>]: Failed to write session data (files). Please verify that the current setting of session.save_path is correct (/tmp) Array' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Session.php:482
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Session/Namespace in /home/dnevnik/public_html/arsentevskoe/library/Zend/Session.php on line 482
+[06-Dec-2012 12:25:50] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:26:08] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[06-Dec-2012 12:26:22] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:27:53] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:28:39] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:29:30] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:30:25] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:30:56] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:32:01] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:45:16] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:46:01] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:46:11] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:46:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:47:51] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:48:38] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:49:24] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:50:12] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:51:01] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:51:39] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:52:39] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:53:12] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[06-Dec-2012 12:53:28] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[06-Dec-2012 12:53:44] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:54:41] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:55:29] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:56:22] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:56:51] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:57:47] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:58:49] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:59:25] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 12:59:47] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[06-Dec-2012 13:00:14] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[06-Dec-2012 13:00:44] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[16-Feb-2013 00:03:09] PHP Fatal error:  Uncaught exception 'Exception' with message 'SQLSTATE[HY000] [2003] Can't connect to MySQL server on 'db.hosting.risp.ru' (4)' in /home/dnevnik/public_html/arsentevskoe/application/models/SM/Menu/Group.php:320
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/application/Bootstrap.php(107): SM_Menu_Group::getAllInstance()
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/Application/Bootstrap/BootstrapAbstract.php(669): Bootstrap->_initRoute()
+#2 /home/dnevnik/public_html/arsentevskoe/library/Zend/Application/Bootstrap/BootstrapAbstract.php(622): Zend_Application_Bootstrap_BootstrapAbstract->_executeResource('route')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/Application/Bootstrap/BootstrapAbstract.php(586): Zend_Application_Bootstrap_BootstrapAbstract->_bootstrap(NULL)
+#4 /home/dnevnik/public_html/arsentevskoe/library/Zend/Application.php(355): Zend_Application_Bootstrap_BootstrapAbstract->bootstrap(NULL)
+#5 /home/dnevnik/public_html/arsentevskoe/public/index.php(27): Zend_Application-> in /home/dnevnik/public_html/arsentevskoe/application/models/SM/Menu/Group.php on line 320
+[15-Mar-2013 22:49:58] PHP Parse error:  syntax error, unexpected T_STATIC in /home/dnevnik/public_html/arsentevskoe/application/models/SM/Module/Vote.php on line 71
+[22-Mar-2013 08:08:23] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[22-Mar-2013 08:08:41] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:10:48] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[22-Mar-2013 08:11:42] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:12:58] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:13:49] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:16:24] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:17:19] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:19:38] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:21:17] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:22:07] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:23:09] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:23:57] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 08:26:10] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/edit.phtml on line 24
+[22-Mar-2013 09:54:57] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 09:56:37] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 09:58:01] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 10:04:53] PHP Fatal error:  Call to a member function getContent() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/controllers/ContentpageController.php on line 102
+[22-Mar-2013 10:05:12] PHP Fatal error:  Call to a member function deleteFromDB() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/controllers/MenuController.php on line 126
+[22-Mar-2013 10:05:25] PHP Fatal error:  Call to a member function deleteFromDB() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/controllers/MenuController.php on line 126
+[22-Mar-2013 12:11:30] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:31:02] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:33:55] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:34:43] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:36:50] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:37:54] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:39:06] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:42:15] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:42:25] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:48:17] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 12:48:37] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 13:09:27] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 13:09:31] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 13:12:31] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[22-Mar-2013 13:13:30] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/add.phtml on line 24
+[24-Mar-2013 22:36:27] PHP Warning:  Invalid argument supplied for foreach() in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/document/addfolder.phtml on line 24
+[24-Mar-2013 23:04:13] PHP Fatal error:  Call to a member function getId() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/models/SM/Module/News.php on line 333
+[24-Mar-2013 23:04:14] PHP Fatal error:  Call to a member function getId() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/models/SM/Module/News.php on line 333
+[24-Mar-2013 23:05:39] PHP Catchable fatal error:  Object of class SM_Menu_Item could not be converted to string in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 151
+[24-Mar-2013 23:05:42] PHP Catchable fatal error:  Object of class SM_Menu_Item could not be converted to string in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 151
+[24-Mar-2013 23:08:02] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 151
+[24-Mar-2013 23:08:09] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 151
+[24-Mar-2013 23:08:14] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 151
+[24-Mar-2013 23:08:18] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml on line 151
+[24-Mar-2013 23:24:33] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/news/view.phtml on line 20
+[24-Mar-2013 23:25:01] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/news/view.phtml on line 20
+[24-Mar-2013 23:25:15] PHP Fatal error:  Call to a member function getLink() on a non-object in /home/dnevnik/public_html/arsentevskoe/application/views/scripts/news/view.phtml on line 20
+[26-Mar-2013 21:40:24] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route zakonodatelstvo-zakaz-viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('zakonodatelstvo...')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, 'zakonodatelstvo...', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, 'zakonodatelstvo...')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(156): Zend_View->url(Array, 'zakonodatelstvo...')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[26-Mar-2013 21:40:26] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route zakonodatelstvo-zakaz-viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('zakonodatelstvo...')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, 'zakonodatelstvo...', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, 'zakonodatelstvo...')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(156): Zend_View->url(Array, 'zakonodatelstvo...')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[26-Mar-2013 21:40:54] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route zakonodatelstvo-zakaz-viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('zakonodatelstvo...')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, 'zakonodatelstvo...', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, 'zakonodatelstvo...')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(156): Zend_View->url(Array, 'zakonodatelstvo...')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[26-Mar-2013 21:40:59] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route zakonodatelstvo-zakaz-viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('zakonodatelstvo...')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, 'zakonodatelstvo...', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, 'zakonodatelstvo...')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(156): Zend_View->url(Array, 'zakonodatelstvo...')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[26-Mar-2013 21:41:41] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route zakonodatelstvo-zakaz-viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('zakonodatelstvo...')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, 'zakonodatelstvo...', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, 'zakonodatelstvo...')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(156): Zend_View->url(Array, 'zakonodatelstvo...')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336
+[26-Mar-2013 21:41:43] PHP Fatal error:  Uncaught exception 'Zend_Controller_Router_Exception' with message 'Route zakonodatelstvo-zakaz-viewnews is not defined' in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php:318
+Stack trace:
+#0 /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Router/Rewrite.php(469): Zend_Controller_Router_Rewrite->getRoute('zakonodatelstvo...')
+#1 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Helper/Url.php(49): Zend_Controller_Router_Rewrite->assemble(Array, 'zakonodatelstvo...', false, true)
+#2 [internal function]: Zend_View_Helper_Url->url(Array, 'zakonodatelstvo...')
+#3 /home/dnevnik/public_html/arsentevskoe/library/Zend/View/Abstract.php(350): call_user_func_array(Array, Array)
+#4 [internal function]: Zend_View_Abstract->__call('url', Array)
+#5 /home/dnevnik/public_html/arsentevskoe/application/layouts/scripts/layout.phtml(156): Zend_View->url(Array, 'zakonodatelstvo...')
+#6 /home/dnevnik/public_html/arsentevskoe/library/Zend/View.php(108): include('/home/dnevnik/ in /home/dnevnik/public_html/arsentevskoe/library/Zend/Controller/Plugin/Broker.php on line 336

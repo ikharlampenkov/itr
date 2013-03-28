@@ -1,0 +1,8 @@
+error   Can`t select db selpoNo error: :: Error msg:  ;  21.05.2012 22:02
+error   Can`t select db selpoNo error: :: Error msg:  ;  21.05.2012 22:03
+error   Can`t select db selpoNo error: :: Error msg:  ;  21.05.2012 22:04
+error   Can`t select db selpoNo error: :: Error msg:  ;  21.05.2012 22:05
+error   Can`t complit query: SELECT * FROM tm_task_attribute_type WHERE id=1 No error: 1146:: Error msg: Table 'selpo.tm_task_attribute_type' doesn't exist ;  21.05.2012 22:13
+error   Can`t complit query: SELECT * FROM banner No error: 1146:: Error msg: Table 'selpo.banner' doesn't exist ;  28.05.2012 23:38
+error   Can`t connect to host db.hosting.risp.ru:3306 No error: 2002:: Error msg: Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+ ;  05.06.2012 20:32

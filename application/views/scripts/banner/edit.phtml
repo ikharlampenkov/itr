@@ -1,0 +1,32 @@
+
+<h1>Редактировать баннер</h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'edit', 'id' => $this->banner->id)); ?>" method="post" enctype="multipart/form-data">
+        <table width="100%">
+            <tr>
+                <td class="ttovar_title">Название</td>
+                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->banner->title); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar_title">Ссылка</td>
+                <td class="ttovar"><input name="data[link]" value="<?php echo $this->escape($this->banner->link); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar_title">Файл</td>
+                <td class="ttovar">
+                    <?php if ($this->banner->img->getName()): ?><img src="/banners/<?php echo $this->banner->img->getName(); ?>" alt="<?php echo $this->escape($this->banner->title); ?>" /><?php endif; ?><br/>
+                    <input type="file" name="img"/>
+                </td>
+            </tr>
+        </table>
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>

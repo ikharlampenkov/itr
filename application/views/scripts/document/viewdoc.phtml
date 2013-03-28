@@ -1,0 +1,12 @@
+<h1><?php echo $this->escape($this->document->title); ?></h1>
+
+<div class="cont_text">
+
+<p><?php echo $this->escape($this->document->shortText); ?></p>
+
+<?php if ($this->document->file->getName()): ?>
+        <br/><br/>
+    <a href="/files<?php echo $this->escape($this->document->file->getSubPath()); ?>/<?php echo $this->escape($this->document->file->getName()); ?>" target="_blank">загрузить</a>
+<?php endif; ?>
+
+</div>

@@ -1,0 +1,35 @@
+<div class="clear"></div>
+
+<h1>Добавить документ</h1>
+
+<div class="cont_text">
+
+    <?php if (isset($this->exception_msg)): ?>
+
+    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+    <br/>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url(array('controller' => 'document', 'action' => 'editfolder', 'id' => $this->escape($this->document->id))); ?>" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td class="ttovar" width="200">Название</td>
+                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->document->title); ?>"/></td>
+            </tr>
+            <tr>
+                <td class="ttovar">Папку</td>
+                <td class="ttovar">
+                    <select name="data[parent]">
+                        <option value="">корень</option>
+                        <?php foreach ($this->documentFolderList as $item): ?>
+                        <option value="<?php echo $this->escape($item->id); ?>" <?php if (is_object($this->document->parent) && $this->document->parent->id == $item->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($item->title); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+
+        </table>
+        <input id="save" name="save" type="submit" value="Сохранить"/>
+    </form>
+
+</div>
