@@ -20,6 +20,7 @@ class IndexController extends Zend_Controller_Action
     {
         $oContentPage = SM_Module_ContentPage::getInstanceByTitle('main_page');
 
+        /*
         include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
         include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
 
@@ -30,6 +31,7 @@ class IndexController extends Zend_Controller_Action
         $ckFinder = new CKFinder();
         $ckFinder->BasePath = '/ckfinder/';
         $ckFinder->SetupCKEditorObject($CKEditor);
+        */
 
 
         if ($this->getRequest()->isPost()) {
@@ -42,10 +44,9 @@ class IndexController extends Zend_Controller_Action
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
-
         }
 
-        $this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
+        //$this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
         $this->view->assign('contentPage', $oContentPage);
 
         $linkInfo = SM_Menu_Item::getInstanceById(53);

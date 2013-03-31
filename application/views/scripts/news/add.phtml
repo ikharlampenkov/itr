@@ -1,12 +1,29 @@
 <div class="clear"></div>
 
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="/ckfinder/ckfinder.js"></script>
+
+<script>
+    $(document).ready(function () {
+        CKEDITOR.replace('data[full_text]', {
+            filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?Type=Images',
+            filebrowserFlashBrowseUrl: '/ckfinder/ckfinder.html?Type=Flash',
+            filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+            filebrowserFlashUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+        });
+    });
+
+</script>
+
 <h1>Добавить новость</h1>
 
 <div class="cont_text">
 
     <?php if (isset($this->exception_msg)): ?>
-    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-    <br/>
+        <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+        <br/>
     <?php endif; ?>
 
     <form action="<?php echo $this->url(array('controller' => 'news', 'action' => 'add')); ?>" method="post" enctype="multipart/form-data">
@@ -30,7 +47,7 @@
             </tr>
             <tr>
                 <td class="ttovar">Полный текст</td>
-                <td class="ttovar"><?php echo $this->ckeditor; ?></td>
+                <td class="ttovar"><textarea name="data[full_text]"><?php echo $this->news->fullText; ?></textarea></td>
             </tr>
         </table>
         <input id="save" name="save" type="submit" value="Сохранить"/>

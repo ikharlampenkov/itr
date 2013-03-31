@@ -35,6 +35,7 @@ class ContentpageController extends Zend_Controller_Action
     public function addAction()
     {
 
+        /*
         include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
         include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
 
@@ -45,6 +46,7 @@ class ContentpageController extends Zend_Controller_Action
         $ckFinder = new CKFinder();
         $ckFinder->BasePath = '/ckfinder/';
         $ckFinder->SetupCKEditorObject($CKEditor);
+        */
 
 
         $oContentPage = new SM_Module_ContentPage();
@@ -64,12 +66,13 @@ class ContentpageController extends Zend_Controller_Action
 
         }
 
-        $this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
+        //$this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
         $this->view->assign('contentPage', $oContentPage);
     }
 
     public function editAction()
     {
+        /*
         include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
         include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
 
@@ -80,6 +83,7 @@ class ContentpageController extends Zend_Controller_Action
         $ckFinder = new CKFinder();
         $ckFinder->BasePath = '/ckfinder/';
         $ckFinder->SetupCKEditorObject($CKEditor);
+        */
 
 
         $oContentPage = SM_Module_ContentPage::getInstanceByTitle($this->getRequest()->getParam('title'));
@@ -99,7 +103,7 @@ class ContentpageController extends Zend_Controller_Action
 
         }
 
-        $this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
+        //$this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
         $this->view->assign('contentPage', $oContentPage);
     }
 

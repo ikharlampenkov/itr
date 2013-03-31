@@ -30,7 +30,7 @@ function CheckAuthentication()
 	// user logs in your system. To be able to use session variables don't
 	// forget to add session_start() at the top of this file.
 
-	return true;
+	return false;
 }
 
 // LicenseKey : Paste your license key here. If left blank, CKFinder will be
@@ -183,6 +183,12 @@ maxSize is defined in bytes, but shorthand notation may be also used.
 Available options are: G, M, K (case insensitive).
 1M equals 1048576 bytes (one Megabyte), 1K equals 1024 bytes (one Kilobyte), 1G equals one Gigabyte.
 Example: 'maxSize' => "8M",
+
+==============================================================================
+ATTENTION: Flash files with `swf' extension, just like HTML files, can be used
+to execute JavaScript code and to e.g. perform an XSS attack. Grant permission
+to upload `.swf` files only if you understand and can accept this risk.
+==============================================================================
 */
 $config['DefaultResourceTypes'] = '';
 
@@ -273,8 +279,9 @@ $config['HtmlExtensions'] = array('html', 'htm', 'xml', 'js');
 Folders to not display in CKFinder, no matter their location.
 No paths are accepted, only the folder name.
 The * and ? wildcards are accepted.
+".*" disallows the creation of folders starting with a dot character.
 */
-$config['HideFolders'] = Array(".svn", "CVS");
+$config['HideFolders'] = Array(".*", "CVS");
 
 /*
 Files to not display in CKFinder, no matter their location.
@@ -305,9 +312,23 @@ will be automatically converted to ASCII letters.
 */
 $config['ForceAscii'] = false;
 
+/*
+Send files using X-Sendfile module
+Mod X-Sendfile (or similar) is avalible on Apache2, Nginx, Cherokee, Lighttpd
+
+Enabling X-Sendfile option can potentially cause security issue.
+ - server path to the file may be send to the browser with X-Sendfile header
+ - if server is not configured properly files will be send with 0 length
+
+For more complex configuration options visit our Developer's Guide
+  http://docs.cksource.com/CKFinder_2.x/Developers_Guide/PHP
+*/
+$config['XSendfile'] = false;
+
 
 include_once "plugins/imageresize/plugin.php";
 include_once "plugins/fileeditor/plugin.php";
+include_once "plugins/zip/plugin.php";
 
 $config['plugin_imageresize']['smallThumb'] = '90x90';
 $config['plugin_imageresize']['mediumThumb'] = '120x120';

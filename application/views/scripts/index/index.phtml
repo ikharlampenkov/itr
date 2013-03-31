@@ -1,21 +1,236 @@
-<div class="cont_text">
-    <?php if ($this->authUserRole !== 'guest'): ?>
+<?php if ($this->authUserRole !== 'guest'): ?>
 
-    <?php if (isset($this->exception_msg)): ?>
-        <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-        <br/>
+    <div class="cont_text">
+
+
+        <script src="/ckeditor/ckeditor.js"></script>
+        <script src="/ckfinder/ckfinder.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                CKEDITOR.replace('data[content]', {
+                    filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+                    filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?Type=Images',
+                    filebrowserFlashBrowseUrl: '/ckfinder/ckfinder.html?Type=Flash',
+                    filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                    filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                    filebrowserFlashUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+                });
+            });
+
+        </script>
+
+        <?php if (isset($this->exception_msg)): ?>
+            <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
+            <br/>
         <?php endif; ?>
 
-    <form action="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'title' => $this->contentPage->pageTitle)); ?>" method="post">
+        <form action="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'title' => $this->contentPage->pageTitle)); ?>" method="post">
 
-        <div><?php echo $this->ckeditor; ?></div>
+            <div><textarea name="data[content]"><?php echo $this->contentPage->content; ?></textarea></div>
 
-        <input id="save" name="save" type="submit" value="Сохранить"/>
-    </form>
-    <br/>
-    <?php else: ?>
+            <input id="save" name="save" type="submit" value="Сохранить"/>
+        </form>
+        <br/>
 
-    <?php echo $this->contentPage->content; ?>
-    <?php endif; ?>
+    </div>
+<?php else: ?>
 
-</div>
+    <!--проекты-->
+    <div class="center projects">
+
+
+        <div class="project">
+            <h2> Проекты / <span>Техника</span></h2>
+
+            <div class="item">
+                <div class="img"><img src="/images/lumen.jpg" border="0"></div>
+                <div class="description">
+                    <h3><a href="/">Проектор LUMEN для школоты в основном таки. Моднейшая вещь.</a></h3>
+
+                    <p>Небольшой , бюджетный проектор , простой как грабли, очень хорошо подходит для классных мероприятий ...</p>
+
+                    <div class="icons">
+                        <ul>
+                            <li><img src="/images/1.jpg" border="0"></li>
+                            <li><img src="/images/1.jpg" border="0"></li>
+                            <li><img src="/images/1.jpg" border="0"></li>
+                            <li><img src="/images/1.jpg" border="0"></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <a href="/" class="more_tech">Все проекты >></a>
+
+
+        </div>
+
+        <div class="calendar">
+            <h2> Календарь </h2>
+
+            <div class="cal_nav">
+                <a href="" class="day">День</a>
+                <a href="" class="month">Месяц</a>
+
+                <div class="today"><b>27</b> марта, вторник</div>
+            </div>
+            <div id="inlineDatepicker"></div>
+
+
+        </div>
+
+        <div class="projects_from_cal">
+            <select name="???">
+                <option>Все</option>
+                <option>Не совсем Все</option>
+            </select>
+
+            <article>
+                <header>
+                    <h1><a href="#" rel="bookmark" title="ссылка на этот пост"> Презентация роектов DEMO Spring - China Шанхай </a></h1>
+                </header>
+                <p>Встреча с инвестором /экспертом Russian StartUp Tour Тюмень</p>
+            </article>
+            <article>
+                <header>
+                    <h1><a href="#" rel="bookmark" title="ссылка на этот пост"> Презентация роектов DEMO Spring - China Шанхай </a></h1>
+                </header>
+                <p>Встреча с инвестором /экспертом Russian StartUp Tour Тюмень</p>
+            </article>
+            <article>
+                <header>
+                    <h1><a href="#" rel="bookmark" title="ссылка на этот пост"> Презентация роектов DEMO Spring - China Шанхай </a></h1>
+                </header>
+                <p>Встреча с инвестором /экспертом Russian StartUp Tour Тюмень</p>
+            </article>
+        </div>
+
+
+    </div>
+
+    <!--Популярные проекты, форум, фэйс-->
+    <div class="popular_projects">
+        <div class="center">
+            <div class="slider_popular_projects">
+                <h2>Популярные проекты</h2>
+
+                <div class="jcarousel-skin-tango">
+                    <div class="jcarousel-container">
+                        <div class="jcarousel-clip">
+                            <ul class="jcarousel-list" id="popular_projects_carousel">
+                                <li class="jcarousel-item-1">
+                                    <a href="/">
+                                        <img src="/images/p1.jpg" border="0">
+
+                                        <h3>Один из моднейших проектов нашего времени</h3>
+
+                                        <p>коротко о моднейшем проекте нашего времени</p>
+                                    </a>
+                                </li>
+                                <li class="jcarousel-item-2">
+                                    <a href="/">
+                                        <img src="/images/p2.jpg" border="0">
+
+                                        <h3>Один из моднейших проектов нашего времени</h3>
+
+                                        <p>коротко о моднейшем проекте нашего времени</p>
+                                    </a>
+                                </li>
+                                <li class="jcarousel-item-3">
+                                    <a href="/">
+                                        <img src="/images/p3.jpg" border="0">
+
+                                        <h3>Один из моднейших проектов нашего времени</h3>
+
+                                        <p>коротко о моднейшем проекте нашего времени</p>
+                                    </a>
+                                </li>
+                                <li class="jcarousel-item-4">
+                                    <a href="/">
+                                        <img src="/images/p2.jpg" border="0">
+
+                                        <h3>Один из моднейших проектов нашего времени</h3>
+
+                                        <p>коротко о моднейшем проекте нашего времени</p>
+                                    </a>
+                                </li>
+                                <li class="jcarousel-item-5">
+                                    <a href="/">
+                                        <img src="/images/p1.jpg" border="0">
+
+                                        <h3>Один из моднейших проектов нашего времени</h3>
+
+                                        <p>коротко о моднейшем проекте нашего времени</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div disabled="disabled" class="jcarousel-prev jcarousel-prev-disabled"></div>
+                        <div class="jcarousel-next"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forums">
+                <h2>Форум</h2>
+
+                <article>
+                    <header>
+                        <time datetime="2012-11-15" pubdate> 15.11.2012</time>
+                        <br/>
+                        <time datetime="2012-11-15T10:00:00+07:00" pubdate> 10:00</time>
+                        <h1><a href="#" rel="bookmark" title="ссылка на этот пост"> "Материалы. Технологии. Композиты." II Международная инжиниринговая конференция </a></h1>
+                    </header>
+                    <p>II Международная Инжиниринговая Конференция Холдинговой компании "Композит" «Материалы. Технологии. Композиты» пройдет 15 ноября в конференц-залах гостиницы Холидей Инн Сокольники.</p>
+                </article>
+                <article>
+                    <header>
+                        <time datetime="2012-11-15" pubdate> 15.11.2012</time>
+                        <br/>
+                        <time datetime="2012-11-15T10:00:00+07:00" pubdate> 10:00</time>
+                        <h1><a href="#" rel="bookmark" title="ссылка на этот пост"> "Материалы. Технологии. Композиты." II Международная инжиниринговая конференция </a></h1>
+                    </header>
+                    <p>II Международная Инжиниринговая Конференция Холдинговой компании "Композит" «Материалы. Технологии. Композиты» пройдет 15 ноября в конференц-залах гостиницы Холидей Инн Сокольники.</p>
+                </article>
+
+
+            </div>
+
+            <div class="fb_group"><img src="/images/fb_group.jpg" border="0"></div>
+
+        </div>
+    </div>
+
+
+    <!--Партнеры-->
+    <div class="center partners">
+        <h2>Партнеры</h2>
+
+        <div class="slider_partners">
+            <div class="jcarousel-skin-tango">
+                <div class="jcarousel-container">
+                    <div class="jcarousel-clip">
+                        <ul class="jcarousel-list" id="partners_carousel">
+                            <li class="jcarousel-item-1"><a href="/" target="_blank"><img src="/images/rvk.jpg" border="0"></a></li>
+                            <li class="jcarousel-item-2"><img src="/images/sk.jpg" border="0"></li>
+                            <li class="jcarousel-item-3"><img src="/images/fenam.jpg" border="0"></li>
+                            <li class="jcarousel-item-4"><img src="/images/ventures.jpg" border="0"></li>
+                            <li class="jcarousel-item-5"><img src="/images/do.jpg" border="0"></li>
+
+                            <li class="jcarousel-item-6"><img src="/images/fenam.jpg" border="0"></li>
+                            <li class="jcarousel-item-7"><img src="/images/rvk.jpg" border="0"></li>
+                            <li class="jcarousel-item-8"><img src="/images/do.jpg" border="0"></li>
+                            <li class="jcarousel-item-9"><img src="/images/ventures.jpg" border="0"></li>
+                        </ul>
+                    </div>
+                    <div disabled="disabled" class="jcarousel-prev jcarousel-prev-disabled"></div>
+                    <div class="jcarousel-next"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php //echo $this->contentPage->content; ?>
+<?php endif; ?>

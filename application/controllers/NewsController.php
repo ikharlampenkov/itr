@@ -44,6 +44,7 @@ class NewsController extends Zend_Controller_Action
 
     public function addAction()
     {
+        /*
         include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
         include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
 
@@ -54,6 +55,7 @@ class NewsController extends Zend_Controller_Action
         $ckFinder = new CKFinder();
         $ckFinder->BasePath = '/ckfinder/';
         $ckFinder->SetupCKEditorObject($CKEditor);
+        */
 
 
         $oNews = new SM_Module_News();
@@ -75,12 +77,13 @@ class NewsController extends Zend_Controller_Action
 
         }
 
-        $this->view->assign('ckeditor', $CKEditor->editor('data[full_text]', $oNews->getFullText()));
+        //$this->view->assign('ckeditor', $CKEditor->editor('data[full_text]', $oNews->getFullText()));
         $this->view->assign('news', $oNews);
     }
 
     public function editAction()
     {
+        /*
         include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
         include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
 
@@ -91,6 +94,7 @@ class NewsController extends Zend_Controller_Action
         $ckFinder = new CKFinder();
         $ckFinder->BasePath = '/ckfinder/';
         $ckFinder->SetupCKEditorObject($CKEditor);
+        */
 
         $oNews = SM_Module_News::getInstanceById($this->getRequest()->getParam('id'));
 
@@ -110,7 +114,7 @@ class NewsController extends Zend_Controller_Action
 
         }
 
-        $this->view->assign('ckeditor', $CKEditor->editor('data[full_text]', $oNews->getFullText()));
+        //$this->view->assign('ckeditor', $CKEditor->editor('data[full_text]', $oNews->getFullText()));
         $this->view->assign('news', $oNews);
     }
 
