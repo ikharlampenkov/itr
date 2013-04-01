@@ -11,13 +11,13 @@ class MenuController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->itemList = SM_Menu_Item::getAllInstance();
-        $this->view->groupList = SM_Menu_Group::getAllInstance();
+        $this->view->groupList = SM_Menu_Menu::getAllInstance();
     }
 
     public function addAction()
     {
         $oMenuItem = new SM_Menu_Item();
-        $oMenuItem->setGroup(SM_Menu_Group::getInstanceById(1));
+        $oMenuItem->setParent(SM_Menu_Menu::getInstanceById(1));
         $oMenuItem->setHandler(SM_Menu_Handler::getInstanceById(1));
 
         if ($this->getRequest()->isPost()) {
@@ -31,8 +31,8 @@ class MenuController extends Zend_Controller_Action
                 $oMenuItem->setIsVisible(0);
             }
 
-            $oGroup = SM_Menu_Group::getInstanceById($data['group_id']);
-            $oMenuItem->setGroup($oGroup);
+            $oGroup = SM_Menu_Menu::getInstanceById($data['group_id']);
+            $oMenuItem->setParent($oGroup);
 
             $oHandler = SM_Menu_Handler::getInstanceById($data['handler_id']);
             $oMenuItem->setHandler($oHandler);
@@ -60,7 +60,7 @@ class MenuController extends Zend_Controller_Action
 
         $this->view->assign('menuItem', $oMenuItem);
         $this->view->handlerList = SM_Menu_Handler::getAllInstance();
-        $this->view->groupList = SM_Menu_Group::getAllInstance();
+        $this->view->groupList = SM_Menu_Menu::getAllInstance();
     }
 
     public function editAction()
@@ -78,8 +78,8 @@ class MenuController extends Zend_Controller_Action
                 $oMenuItem->setIsVisible(0);
             }
 
-            $oGroup = SM_Menu_Group::getInstanceById($data['group_id']);
-            $oMenuItem->setGroup($oGroup);
+            $oGroup = SM_Menu_Menu::getInstanceById($data['group_id']);
+            $oMenuItem->setParent($oGroup);
 
             $oHandler = SM_Menu_Handler::getInstanceById($data['handler_id']);
             $oMenuItem->setHandler($oHandler);
@@ -114,7 +114,7 @@ class MenuController extends Zend_Controller_Action
 
         $this->view->assign('menuItem', $oMenuItem);
         $this->view->handlerList = SM_Menu_Handler::getAllInstance();
-        $this->view->groupList = SM_Menu_Group::getAllInstance();
+        $this->view->groupList = SM_Menu_Menu::getAllInstance();
     }
 
     public function deleteAction()
@@ -136,12 +136,12 @@ class MenuController extends Zend_Controller_Action
 
     public function addgroupAction()
     {
-        $oMenuGroup = new SM_Menu_Group();
+        $oMenuGroup = new SM_Menu_Menu();
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');
             $oMenuGroup->setTitle($data['title']);
-            $oMenuGroup->setLink($data['title']);
+            $oMenuGroup->setCode($data['title']);
 
             if (!empty($data['handler_id'])) {
                 $oMenuGroup->setHandler(SM_Menu_Handler::getInstanceById($data['handler_id']));
@@ -153,14 +153,14 @@ class MenuController extends Zend_Controller_Action
                 $oMenuGroup->insertToDb();
 
                 if ($oMenuGroup->getHandler() !== null && $oMenuGroup->getHandler()->getController() == 'Contentpage') {
-                    $tempPage = SM_Module_ContentPage::getInstanceByTitle($oMenuGroup->getLink());
+                    $tempPage = SM_Module_ContentPage::getInstanceByTitle($oMenuGroup->getCode());
                     if ($tempPage instanceof SM_Module_ContentPage) {
                         $tempPage->setTitle($oMenuGroup->getTitle());
                         $tempPage->updateToDB();
                     } else {
                         $oConPage = new SM_Module_ContentPage();
                         $oConPage->setLink($oMenuGroup);
-                        $oConPage->setPageTitle($oMenuGroup->getLink());
+                        $oConPage->setPageTitle($oMenuGroup->getCode());
                         $oConPage->setTitle($oMenuGroup->getTitle());
                         $oConPage->setContent('');
 
@@ -182,12 +182,12 @@ class MenuController extends Zend_Controller_Action
 
     public function editgroupAction()
     {
-        $oMenuGroup = SM_Menu_Group::getInstanceById($this->getRequest()->getParam('id'));
+        $oMenuGroup = SM_Menu_Menu::getInstanceById($this->getRequest()->getParam('id'));
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');
             $oMenuGroup->setTitle($data['title']);
-            $oMenuGroup->setLink($data['link']);
+            $oMenuGroup->setCode($data['link']);
 
             if (!empty($data['handler_id'])) {
                 $oMenuGroup->setHandler(SM_Menu_Handler::getInstanceById($data['handler_id']));
@@ -200,14 +200,14 @@ class MenuController extends Zend_Controller_Action
 
                 if ($oMenuGroup->getHandler() !== null && $oMenuGroup->getHandler()->getController() == 'Contentpage') {
 
-                    $tempPage = SM_Module_ContentPage::getInstanceByTitle($oMenuGroup->getLink());
+                    $tempPage = SM_Module_ContentPage::getInstanceByTitle($oMenuGroup->getCode());
                     if ($tempPage instanceof SM_Module_ContentPage) {
                         $tempPage->setTitle($oMenuGroup->getTitle());
                         $tempPage->updateToDB();
                     } else {
                         $oConPage = new SM_Module_ContentPage();
                         $oConPage->setLink($oMenuGroup);
-                        $oConPage->setPageTitle($oMenuGroup->getLink());
+                        $oConPage->setPageTitle($oMenuGroup->getCode());
                         $oConPage->setTitle($oMenuGroup->getTitle());
                         $oConPage->setContent('');
 
@@ -228,7 +228,7 @@ class MenuController extends Zend_Controller_Action
 
     public function deletegroupAction()
     {
-        $oMenuGroup = SM_Menu_Group::getInstanceById($this->getRequest()->getParam('id'));
+        $oMenuGroup = SM_Menu_Menu::getInstanceById($this->getRequest()->getParam('id'));
         try {
             $oMenuGroup->deleteFromDB();
             $this->_redirect('/menu/');

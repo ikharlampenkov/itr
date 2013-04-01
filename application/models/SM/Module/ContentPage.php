@@ -275,7 +275,7 @@ class SM_Module_ContentPage
 
         $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
         if ($oMenuItem === false) {
-            $oMenuItem = SM_Menu_Group::getInstanceById($values['link_id']);
+            $oMenuItem = SM_Menu_Menu::getInstanceById($values['link_id']);
         }
         $this->setLink($oMenuItem);
 

@@ -440,7 +440,7 @@ class SM_Module_News
 
         $this->setFile($values['file']);
 
-        $oMenuItem = SM_Menu_Group::getInstanceById($values['link_id']);
+        $oMenuItem = SM_Menu_Menu::getInstanceById($values['link_id']);
         if ($oMenuItem === false) {
             $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
         }

@@ -13,7 +13,7 @@
             </div>
 
             <div class="descript">
-                <?php if ($this->linkInfo instanceof SM_Menu_Group): ?>
+                <?php if ($this->linkInfo instanceof SM_Menu_Menu): ?>
                 <p class="title"><a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $this->linkInfo->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a></p>
                 <?php else: ?>
                 <p class="title"><a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $this->linkInfo->group->getLink() . '-' . $this->linkInfo->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a></p>

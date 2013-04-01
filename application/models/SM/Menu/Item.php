@@ -12,11 +12,17 @@
    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
    `title` varchar(255) NOT NULL,
    `link` varchar(255) NOT NULL,
-   `group_id` int(10) unsigned NOT NULL,
+   `parent_id` int(10) unsigned NOT NULL,
    `handler_id` int(10) unsigned NOT NULL,
    PRIMARY KEY (`id`),
-   KEY `group_id` (`group_id`,`handler_id`)
+   KEY `parent_id` (`parent_id`,`handler_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+ */
+
+/*
+ * menu_menu_item
+ * menu_id
+ * item_id
  */
 
 class SM_Menu_Item
@@ -39,9 +45,9 @@ class SM_Menu_Item
     protected $_link = '';
 
     /**
-     * @var SM_Menu_Group
+     * @var SM_Menu_Item
      */
-    protected $_group;
+    protected $_parent = null;
 
     /**
      * @var SM_Menu_Handler
@@ -53,6 +59,9 @@ class SM_Menu_Item
      */
     protected $_isVisible = 0;
 
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_db;
 
 
@@ -105,19 +114,19 @@ class SM_Menu_Item
     }
 
     /**
-     * @param \SM_Menu_Group $group
+     * @param \SM_Menu_Item $parent
      */
-    public function setGroup($group)
+    public function setParent($parent)
     {
-        $this->_group = $group;
+        $this->_parent = $parent;
     }
 
     /**
-     * @return \SM_Menu_Group
+     * @return \SM_Menu_Menu
      */
-    public function getGroup()
+    public function getParent()
     {
-        return $this->_group;
+        return $this->_parent;
     }
 
     /**
@@ -161,7 +170,11 @@ class SM_Menu_Item
     {
         $tempURL = '/';
         if ($mode == 'guest') {
-            $tempURL .= $this->_group->getLink() . '/' . $this->_link . '/';
+            if ($this->_parent !== null) {
+                $tempURL .= $this->_parent->getLink() . '/' . $this->_link . '/';
+            } else {
+                $tempURL .= $this->_link . '/';
+            }
         } elseif ($mode == 'admin') {
             if ($this->_handler->getController() == 'Contentpage') {
                 $tempURL .= $this->_handler->getController() . '/edit/title/' . $this->_link . '/link/' . $this->_link . '/';
@@ -172,7 +185,11 @@ class SM_Menu_Item
             } elseif ($this->_handler->getController() == 'Vote') {
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } else {
-                $tempURL .= $this->_group->getLink() . '/' . $this->_link . '/';
+                if ($this->_parent !== null) {
+                    $tempURL .= $this->_parent->getLink() . '/' . $this->_link . '/';
+                } else {
+                    $tempURL .= $this->_link . '/';
+                }
             }
 
         }
@@ -192,10 +209,10 @@ class SM_Menu_Item
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
                 $defaults, $reqs
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link, $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
         } elseif ($this->_handler->getController() == 'Document') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
@@ -203,49 +220,49 @@ class SM_Menu_Item
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
                 $defaults, $reqs
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link, $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/parent/:parent/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/parent/:parent/',
                 array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('parent' => '[\w\-]+')
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link . '-parent', $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-parent', $route);
 
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/viewdoc/:id/parent/:parent/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewdoc/:id/parent/:parent/',
                 array('controller' => $this->_handler->getController(), 'action' => 'viewdoc', 'link' => $this->_link), array('id' => '[\w\-]+', 'parent' => '[\w\-]+')
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link . '-viewdoc', $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewdoc', $route);
         } elseif ($this->_handler->getController() == 'News') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
                 $defaults, $reqs
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link, $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/viewnews/:id/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/',
                 array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\w\-]+')
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link . '-viewnews', $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews', $route);
         } elseif ($this->_handler->getController() == 'Vote') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'sendmsg';
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_group->getLink() . '/' . $this->_link . '/',
+                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
                 $defaults, $reqs
             );
-            $router->addRoute($this->_group->getLink() . '-' . $this->_link, $route);
+            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
         } else {
 
         }
@@ -253,7 +270,7 @@ class SM_Menu_Item
 
     public function getPathWay()
     {
-        return array(0 => array('link' => $this->_group->getLink(), 'title' => $this->_group->getTitle()));
+        return array(0 => array('link' => $this->_parent->getLink(), 'title' => $this->_parent->getTitle()));
     }
 
     public function __get($name)
@@ -273,10 +290,10 @@ class SM_Menu_Item
     public function insertToDb()
     {
         try {
-            $sql = 'INSERT INTO menu_item(title, link, group_id, handler_id, is_visible)
-                        VALUES (:title, :link, :group_id, :handler_id, :is_visible)';
-            $this->_db->query($sql, array('title' => $this->_title, 'link' => $this->_link, 'group_id' => $this->_group->getId(),
-                                          'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible));
+            $sql = 'INSERT INTO menu_item(title, link, parent_id, handler_id, is_visible)
+                        VALUES (:title, :link, :parent_id, :handler_id, :is_visible)';
+            $this->_db->query($sql, array('title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_parent->getId(),
+                'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible));
 
             $this->_id = $this->_db->lastInsertId();
         } catch (Exception $e) {
@@ -288,10 +305,10 @@ class SM_Menu_Item
     {
         try {
             $sql = 'UPDATE menu_item
-                       SET title=:title, link=:link, group_id=:group_id, handler_id=:handler_id, is_visible=:is_visible
+                       SET title=:title, link=:link, parent_id=:parent_id, handler_id=:handler_id, is_visible=:is_visible
                      WHERE id=:id';
-            $this->_db->query($sql, array('id' => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'group_id' => $this->_group->getId(),
-                                          'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible));
+            $this->_db->query($sql, array('id' => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_parent->getId(),
+                'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -451,8 +468,8 @@ class SM_Menu_Item
         $this->setTitle($values['title']);
         $this->setLink($values['link']);
 
-        $oGroup = SM_Menu_Group::getInstanceById($values['group_id']);
-        $this->setGroup($oGroup);
+        $oGroup = SM_Menu_Menu::getInstanceById($values['group_id']);
+        $this->setParent($oGroup);
 
         $oHandler = SM_Menu_Handler::getInstanceById($values['handler_id']);
         $this->setHandler($oHandler);

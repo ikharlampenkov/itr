@@ -56,7 +56,7 @@ class VoteController extends Zend_Controller_Action
             try {
                 SM_Module_Vote::sendVote($this->_link, $data);
                 $mainSession->isComplite = true;
-                $this->_redirect('/' . $this->_link->getGroup()->getLink() . '/' . $this->_link->getLink());
+                $this->_redirect('/' . $this->_link->getParent()->getLink() . '/' . $this->_link->getLink());
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }

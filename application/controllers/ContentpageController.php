@@ -12,7 +12,7 @@ class ContentpageController extends Zend_Controller_Action
     {
         $this->_link = SM_Menu_Item::getInstanceByLink($this->getRequest()->getParam('link'));
         if ($this->_link == false) {
-            $this->_link = SM_Menu_Group::getInstanceByLink($this->getRequest()->getParam('link'));
+            $this->_link = SM_Menu_Menu::getInstanceByLink($this->getRequest()->getParam('link'));
         }
         $this->view->assign('link', $this->_link->getLink());
 
