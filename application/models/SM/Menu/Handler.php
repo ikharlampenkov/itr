@@ -97,15 +97,7 @@ class SM_Menu_Handler
     public function __construct()
     {
         $config = Zend_Registry::get('production');
-        $this->_db = Zend_Db::factory($config->resources->db->adapter,
-            array('host' => $config->resources->db->params->host,
-                'username' => $config->resources->db->params->username,
-                'password' => $config->resources->db->params->password,
-                'dbname' => $config->resources->db->params->dbname,
-                'charset' => $config->resources->db->params->charset,
-                'port' => $config->resources->db->params->port
-            )
-        );
+        $this->_db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
     }
 
 
@@ -140,17 +132,7 @@ class SM_Menu_Handler
             $sql = 'SELECT * FROM menu_handler';
 
             $config = Zend_Registry::get('production');
-
-            $db = Zend_Db::factory($config->resources->db->adapter,
-                array('host' => $config->resources->db->params->host,
-                    'username' => $config->resources->db->params->username,
-                    'password' => $config->resources->db->params->password,
-                    'dbname' => $config->resources->db->params->dbname,
-                    'charset' => $config->resources->db->params->charset,
-                    'port' => $config->resources->db->params->port
-                )
-            ); //$this->config->db->type
-
+            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
 
             $result = $db->query($sql)->fetchAll();
 
@@ -178,17 +160,10 @@ class SM_Menu_Handler
     {
         try {
             $sql = 'SELECT * FROM menu_handler WHERE id=' . (int)$id;
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter,
-                array('host' => $config->resources->db->params->host,
-                    'username' => $config->resources->db->params->username,
-                    'password' => $config->resources->db->params->password,
-                    'dbname' => $config->resources->db->params->dbname,
-                    'charset' => $config->resources->db->params->charset,
-                    'port' => $config->resources->db->params->port
-                )
-            );
+            $config = Zend_Registry::get('production');
+            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+
             $result = $db->query($sql)->fetchAll();
 
             if (isset($result[0])) {
