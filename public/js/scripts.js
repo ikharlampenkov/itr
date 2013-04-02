@@ -10,6 +10,14 @@ function checkAccept(object) {
     }
 }
 
+function confirmDelete(name) {
+    if (confirm("Вы подтверждаете удаление " + name + "?")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 $(document).ready(function () {
     $('#mainmenu .menu li').hover(
         function () {
@@ -75,6 +83,7 @@ function StartSliderAuto() {
         "width": total * 598
     });
 
+    /*
     $(document).everyTime(8500, 'timer', function () {
 
 
@@ -123,5 +132,6 @@ function StartSliderAuto() {
 
 
     });
+    */
 }
 

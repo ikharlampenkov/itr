@@ -49,14 +49,14 @@ class IndexController extends Zend_Controller_Action
         //$this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
         $this->view->assign('contentPage', $oContentPage);
 
+        /*
         $linkInfo = SM_Menu_Item::getInstanceById(53);
         $this->view->assign('newsList', SM_Module_News::getTopNewsInstance($linkInfo));
         $this->view->linkInfoNews = $linkInfo;
 
         $documentList = SM_Module_Document::getTopDocument(SM_Menu_Item::getInstanceByLink('nomaivnopavove_ak'));
         $this->view->assign('documentList', $documentList);
+        */
     }
-
-
 }
 

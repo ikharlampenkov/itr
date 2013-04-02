@@ -104,10 +104,12 @@
 
         <nav>
             <ul>
-                <li class="first"><a href="/">О нас</a></li>
-                <li><a href="/">Новости</a></li>
-                <li><a href="/">Форум</a></li>
-                <li><a href="/">Календарь</a></li>
+                <?php $firstItem = true; ?>
+                <?php foreach ($this->topMenuList as $item): ?>
+                <li <?php if ($firstItem): $firstItem = false; ?>class="first"<?php endif; ?> >
+                    <a href="<?php echo $this->escape($item->getUrl($this->authUserRole)); ?>"><?php echo $this->escape($item->title) ?></a>
+                </li>
+                <?php endforeach; ?>
             </ul>
         </nav>
 
@@ -125,54 +127,6 @@
 
     </div>
 </header>
-<div class="header_slider">
-    <div class="slider_bg">
-        <div class="slider">
-
-
-            <div id="img_box">
-                <div class="item">
-                    <img id="img1" class="item_img" src="/images/boy.jpg" border="0" width="231" height="249">
-
-                    <div class="description">
-                        <h1>О нас</h1>
-
-                        <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
-                        <a href="/" class="read_more"></a>
-                    </div>
-                </div>
-                <div class="item">
-                    <img id="img2" class="item_img" src="/images/boy.jpg" border="0" width="231" height="249">
-
-                    <div class="description">
-                        <h1>О вас</h1>
-
-                        <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
-                        <a href="/" class="read_more"></a>
-                    </div>
-                </div>
-                <div class="item">
-                    <img id="img3" class="item_img" src="/images/boy.jpg" border="0" width="231" height="249">
-
-                    <div class="description">
-                        <h1>О них</h1>
-
-                        <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
-                        <a href="/" class="read_more"></a>
-                    </div>
-                </div>
-            </div>
-            <div id="imgthumb_shape">
-                <a href="" class="thumblink_shape" id="imglink_shape1"></a>
-                <a href="" class="thumblink_shape" id="imglink_shape2"></a>
-                <a href="" class="thumblink_shape" id="imglink_shape3"></a>
-
-                <div class="clear"></div>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 <?php if ($this->authUserRole !== 'guest'): ?>
     <div class="center">
@@ -216,51 +170,6 @@
         </div>
     </div>
 </footer>
-
-<?php /*
-            <div id="mainmenu">
-                <ul class="menu">
-                    <?php foreach ($this->menuList as $group): ?>
-                        <li>
-                            <?php if ($group->getHandler() !== null): ?>
-                                <a href="<?php echo $this->escape($group->getUrl($this->authUserRole)); ?>" class="uppercase
-                            <?php if ($this->menuActiveGroup !== false && $this->menuActiveGroup->link == $group->link): ?>
-                            selected
-                            <?php endif; ?>"><?php echo $this->escape($group->title) ?></a>
-
-                            <?php else: ?>
-                                <img src="/images/menu_icon.png" class="menu_icon"/>
-                                <a class="uppercase"><?php echo $this->escape($group->title) ?></a>
-                            <?php endif; ?>
-                            <?php $itemList = $group->getItemList();
-                            if ($itemList !== false): ?>
-
-                                <ul <?php if ($this->menuActiveGroup !== false && $this->menuActiveGroup->link == $group->link): ?>
-                                    style=" display: block;"
-                                <?php endif; ?> >
-                                    <?php
-
-                                    foreach ($itemList as $item): ?>
-                                        <?php if ($item->isVisible): ?>
-                                            <li><a href="<?php echo $this->escape($item->getUrl($this->authUserRole)); ?>"
-                                                    <?php if ($this->menuActiveItem !== false && $item->link == $this->menuActiveItem->link): ?>
-                                                    class="selected"
-                                                <?php endif; ?> ><?php echo $this->escape($item->title) ?></a></li>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-                        </li>
-                    <?php endforeach; ?>
-
-
-
-                </ul>
-            </div>
-
-        </div>
- */ ?>
-
 
 </body>
 </html>

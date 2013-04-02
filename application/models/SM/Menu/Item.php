@@ -60,6 +60,11 @@ class SM_Menu_Item
     protected $_isVisible = 0;
 
     /**
+     * @var array
+     */
+    protected $_menuList = array();
+
+    /**
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_db;
@@ -162,8 +167,25 @@ class SM_Menu_Item
     }
 
     /**
+     * @param SM_Menu_Item|null $value
+     *
+     * @return null|int
+     */
+    protected function _prepareNull($value)
+    {
+        if (is_null($value) || empty($value)) {
+            return null;
+        } else {
+            return $value->getId();
+        }
+
+    }
+
+    /**
      * Функция возвращает url для страницы
+     *
      * @param $mode режим пользователя, его роль admin guest
+     *
      * @return string
      */
     public function getUrl($mode)
@@ -208,11 +230,19 @@ class SM_Menu_Item
             $defaults['title'] = $this->_link;
             $defaults['link'] = $this->_link;
 
-            $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                $defaults, $reqs
-            );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            if ($this->_parent !== null) {
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
+                    $defaults, $reqs
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            } else {
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/',
+                    $defaults, $reqs
+                );
+                $router->addRoute($this->_link, $route);
+            }
         } elseif ($this->_handler->getController() == 'Document') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
@@ -242,17 +272,31 @@ class SM_Menu_Item
             $defaults['action'] = 'view';
             $defaults['link'] = $this->_link;
 
-            $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                $defaults, $reqs
-            );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            if ($this->_parent !== null) {
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
+                    $defaults, $reqs
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
 
-            $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/',
-                array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\w\-]+')
-            );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews', $route);
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\w\-]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews', $route);
+            } else {
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/',
+                    $defaults, $reqs
+                );
+                $router->addRoute($this->_link, $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/viewnews/:id/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\w\-]+')
+                );
+                $router->addRoute($this->_link . '-viewnews', $route);
+            }
         } elseif ($this->_handler->getController() == 'Vote') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'sendmsg';
@@ -270,7 +314,11 @@ class SM_Menu_Item
 
     public function getPathWay()
     {
-        return array(0 => array('link' => $this->_parent->getLink(), 'title' => $this->_parent->getTitle()));
+        if ($this->_parent !== null) {
+            return array(0 => array('link' => $this->_parent->getLink(), 'title' => $this->_parent->getTitle()));
+        } else {
+            return array(0 => array('link' => '', 'title' => ''));
+        }
     }
 
     public function __get($name)
@@ -278,6 +326,8 @@ class SM_Menu_Item
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
@@ -290,12 +340,17 @@ class SM_Menu_Item
     public function insertToDb()
     {
         try {
-            $sql = 'INSERT INTO menu_item(title, link, parent_id, handler_id, is_visible)
+            $sql
+                = 'INSERT INTO menu_item(title, link, parent_id, handler_id, is_visible)
                         VALUES (:title, :link, :parent_id, :handler_id, :is_visible)';
-            $this->_db->query($sql, array('title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_parent->getId(),
-                'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible));
+            $this->_db->query(
+                $sql, array('title'      => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
+                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible)
+            );
 
             $this->_id = $this->_db->lastInsertId();
+
+            $this->updateMenuList();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -304,11 +359,15 @@ class SM_Menu_Item
     public function updateToDb()
     {
         try {
-            $sql = 'UPDATE menu_item
+            $sql
+                = 'UPDATE menu_item
                        SET title=:title, link=:link, parent_id=:parent_id, handler_id=:handler_id, is_visible=:is_visible
                      WHERE id=:id';
-            $this->_db->query($sql, array('id' => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_parent->getId(),
-                'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible));
+            $this->_db->query(
+                $sql, array('id'         => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
+                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible)
+            );
+            $this->updateMenuList();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -328,7 +387,9 @@ class SM_Menu_Item
 
     /**
      * @static
+     *
      * @param $values
+     *
      * @return SM_Menu_Handler
      * @throws Exception
      */
@@ -346,20 +407,29 @@ class SM_Menu_Item
     /**
      *
      *
+     *
+     * @param int|null $parent
+     *
      * @throws Exception
      * @return array
      * @static
      * @access public
      */
-    public static function getAllInstance()
+    public static function getAllInstance($parent)
     {
         try {
-            $sql = 'SELECT * FROM menu_item';
-
             $config = Zend_Registry::get('production');
             $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
 
-            $result = $db->query($sql)->fetchAll();
+            $sql = 'SELECT * FROM menu_item';
+
+            if ($parent != null) {
+                $sql .= ' WHERE parent_id=:parent_id';
+            } else {
+                $sql .= ' WHERE parent_id IS :parent_id';
+            }
+
+            $result = $db->query($sql, array('parent_id' => $parent))->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -375,17 +445,23 @@ class SM_Menu_Item
         }
     }
 
-    public static function getAllInstanceByGroup($group)
+    /**
+     * @param SM_Menu_Menu $menu
+     *
+     * @return array|bool
+     * @throws Exception
+     */
+    public static function getAllInstanceByMenu($menu)
     {
         try {
-            $sql = 'SELECT * FROM menu_item WHERE group_id=:group_id';
+            $sql = 'SELECT * FROM menu_item JOIN menu_menu_item ON menu_item.id=menu_menu_item.item_id WHERE parent_id IS NULL AND menu_menu_item.menu_id=:menu_id';
 
             $config = Zend_Registry::get('production');
 
             $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
 
 
-            $result = $db->query($sql, array('group_id' => $group->getId()))->fetchAll();
+            $result = $db->query($sql, array('menu_id' => $menu->getId()))->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -403,18 +479,20 @@ class SM_Menu_Item
 
     /**
      * @static
+     *
      * @param $id
+     *
      * @return bool|SM_Menu_Item
      * @throws Exception
      */
     public static function getInstanceById($id)
     {
         try {
-            $sql = 'SELECT * FROM menu_item WHERE id=' . (int)$id;
+            $sql = 'SELECT * FROM menu_item WHERE id=:id';
             $config = Zend_Registry::get('production');
 
             $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
-            $result = $db->query($sql)->fetchAll();
+            $result = $db->query($sql, array('id' => (int)$id))->fetchAll();
 
             if (isset($result[0])) {
                 $o = new SM_Menu_Item();
@@ -430,7 +508,9 @@ class SM_Menu_Item
 
     /**
      * @static
+     *
      * @param $link
+     *
      * @return bool|SM_Menu_Item
      * @throws Exception
      */
@@ -459,6 +539,7 @@ class SM_Menu_Item
      *
      *
      * @param array $values
+     *
      * @return void
      * @access public
      */
@@ -468,29 +549,57 @@ class SM_Menu_Item
         $this->setTitle($values['title']);
         $this->setLink($values['link']);
 
-        $oGroup = SM_Menu_Menu::getInstanceById($values['group_id']);
-        $this->setParent($oGroup);
+        $oParent = SM_Menu_Item::getInstanceById($values['parent_id']);
+        if ($oParent !== false) {
+            $this->setParent($oParent);
+        }
 
         $oHandler = SM_Menu_Handler::getInstanceById($values['handler_id']);
         $this->setHandler($oHandler);
 
         $this->setIsVisible($values['is_visible']);
+        $this->extractMenuList();
     }
 
-    protected function getLastInsertId()
+    public function setMenuList($data)
     {
-        try {
-            $sql = 'SELECT LAST_INSERT_ID()';
-            $id = $this->_db->query($sql)->fetchAll(Zend_Db::FETCH_NUM);
-            if (isset($id[0][0])) {
-                return $id[0][0];
-            } else {
-                return 0;
-            }
-        } catch (StdLib_Exception $s_e) {
-            throw new StdLib_Exception('Can`t return last id');
+        print_r($data);
+        $this->_menuList = array();
+        foreach ($data as $menuId) {
+            $this->_menuList[] = $menuId;
         }
     }
 
+    public function getMenuList()
+    {
+        return $this->_menuList;
+    }
 
+    public function checkMenu($id)
+    {
+        return in_array($id, $this->_menuList);
+    }
+
+    protected function updateMenuList()
+    {
+        $sql = 'DELETE FROM menu_menu_item WHERE item_id=:item';
+        $this->_db->query($sql, array('item' => $this->_id));
+
+        $sql = 'INSERT INTO menu_menu_item(menu_id, item_id) VALUES(:menu, :item)';
+        foreach ($this->_menuList as $menu) {
+            $this->_db->query($sql, array('menu' => $menu, 'item' => $this->_id));
+        }
+    }
+
+    protected function extractMenuList()
+    {
+        $sql = 'SELECT * FROM menu_menu_item WHERE item_id=:item';
+        $result = $this->_db->query($sql, array('item' => $this->_id))->fetchAll();
+
+        if (isset($result[0])) {
+            foreach ($result as $res) {
+                $this->_menuList[] = $res['menu_id'];
+            }
+        }
+    }
 }
