@@ -104,7 +104,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $router = Zend_Controller_Front::getInstance()->getRouter();
 
-        $oMenuItemList = SM_Menu_Item::getAllInstance();
+        $oMenuItemList = SM_Menu_Item::getAllInstance(null);
         foreach ($oMenuItemList as $menuItem) {
             $menuItem->getRoute($router);
         }

@@ -1,56 +1,57 @@
-
-<h1>Управление разделами</h1>
+<legend>Управление разделами</legend>
 
 <div class="cont_text">
 
-    <div class="sub-menu">
-        <img src="/images/add.png"/>&nbsp;<a href="/menu/add/">добавить</a>
+    <h3>Меню</h3>
+
+    <div class="form-actions">
+        <a href="/menu/addmenu/" class="btn"><i class="icon-plus"></i> Добавить меню</a>
     </div>
 
-    <table width="100%">
+    <table class="table table-bordered">
         <tr>
-            <td class="ttovar">Название</td>
-            <td class="ttovar">Группа</td>
-            <td class="ttovar">Обработчик</td>
-            <td class="ttovar"></td>
+            <th>Название</th>
+            <th>Ссылка</th>
+            <th></th>
         </tr>
 
-        <?php if ($this->itemList !== false): ?>
-        <?php foreach ($this->itemList as $item): ?>
-            <tr>
-                <td class="ttovar"><?php echo $this->escape($item->title); ?></td>
-                <td class="ttovar"><?php echo $this->escape($item->group->title); ?></td>
-                <td class="ttovar"><?php echo $this->escape($item->handler->title); ?></td>
-                <td class="tedit">
-                    <img src="/images/edit.png"/>&nbsp;<a href="/menu/edit/id/<?php echo $item->id; ?>/">редактировать</a><br/>
-                    <img src="/images/delete.png"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'delete', 'id' => $item->id)) ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');" style="color: #830000">удалить</a></td>
-            </tr>
+        <?php if ($this->menuList !== false): ?>
+            <?php foreach ($this->menuList as $item): ?>
+                <tr>
+                    <td><?php echo $this->escape($item->title); ?></td>
+                    <td><?php echo $this->escape($item->code); ?></td>
+                    <td class="tedit">
+                        <img src="/images/icon/edit.png"/>&nbsp;<a href="/menu/editmenu/id/<?php echo $item->id; ?>/">редактировать</a><br/>
+                        <img src="/images/icon/delete.png"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'deletemenu', 'id' => $item->id)) ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');" style="color: #830000">удалить</a></td>
+                </tr>
             <?php endforeach; ?>
         <?php endif; ?>
     </table>
 
-    <h3>Группы</h3>
+    <h3>Пункты меню</h3>
 
-    <div class="sub-menu">
-        <img src="/images/add.png"/>&nbsp;<a href="/menu/addgroup/">добавить</a>
+    <div class="form-actions">
+        <a href="/menu/add/" class="btn"><i class="icon-plus"></i> Добавить пункт</a>
     </div>
 
-    <table width="100%">
+    <table class="table table-bordered">
         <tr>
-            <td class="ttovar">Название</td>
-            <td class="ttovar">Ссылка</td>
-            <td class="ttovar"></td>
+            <th>Название</th>
+            <th>Ссылка</th>
+            <th>Обработчик</th>
+            <th></th>
         </tr>
 
-        <?php if ($this->groupList !== false): ?>
-        <?php foreach ($this->groupList as $item): ?>
-            <tr>
-                <td class="ttovar"><?php echo $this->escape($item->title); ?></td>
-                <td class="ttovar"><?php echo $this->escape($item->link); ?></td>
-                <td class="tedit">
-                    <img src="/images/edit.png"/>&nbsp;<a href="/menu/editgroup/id/<?php echo $item->id; ?>/">редактировать</a><br/>
-                    <img src="/images/delete.png"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'deletegroup', 'id' => $item->id)) ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');" style="color: #830000">удалить</a></td>
-            </tr>
+        <?php if ($this->itemList !== false): ?>
+            <?php foreach ($this->itemList as $item): ?>
+                <tr>
+                    <td><?php echo $this->escape($item->title); ?></td>
+                    <td><?php echo $this->escape($item->link); ?></td>
+                    <td><?php echo $this->escape($item->handler->title); ?></td>
+                    <td class="tedit">
+                        <img src="/images/icon/edit.png"/>&nbsp;<a href="/menu/edit/id/<?php echo $item->id; ?>/">редактировать</a><br/>
+                        <img src="/images/icon/delete.png"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'delete', 'id' => $item->id)) ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');" style="color: #830000">удалить</a></td>
+                </tr>
             <?php endforeach; ?>
         <?php endif; ?>
     </table>

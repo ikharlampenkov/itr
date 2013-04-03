@@ -261,7 +261,7 @@ class SM_Menu_Menu
     public function getItemList()
     {
         try {
-            $result = SM_Menu_Item::getAllInstanceByGroup($this);
+            $result = SM_Menu_Item::getAllInstanceByMenu($this);
             return $result;
 
         } catch (Exception $e) {
