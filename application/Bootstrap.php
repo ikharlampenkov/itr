@@ -98,6 +98,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         Zend_Loader::loadClass('ShowNews');
         Zend_Controller_Front::getInstance()->registerPlugin(new ShowNews());
+
+        Zend_Loader::loadClass('SetViewParam');
+        Zend_Controller_Front::getInstance()->registerPlugin(new SetViewParam());
     }
 
     protected function _initRoute()

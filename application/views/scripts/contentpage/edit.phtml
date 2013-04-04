@@ -4,32 +4,34 @@
 <script>
     $(document).ready(function () {
         CKEDITOR.replace('data[content]', {
-            filebrowserBrowseUrl:'/ckfinder/ckfinder.html',
-            filebrowserImageBrowseUrl:'/ckfinder/ckfinder.html?Type=Images',
-            filebrowserFlashBrowseUrl:'/ckfinder/ckfinder.html?Type=Flash',
-            filebrowserUploadUrl:'/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-            filebrowserImageUploadUrl:'/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-            filebrowserFlashUploadUrl:'/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+            filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?Type=Images',
+            filebrowserFlashBrowseUrl: '/ckfinder/ckfinder.html?Type=Flash',
+            filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+            filebrowserFlashUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
         });
     });
 
 </script>
 
-
-<h1><?php echo $this->escape($this->contentPage->title); ?></h1>
-
-<div class="cont_text">
+<div class="content_admin">
+    <h1><?php echo $this->escape($this->contentPage->title); ?></h1>
 
     <?php if (isset($this->exception_msg)): ?>
-    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-    <br/>
+        <div class="alert alert-error">
+            <h4 class="alert-heading">Ошибка!</h4>
+            <?php echo $this->escape($this->exception_msg); ?>
+        </div>
     <?php endif; ?>
 
     <form action="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'edit', 'title' => $this->contentPage->pageTitle)); ?>" method="post">
 
         <div><textarea name="data[content]"><?php echo $this->contentPage->content; ?></textarea></div>
 
-        <input id="save" name="save" type="submit" value="Сохранить"/>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-success" value="Сохранить"/>
+        </div>
     </form>
 
 

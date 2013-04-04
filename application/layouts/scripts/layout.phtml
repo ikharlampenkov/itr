@@ -10,6 +10,8 @@
     <script type="text/javascript" src="/js/jquery.jcarousel.min.js"></script>
     <script type="text/javascript" src="/js/jquery.timers.js"></script>
     <script type="text/javascript" src="/js/jquery.datepick.js"></script>
+    <script type="text/javascript" src="/js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="/js/jquery.jscrollpane.js"></script>
     <script type="text/javascript" src="/js/modernizr.min.js"></script>
     <!-- <script type="text/javascript" language="javascript" src="/js/bootstrap.min.js"></script> -->
 
@@ -17,18 +19,22 @@
 
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="/css/jquery.datepick.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.jscrollpane.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
 
     <script type="text/javascript">
         $(function () {
-
             $('#inlineDatepicker').datepick({onSelect: showDate});
         });
 
         function showDate(date) {
             alert('Вывод ' + date);// тут нужно вставить функцию аякс запроса
         }
+
+        jQuery(function () {
+            jQuery('.projects_from_cal').jScrollPane();
+        });
     </script>
     <!--[if lte IE 6]>
     <script src="/js/png.js"></script>
@@ -55,6 +61,14 @@
     <![endif]-->
     <script>
         jQuery(document).ready(function () {
+
+            $('.cal_nav .prev').click(function () {
+                alert('По клику по видимому аякс запрос надо поставить на обновление списка ');
+            });
+            $('.cal_nav .next').click(function () {
+                alert('По клику по видимому аякс запрос надо поставить на обновление списка ');
+            });
+
             jQuery('#partners_carousel').jcarousel({
 
             });
@@ -106,9 +120,9 @@
             <ul>
                 <?php $firstItem = true; ?>
                 <?php foreach ($this->topMenuList as $item): ?>
-                <li <?php if ($firstItem): $firstItem = false; ?>class="first"<?php endif; ?> >
-                    <a href="<?php echo $this->escape($item->getUrl($this->authUserRole)); ?>"><?php echo $this->escape($item->title) ?></a>
-                </li>
+                    <li <?php if ($firstItem): $firstItem = false; ?>class="first"<?php endif; ?> >
+                        <a href="<?php echo $this->escape($item->getUrl($this->authUserRole)); ?>"><?php echo $this->escape($item->title) ?></a>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </nav>
@@ -129,11 +143,17 @@
 </header>
 
 <?php if ($this->authUserRole !== 'guest'): ?>
-    <div class="center">
+    <div class="page">
         <?php echo $this->layout()->content; ?>
     </div>
 <?php else: ?>
-    <?php echo $this->layout()->content; ?>
+    <?php if ($this->controller == 'index'): ?>
+        <?php echo $this->layout()->content; ?>
+    <?php else: ?>
+        <div class="page">
+            <?php echo $this->layout()->content; ?>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>
 
 <!--футер-->
