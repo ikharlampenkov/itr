@@ -425,11 +425,11 @@ class SM_Menu_Item
 
             if ($parent != null) {
                 $sql .= ' WHERE parent_id=:parent_id';
+				$result = $db->query($sql, array('parent_id' => $parent))->fetchAll();
             } else {
-                $sql .= ' WHERE parent_id IS :parent_id';
-            }
-
-            $result = $db->query($sql, array('parent_id' => $parent))->fetchAll();
+                $sql .= ' WHERE parent_id IS NULL';
+				$result = $db->query($sql)->fetchAll();
+            }            
 
             if (isset($result[0])) {
                 $retArray = array();
