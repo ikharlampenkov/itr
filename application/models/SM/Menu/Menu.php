@@ -101,8 +101,7 @@ class SM_Menu_Menu
 
     public function __construct()
     {
-        $config = Zend_Registry::get('production');
-        $this->_db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+        $this->_db = Zend_Registry::get('db');
     }
 
     public function insertToDb()
