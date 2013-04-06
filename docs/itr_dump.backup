@@ -1,0 +1,3334 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.3
+-- Dumped by pg_dump version 9.2.0
+-- Started on 2013-04-06 14:18:57
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 206 (class 3079 OID 11769)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2177 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 191 (class 1259 OID 16554)
+-- Name: banner_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE banner_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.banner_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2178 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: banner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('banner_id_seq', 22, true);
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 168 (class 1259 OID 16438)
+-- Name: banner; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE banner (
+    id bigint DEFAULT nextval('banner_id_seq'::regclass) NOT NULL,
+    img character varying(255) NOT NULL,
+    link character varying(255) NOT NULL,
+    title character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.banner OWNER TO garage;
+
+--
+-- TOC entry 169 (class 1259 OID 16444)
+-- Name: banner_place; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE banner_place (
+    banner_id bigint NOT NULL,
+    bplace_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.banner_place OWNER TO garage;
+
+--
+-- TOC entry 192 (class 1259 OID 16557)
+-- Name: bplace_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE bplace_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bplace_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2179 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: bplace_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('bplace_id_seq', 2, true);
+
+
+--
+-- TOC entry 170 (class 1259 OID 16447)
+-- Name: bplace; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE bplace (
+    id bigint DEFAULT nextval('bplace_id_seq'::regclass) NOT NULL,
+    title character varying(255) NOT NULL,
+    width bigint NOT NULL,
+    height bigint NOT NULL,
+    change_time bigint DEFAULT (5)::bigint NOT NULL
+);
+
+
+ALTER TABLE public.bplace OWNER TO garage;
+
+--
+-- TOC entry 171 (class 1259 OID 16451)
+-- Name: content_page; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE content_page (
+    link_id bigint NOT NULL,
+    page_title character varying(255) NOT NULL,
+    parent_page character varying(255),
+    title character varying(255) NOT NULL,
+    content text
+);
+
+
+ALTER TABLE public.content_page OWNER TO garage;
+
+--
+-- TOC entry 2180 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN content_page.page_title; Type: COMMENT; Schema: public; Owner: garage
+--
+
+COMMENT ON COLUMN content_page.page_title IS 'английское название для системы';
+
+
+--
+-- TOC entry 193 (class 1259 OID 16560)
+-- Name: document_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE document_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.document_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2181 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: document_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('document_id_seq', 1, false);
+
+
+--
+-- TOC entry 172 (class 1259 OID 16457)
+-- Name: document; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE document (
+    id bigint DEFAULT nextval('document_id_seq'::regclass) NOT NULL,
+    link_id bigint NOT NULL,
+    parent_id bigint,
+    title character varying(255) NOT NULL,
+    short_text text,
+    full_text text NOT NULL,
+    file character varying(255),
+    date_create date NOT NULL
+);
+
+
+ALTER TABLE public.document OWNER TO garage;
+
+--
+-- TOC entry 194 (class 1259 OID 16563)
+-- Name: document_folder_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE document_folder_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.document_folder_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2182 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: document_folder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('document_folder_id_seq', 1, false);
+
+
+--
+-- TOC entry 173 (class 1259 OID 16463)
+-- Name: document_folder; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE document_folder (
+    id bigint DEFAULT nextval('document_folder_id_seq'::regclass) NOT NULL,
+    link_id bigint NOT NULL,
+    parent_id bigint,
+    title character varying(255) NOT NULL,
+    date_create date NOT NULL
+);
+
+
+ALTER TABLE public.document_folder OWNER TO garage;
+
+--
+-- TOC entry 195 (class 1259 OID 16566)
+-- Name: document_search_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE document_search_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.document_search_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2183 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: document_search_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('document_search_id_seq', 1, false);
+
+
+--
+-- TOC entry 174 (class 1259 OID 16466)
+-- Name: document_search; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE document_search (
+    id bigint DEFAULT nextval('document_search_id_seq'::regclass) NOT NULL,
+    search_text text NOT NULL
+);
+
+
+ALTER TABLE public.document_search OWNER TO garage;
+
+--
+-- TOC entry 196 (class 1259 OID 16569)
+-- Name: menu_handler_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE menu_handler_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menu_handler_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2184 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: menu_handler_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('menu_handler_id_seq', 5, true);
+
+
+--
+-- TOC entry 175 (class 1259 OID 16472)
+-- Name: menu_handler; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE menu_handler (
+    id bigint DEFAULT nextval('menu_handler_id_seq'::regclass) NOT NULL,
+    title character varying(255) NOT NULL,
+    controller character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.menu_handler OWNER TO garage;
+
+--
+-- TOC entry 197 (class 1259 OID 16572)
+-- Name: menu_item_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE menu_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menu_item_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2185 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: menu_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('menu_item_id_seq', 63, true);
+
+
+--
+-- TOC entry 176 (class 1259 OID 16478)
+-- Name: menu_item; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE menu_item (
+    id bigint DEFAULT nextval('menu_item_id_seq'::regclass) NOT NULL,
+    title character varying(255) NOT NULL,
+    link character varying(255) NOT NULL,
+    parent_id bigint,
+    handler_id bigint NOT NULL,
+    is_visible bit(1) DEFAULT B'1'::"bit" NOT NULL
+);
+
+
+ALTER TABLE public.menu_item OWNER TO garage;
+
+--
+-- TOC entry 198 (class 1259 OID 16575)
+-- Name: menu_menu_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE menu_menu_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menu_menu_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2186 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: menu_menu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('menu_menu_id_seq', 18, true);
+
+
+--
+-- TOC entry 177 (class 1259 OID 16485)
+-- Name: menu_menu; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE menu_menu (
+    id bigint DEFAULT nextval('menu_menu_id_seq'::regclass) NOT NULL,
+    title character varying(255) NOT NULL,
+    code character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.menu_menu OWNER TO garage;
+
+--
+-- TOC entry 178 (class 1259 OID 16491)
+-- Name: menu_menu_item; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE menu_menu_item (
+    menu_id bigint NOT NULL,
+    item_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.menu_menu_item OWNER TO garage;
+
+--
+-- TOC entry 199 (class 1259 OID 16578)
+-- Name: news_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE news_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.news_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2187 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('news_id_seq', 6, true);
+
+
+--
+-- TOC entry 179 (class 1259 OID 16494)
+-- Name: news; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE news (
+    id bigint DEFAULT nextval('news_id_seq'::regclass) NOT NULL,
+    link_id bigint NOT NULL,
+    date_public timestamp(3) without time zone NOT NULL,
+    title character varying(255) NOT NULL,
+    file character varying(255),
+    short_text text,
+    full_text text,
+    date_create date NOT NULL
+);
+
+
+ALTER TABLE public.news OWNER TO garage;
+
+--
+-- TOC entry 200 (class 1259 OID 16581)
+-- Name: phone_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE phone_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.phone_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2188 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: phone_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('phone_id_seq', 2, true);
+
+
+--
+-- TOC entry 180 (class 1259 OID 16500)
+-- Name: phone; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE phone (
+    id bigint DEFAULT nextval('phone_id_seq'::regclass) NOT NULL,
+    address character varying(255) NOT NULL,
+    phone character varying(255) NOT NULL,
+    post_index character varying(255) NOT NULL,
+    date_create date NOT NULL
+);
+
+
+ALTER TABLE public.phone OWNER TO garage;
+
+--
+-- TOC entry 181 (class 1259 OID 16506)
+-- Name: tm_acl_role; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_acl_role (
+    tm_user_role_id bigint NOT NULL,
+    tm_user_resource_id bigint NOT NULL,
+    is_allow bit(1) DEFAULT B'0'::"bit" NOT NULL,
+    privileges character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.tm_acl_role OWNER TO garage;
+
+--
+-- TOC entry 201 (class 1259 OID 16584)
+-- Name: tm_task_attribute_type_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE tm_task_attribute_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tm_task_attribute_type_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2189 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: tm_task_attribute_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('tm_task_attribute_type_id_seq', 8, true);
+
+
+--
+-- TOC entry 182 (class 1259 OID 16510)
+-- Name: tm_task_attribute_type; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_task_attribute_type (
+    id bigint DEFAULT nextval('tm_task_attribute_type_id_seq'::regclass) NOT NULL,
+    title character varying(50) NOT NULL,
+    handler character varying(100) NOT NULL,
+    description character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.tm_task_attribute_type OWNER TO garage;
+
+--
+-- TOC entry 202 (class 1259 OID 16587)
+-- Name: tm_user_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE tm_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tm_user_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2190 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: tm_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('tm_user_id_seq', 2, true);
+
+
+--
+-- TOC entry 183 (class 1259 OID 16513)
+-- Name: tm_user; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user (
+    id bigint DEFAULT nextval('tm_user_id_seq'::regclass) NOT NULL,
+    login character varying(32) NOT NULL,
+    password character varying(32) NOT NULL,
+    role_id bigint NOT NULL,
+    date_create timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.tm_user OWNER TO garage;
+
+--
+-- TOC entry 184 (class 1259 OID 16516)
+-- Name: tm_user_attribute; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user_attribute (
+    user_id bigint NOT NULL,
+    attribute_key character varying(255) NOT NULL,
+    type_id bigint NOT NULL,
+    attribute_value text NOT NULL,
+    is_fill bit(1) DEFAULT B'0'::"bit" NOT NULL
+);
+
+
+ALTER TABLE public.tm_user_attribute OWNER TO garage;
+
+--
+-- TOC entry 203 (class 1259 OID 16590)
+-- Name: tm_user_attribute_type_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE tm_user_attribute_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tm_user_attribute_type_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2191 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: tm_user_attribute_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('tm_user_attribute_type_id_seq', 4, true);
+
+
+--
+-- TOC entry 185 (class 1259 OID 16523)
+-- Name: tm_user_attribute_type; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user_attribute_type (
+    id bigint DEFAULT nextval('tm_user_attribute_type_id_seq'::regclass) NOT NULL,
+    title character varying(50) NOT NULL,
+    handler character varying(100) NOT NULL,
+    description character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.tm_user_attribute_type OWNER TO garage;
+
+--
+-- TOC entry 186 (class 1259 OID 16526)
+-- Name: tm_user_hash; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user_hash (
+    user_id bigint,
+    attribute_key character varying(255) NOT NULL,
+    title character varying(255) NOT NULL,
+    type_id bigint NOT NULL,
+    list_value text
+);
+
+
+ALTER TABLE public.tm_user_hash OWNER TO garage;
+
+--
+-- TOC entry 187 (class 1259 OID 16532)
+-- Name: tm_user_profile; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user_profile (
+    user_id bigint NOT NULL,
+    profile_key character varying(255) NOT NULL,
+    profile_value text NOT NULL
+);
+
+
+ALTER TABLE public.tm_user_profile OWNER TO garage;
+
+--
+-- TOC entry 204 (class 1259 OID 16593)
+-- Name: tm_user_resource_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE tm_user_resource_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tm_user_resource_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2192 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: tm_user_resource_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('tm_user_resource_id_seq', 100, true);
+
+
+--
+-- TOC entry 188 (class 1259 OID 16538)
+-- Name: tm_user_resource; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user_resource (
+    id bigint DEFAULT nextval('tm_user_resource_id_seq'::regclass) NOT NULL,
+    title character varying(45),
+    rtitle character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.tm_user_resource OWNER TO garage;
+
+--
+-- TOC entry 205 (class 1259 OID 16596)
+-- Name: tm_user_role_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE tm_user_role_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tm_user_role_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2193 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: tm_user_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('tm_user_role_id_seq', 6, true);
+
+
+--
+-- TOC entry 189 (class 1259 OID 16541)
+-- Name: tm_user_role; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE tm_user_role (
+    id bigint DEFAULT nextval('tm_user_role_id_seq'::regclass) NOT NULL,
+    title character varying(32) NOT NULL,
+    rtitle character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.tm_user_role OWNER TO garage;
+
+--
+-- TOC entry 190 (class 1259 OID 16544)
+-- Name: vote_email; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE vote_email (
+    link_id bigint NOT NULL,
+    val character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.vote_email OWNER TO garage;
+
+--
+-- TOC entry 2147 (class 0 OID 16438)
+-- Dependencies: 168
+-- Data for Name: banner; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2148 (class 0 OID 16444)
+-- Dependencies: 169
+-- Data for Name: banner_place; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2149 (class 0 OID 16447)
+-- Dependencies: 170
+-- Data for Name: bplace; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO bplace (id, title, width, height, change_time) VALUES (1, 'Главная', 900, 260, 5);
+
+
+--
+-- TOC entry 2150 (class 0 OID 16451)
+-- Dependencies: 171
+-- Data for Name: content_page; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (61, 'fom', NULL, 'Форум', NULL);
+INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (62, 'kalenda', NULL, 'Календарь', NULL);
+INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (35, 'main_page', NULL, 'Главная страница', '');
+INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (59, 'o_nas', NULL, 'О нас', '<p><img src="/ckfinder/userfiles/images/boy2.jpg" /></p>
+
+<p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств.</p>
+
+<p>&nbsp;</p>
+
+<p>Аудитория проекта - успешные предприниматели и опытные банкиры, креативные pr-директора и отличные руководители известных компаний.</p>
+
+<p>Нас благодарят за: - экономию времени (временные затраты на поиск инвестора (партнера) сокращаются на десятки часов еженедельно); - эмпатию (вы не платите агентам, посредникам за поиск нужного вам человека) мы знаем, насколько сложен деловой мир; - существование (Вот оно &ndash; главное счастье человека: быть нужным.); - self-Pr (каждый человек имеет право быть услышанным); - чашечку ароматного чая (мы всегда рады пригласить Вас в наш офис) ;)</p>
+
+<p>Платформа, ориентированная на привлечение финансирования в креативные проекты через краудфандинг</p>
+
+<p>Тысячи людей готовы поддержать авторские начинания в таких областях, как музыка, фильмы, игры, искусство, новые технологии, промышленный дизайн и прочих. Множество успешных проектов являются ярким подтверждением этого.</p>
+
+<p>Совершенно новый подход к реализации Вашего творческого потенциала и к привлечению финансирования через краудфандинг</p>
+
+<p>Нам интересны оригинальные, новаторские, современные идеи, которые могут быть полезны для общества. Поэтому мы предоставляем людям возможность поддержать интересые им проекты, а взамен получить уникальные продукты, бонусы или необычный опыт.</p>
+
+<p>Только полное финансирование проектов</p>
+
+<p>Почему? Таким образом исключаются возможные негативные последствия: очевидно, что недостаток средств может привести к некачественной реализации проекта. Если проект не привлекает требующуюся сумму денег, то все собранные средства моментально возвращаются спонсорам.</p>
+
+<p>Индивидуальность и социальная активность</p>
+
+<p>Платформа создана для самых разных проектов: больших и малых, серьезных и не очень, традиционных и экспериментальных. Любой может реализовать свою идею, будь то запись музыкального альбома, съемка фильма или создание нового прибора. Нужны только фантазия, желание и немного таланта.</p>
+');
+
+
+--
+-- TOC entry 2151 (class 0 OID 16457)
+-- Dependencies: 172
+-- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2152 (class 0 OID 16463)
+-- Dependencies: 173
+-- Data for Name: document_folder; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2153 (class 0 OID 16466)
+-- Dependencies: 174
+-- Data for Name: document_search; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2154 (class 0 OID 16472)
+-- Dependencies: 175
+-- Data for Name: menu_handler; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO menu_handler (id, title, controller) VALUES (1, 'Контент', 'Contentpage');
+INSERT INTO menu_handler (id, title, controller) VALUES (2, 'Документы', 'Document');
+INSERT INTO menu_handler (id, title, controller) VALUES (3, 'Новости', 'News');
+INSERT INTO menu_handler (id, title, controller) VALUES (4, 'Обращения', 'Vote');
+
+
+--
+-- TOC entry 2155 (class 0 OID 16478)
+-- Dependencies: 176
+-- Data for Name: menu_item; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible) VALUES (35, 'Главная страница', 'main_page', NULL, 1, B'0');
+INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible) VALUES (59, 'О нас', 'o_nas', NULL, 1, B'1');
+INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible) VALUES (60, 'Новости', 'novoisti', NULL, 3, B'1');
+INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible) VALUES (61, 'Форум', 'fom', NULL, 1, B'1');
+INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible) VALUES (62, 'Календарь', 'kalenda', NULL, 1, B'1');
+
+
+--
+-- TOC entry 2156 (class 0 OID 16485)
+-- Dependencies: 177
+-- Data for Name: menu_menu; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO menu_menu (id, title, code) VALUES (16, 'Верхнее меню', 'verhnee_menu');
+INSERT INTO menu_menu (id, title, code) VALUES (17, 'Нижнее меню', 'nijnee_menu');
+
+
+--
+-- TOC entry 2157 (class 0 OID 16491)
+-- Dependencies: 178
+-- Data for Name: menu_menu_item; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 59);
+INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 60);
+INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 61);
+INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 62);
+
+
+--
+-- TOC entry 2158 (class 0 OID 16494)
+-- Dependencies: 179
+-- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO news (id, link_id, date_public, title, file, short_text, full_text, date_create) VALUES (1, 15, '2012-11-16 00:00:00', 'День матери!', 'img_19-11-2012-13-00-27.gif', 'Программа мероприятий празднования Дня Матери 2012...', '<hr />
+<p style=\"text-align: center;\">
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><span style=\"color: rgb(54, 121, 138);\"><strong><span span=\"\\&quot;\\\\&quot;\\\\&quot;\\&quot;\" style=\"\">Концертная программа, посвященная Дню матери.</span></strong></span></span></span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">23.11.2012г. с 16.00 часов в СДК &laquo;Геолог&raquo; пос. Разведчик</span></span></p>
+<p>
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">24.11.2012г. с 14.00 часов в СК &laquo;пос. Сосновка-2&raquo;</span></span></p>
+<p>
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">25.11.2012г. с 13.00 часов в СК &laquo;пос. Успенка&raquo;</span></span></p>
+', '2012-11-19');
+INSERT INTO news (id, link_id, date_public, title, file, short_text, full_text, date_create) VALUES (2, 15, '2013-03-11 00:00:00', 'План мероприятий на март', NULL, 'Уважаемые жители...', '<hr />
+<p style=\"text-align: center;\">
+	<span style=\"font-size:18px;\"><span style=\"color: rgb(255, 0, 0);\"><strong><span style=\"font-family: arial,helvetica,sans-serif;\">План работы на&nbsp; март 2013 год.</span></strong></span></span></p>
+<p style=\"text-align: center;\">
+	<span style=\"font-size:18px;\"><span style=\"color: rgb(255, 0, 0);\"><strong><span style=\"font-family: arial,helvetica,sans-serif;\">ДК&nbsp; &laquo;Геолог&raquo;</span></strong></span></span></p>
+<table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
+	<tbody>
+		<tr>
+			<td rowspan=\"2\" style=\"text-align: center; vertical-align: middle; width: 25px; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">№</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; width: 50px; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дата</span></span></strong></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; width: 50px; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Время</span></span></strong></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"text-align: center; vertical-align: middle; width: 150px; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Место проведения</span></span></strong></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"text-align: center; vertical-align: middle; width: 250px; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Наименование мероприятия</span></span></strong></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"text-align: center; vertical-align: middle; width: 150px; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Категория населения</span></span></strong></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138); width: 150px;\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Ответственный</span></span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=\"3\" style=\"text-align: center; vertical-align: middle; width: 100px; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">проведения</span></span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">1</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">05.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Конкурсно &ndash; игровая программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;А- нука женщины &raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">2</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">07.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Праздничная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Нежная моя&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+				<p>
+					&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">3</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">08.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Музыкальная гостиная</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Самая прекрасная&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">4</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">13.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">11-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Литературно &ndash; музыкальная композиция</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Ласково тебя&nbsp; я&nbsp; назову&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Пожилые</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">5</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">18-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Спортивно-развлекательная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Богатырская сила&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">6</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">17.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Народное гуляние</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo; Масленица&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">7</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">20.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК&nbsp; &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Вечер отдыха</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Мудрые советы&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">8</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">22.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">17-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Урок &ndash; раздумье</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Умей сказать нет!&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">9</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">23.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Танцевально &ndash; развлекательная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Звезды дискотек&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">10</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">27.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК&nbsp; &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Экологическая программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Лесные великаны&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">11</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">29.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК&nbsp;&nbsp; &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Познавательно &ndash; игровая</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Дорожная азбука&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	&nbsp;</p>
+<p style=\"text-align: center;\">
+	<span style=\"font-size:18px;\"><span style=\"color: rgb(255, 0, 0);\"><strong><span style=\"font-family: arial,helvetica,sans-serif;\">Клуб&nbsp; п. Сосновка - 2</span></strong></span></span></p>
+<table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
+	<tbody>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138); width: 25px;\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">№</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138); width: 100px;\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дата</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138); width: 50px;\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Время</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Место проведения</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Наименование мероприятия</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Категория населения</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Ответственный</span></span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">1</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">08.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">14-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&nbsp;Праздничная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Женское счастье&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">09.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Конкурсная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Бабушкины&nbsp; рецепты&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Пожилые</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">3</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">09.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Танцевально &ndash; развлекательная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Весна - красна&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">4</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">10.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">15-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Тематическая программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Если возникнет беда&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">6</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">13.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка -2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Познавательно &ndash; игровая</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Безопасное колесо&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">7</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">17.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">13-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка -2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Народное гуляние</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&nbsp;&laquo;МАСЛЕНИЦА&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О.В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">7</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">22.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка -2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Вечер отдыха</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Когда мы взрослеем&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">8</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">26.04.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п. Сосновка -2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Кинопоказ посвященный&nbsp; дню памяти погибшим в радиационных авариях</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Малыгина О.В.</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	&nbsp;</p>
+<p style=\"text-align: center;\">
+	<span style=\"color:#ff0000;\"><span style=\"font-size: 18px;\"><strong><span style=\"font-family: arial,helvetica,sans-serif;\">СК пос. Успенка</span></strong></span></span></p>
+<table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
+	<tbody>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138); width: 25px;\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">№</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дата </span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138); width: 50px;\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Время </span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Место проведения</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Наименование мероприятия</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Категория населения</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Ответственный </span></span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">1</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">03.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">14-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Клуб-беседа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Тихая эпидемия&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">08.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">13-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Праздничная&nbsp; программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Самый родной человек&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">3</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">10.03.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">15-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Конкурсно &ndash; развлекательная программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;А ну-ка девочки, а ну красавицы&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">4</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">12. 03.13 по 16.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Цикл мероприятий посвященный Масленице</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;К истокам традиций&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">5</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">17.03.13</span></span></p>
+				<p>
+					&nbsp;</p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">13-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Народное гуляние</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Масленица&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">6</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">20.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК&nbsp;&nbsp; &laquo;Успенка&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Осторожно на дороге&raquo;</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Познавательно - игровая</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева Н. И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">7</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">24.03.13</span></span></p>
+				<p>
+					&nbsp;</p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Диско-вечер</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Возьмемся за руки друзья&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">8</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">28.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК&nbsp; Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Все начинается с семьи&raquo;</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Вечер отдыха</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">9</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">31.03.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">14-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Экологическая программа</span></span></p>
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&laquo;Мы друзья природы&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Мальцева Н.И.</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	&nbsp;</p>
+', '2013-03-12');
+INSERT INTO news (id, link_id, date_public, title, file, short_text, full_text, date_create) VALUES (3, 53, '2013-03-11 00:00:00', 'Единые социальные проездные билеты!', NULL, 'Уважаемые граждане льготных категорий...', '<p style=\"text-align: center;\">
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><span style=\"color:#ff0000;\"><strong>Уважаемые граждане льготных категорий!!!</strong></span></span></span></p>
+<p style=\"text-align: center;\">
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Уведомляем, что действие единых социальных проездных билетов образца 2012 года продляется до конца 2013 года.</span></span></p>
+<p style=\"text-align: center;\">
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дополнительную информацию по данному вопросу<br />
+	можно получить &nbsp;в управлении социальной защиты<br />
+	населения администрации Кемеровского муниципального района по тел: 44-11-79; 44-11-81.</span></span></p>
+', '2013-03-12');
+INSERT INTO news (id, link_id, date_public, title, file, short_text, full_text, date_create) VALUES (4, 53, '2013-03-22 00:00:00', 'Вакансия!', 'img_22-03-2013-09-19-30.jpg', 'Требуется бухгалтер!', '<p>
+	&nbsp;</p>
+<p align=\"center\">
+	<span style=\"color:#ff0000;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">О Б Ъ Я В Л Е Н И Е</span></span></strong></span></p>
+<p style=\"margin-left: 27pt; text-align: center;\">
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">В администрацию Арсентьевского сельского поселения требуется бухгалтер с опытом работы на период декретного отпуска основного работника.</span></span></p>
+<p style=\"margin-left: 27pt; text-align: center;\">
+	<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Обращаться в администрацию по адресу: Кемеровский р-н, пос. Разведчик, ул. Васюхичева, 31, тел. 8 (3842) 601-723; 601-717</span></span></p>
+', '2013-03-22');
+INSERT INTO news (id, link_id, date_public, title, file, short_text, full_text, date_create) VALUES (5, 15, '2013-03-25 00:00:00', 'План мероприятий на апрель', NULL, 'Подробнее', '<p align=\"center\">
+	<span style=\"color:#ff0000;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>План работы на&nbsp; апрель 2013 год</strong>.</span></span></span></p>
+<p align=\"center\">
+	<span style=\"color:#ff0000;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>ДК&nbsp; &laquo;Геолог&raquo;</strong></span></span></span></p>
+<table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"991\">
+	<tbody>
+		<tr>
+			<td rowspan=\"2\" style=\"width: 43px; height: 19px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>№</strong></span></span></span></p>
+			</td>
+			<td style=\"width: 72px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>Дата</strong></span></span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 72px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>Время</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 192px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>Место проведения</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 324px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>Наименование мероприятия</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 144px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>Категория населения</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 144px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>Ответственный</strong></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=\"3\" style=\"width: 144px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\"><strong>проведения</strong></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">1</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">01.04.13.</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Смеяться&nbsp; разрешается &raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Конкурсно-развлекательная программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">2</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">02.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;В мире птиц и зверей&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">КВН</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети, подростки</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">3</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">05.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">День Геолога</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Поздравительная программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Все категории</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">4</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">06.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК&nbsp; &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Цветы &mdash; земной красы начало&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">познавательная программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">5</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">06.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Веселья час&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Вечер отдыха</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">6</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">10.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">11-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК&nbsp; &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Играй&nbsp; гармонь &raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Конкурсно-игровая</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Пожилые </span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">7</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">13.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Секреты&nbsp; весны&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Конкурсно &ndash; игровая программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Молодежь </span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">8</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16.04.13.</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Здоровый дух в здоровом теле&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Спортивно-игровая программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">9</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">18.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Шалость или преступление&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Диспут</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+				<p align=\"center\">
+					&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">10</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">19.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">17-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Отчетное мероприятие</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Все категории</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">11</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">22.04.13г.</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК&nbsp;&nbsp; &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Тропинками родного края&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">брейн - ринг</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">12</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">25.04.13.</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">17-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Семейный калейдоскоп&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Вечера отдыха</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">13</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">26.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Кинопоказ посвященный&nbsp; дню памяти погибшим в радиоционных авариях</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Семья </span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\" style=\"margin-left:9.0pt;\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">14</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">30.04.13.</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Театрализованно-игровая программа</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Сказочное приключение&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Комарова М.Н.</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<p align=\"center\">
+	<br />
+	<span style=\"color:#ff0000;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Клуб&nbsp; п. Сосновка - 2</strong></span></span></span></p>
+<table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
+	<tbody>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">№</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Дата</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Время</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Место проведения</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Наименование мероприятия</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Категория населения</span></span></strong></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><strong><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\">Ответственный</span></span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">1</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">01.04.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&nbsp;&laquo;Юморина&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Развлекательная программа</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Семья</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">06.04.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;У самовара&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Вечер отдыха</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Пожилые</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">3</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">13.04.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Апрельским вечером&raquo; </span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Танцевально &ndash; развлекательная программа</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Молодежь</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">4</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">14.04.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Сосновка-2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Суд над сигаретой&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Диспут - дискуссия</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети&nbsp; </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О.В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">5</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">19.04.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">17-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Отчетное мероприятие</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Все категории</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина&nbsp; О.В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">6</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">22.04.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п. Сосновка -2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Зеленый уголок&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">конкурс рисунков</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">7</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">24.04.13.</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">15-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п. Сосновка - 2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Друзья наши меньшие&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Экологический день</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О. В.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">8</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">26.04.13</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">16-00</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п. Сосновка -2</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Кинопоказ посвященный&nbsp; дню памяти погибшим в радиоционных авариях</span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Семья </span></span></p>
+			</td>
+			<td style=\"text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Малыгина О.В.</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<hr />
+<p style=\"text-align: center;\">
+	<span style=\"color:#ff0000;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>СК&nbsp; п. Успенка</strong></span></span></span></p>
+<table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"991\">
+	<tbody>
+		<tr>
+			<td rowspan=\"2\" style=\"width: 43px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>№</strong></span></span></span></p>
+			</td>
+			<td style=\"width: 72px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Дата</strong></span></span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 72px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Время</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 192px; height: 19px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138); background-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Место проведения</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 324px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Наименование мероприятия</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 144px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Категория населения</strong></span></span></span></p>
+			</td>
+			<td rowspan=\"2\" style=\"width: 144px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>Ответственный</strong></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=\"3\" style=\"width: 144px; height: 19px; text-align: center; vertical-align: middle; background-color: rgb(54, 121, 138); border-color: rgb(54, 121, 138);\">
+				<p>
+					<span style=\"color:#ffffff;\"><span style=\"font-size: 14px;\"><span style=\"font-family: arial,helvetica,sans-serif;\"><strong>проведения</strong></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">1</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">07.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">14-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п.Успенка </span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Со спортом &ndash; на ты&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Спортивно &ndash; игровая программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">2</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">14.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">13-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Мы друзья природы&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Экологическая программа</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Дети</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Мальцева&nbsp; Н.И.</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">3</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">19.04.13</span></span></p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">17-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК &laquo;Геолог&raquo;</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Отчетное мероприятие</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Все категории</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style=\"width: 43px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">4</span></span></p>
+			</td>
+			<td colspan=\"2\" style=\"width: 84px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">20.04.13.</span></span></p>
+				<p align=\"center\">
+					&nbsp;</p>
+			</td>
+			<td style=\"width: 60px; height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">20-00</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">ДК п.Успенка</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">&laquo;Смеяться, право, не грешно&raquo;</span></span></p>
+				<p align=\"center\">
+					<span style=\"font-size:14px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Вечер шуток и розыгрышей</span></span></p>
+			</td>
+			<td style=\"height: 33px; text-align: center; vertical-align: middle; border-color: rgb(54, 121, 138);\">
+				<p align=\"center\">
+					&nbsp;</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	&nbsp;</p>
+', '2013-03-26');
+
+
+--
+-- TOC entry 2159 (class 0 OID 16500)
+-- Dependencies: 180
+-- Data for Name: phone; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO phone (id, address, phone, post_index, date_create) VALUES (1, '', '', '', '2012-06-05');
+
+
+--
+-- TOC entry 2160 (class 0 OID 16506)
+-- Dependencies: 181
+-- Data for Name: tm_acl_role; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 1, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 2, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 3, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 4, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 5, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 6, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 7, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 8, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 15, B'1', 'show,show-attribute-hash,show-attribute-type,show-resource,show-role');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 19, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 20, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 21, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 22, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 23, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 24, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 25, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 59, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 67, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 68, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 69, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 70, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 71, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 72, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 97, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 98, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (1, 99, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 1, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 2, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 3, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 4, B'1', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 5, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 6, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 7, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 8, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 15, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 19, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 20, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 21, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 22, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 23, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 24, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 25, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 59, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 67, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 68, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 69, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 70, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 71, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 72, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 97, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 98, B'0', 'show');
+INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privileges) VALUES (5, 99, B'0', 'show');
+
+
+--
+-- TOC entry 2161 (class 0 OID 16510)
+-- Dependencies: 182
+-- Data for Name: tm_task_attribute_type; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (1, 'Строка', 'TM_Attribute_AttributeType', 'Любое строковое значение');
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (2, 'Текст', 'TM_Attribute_AttributeTypeText', 'Многострочный  текст');
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (3, 'Список', 'TM_Attribute_AttributeTypeList', 'Список из возможных вариантов');
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (4, 'Дата', 'TM_Attribute_AttributeTypeDate', '');
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (5, 'Список пользователей', 'TM_Attribute_AttributeTypeUserList', 'Список пользователей');
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (6, 'Условие с активным пользователем', 'TM_Attribute_AttributeTypeActiveUser', 'Условие с активным пользователем');
+INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (7, 'Список пользователей с активным пользователем', 'TM_Attribute_AttributeTypeActiveUserList', 'Список пользователей с активным пользователем');
+
+
+--
+-- TOC entry 2162 (class 0 OID 16513)
+-- Dependencies: 183
+-- Data for Name: tm_user; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_user (id, login, password, role_id, date_create) VALUES (1, 'admin', '123', 1, '2011-11-16 16:26:00');
+
+
+--
+-- TOC entry 2163 (class 0 OID 16516)
+-- Dependencies: 184
+-- Data for Name: tm_user_attribute; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2164 (class 0 OID 16523)
+-- Dependencies: 185
+-- Data for Name: tm_user_attribute_type; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_user_attribute_type (id, title, handler, description) VALUES (1, 'Строка', 'TM_Attribute_AttributeType', 'Любое строковое значение');
+INSERT INTO tm_user_attribute_type (id, title, handler, description) VALUES (2, 'Текст', 'TM_Attribute_AttributeTypeText', 'Многострочный  текст');
+INSERT INTO tm_user_attribute_type (id, title, handler, description) VALUES (3, 'Список', 'TM_Attribute_AttributeTypeList', 'Список из возможных вариантов');
+
+
+--
+-- TOC entry 2165 (class 0 OID 16526)
+-- Dependencies: 186
+-- Data for Name: tm_user_hash; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_user_hash (user_id, attribute_key, title, type_id, list_value) VALUES (NULL, 'name', 'Имя', 1, ' ');
+
+
+--
+-- TOC entry 2166 (class 0 OID 16532)
+-- Dependencies: 187
+-- Data for Name: tm_user_profile; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+
+
+--
+-- TOC entry 2167 (class 0 OID 16538)
+-- Dependencies: 188
+-- Data for Name: tm_user_resource; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (1, 'login', 'Вход');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (2, 'login/index', 'Вход');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (3, 'login/logout', 'Выход');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (4, 'index/index', 'Главная');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (5, 'user', 'Пользователи');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (6, 'user/add', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (7, 'user/edit', 'Пользователи/Редактировать');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (8, 'user/delete', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (15, 'user/index', 'Пользователи');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (19, 'user/addRole', 'Пользователи/Добавить роль');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (20, 'user/editRole', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (21, 'user/deleteRole', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (22, 'user/addResource', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (23, 'user/editResource', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (24, 'user/deleteResource', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (25, 'user/fillResource', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (59, 'user/showRoleAcl', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (67, 'user/addAttributeType', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (68, 'user/editAttributeType', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (69, 'user/deleteAttributeType', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (70, 'user/addAttributeHash', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (71, 'user/editAttributeHash', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (72, 'user/deleteAttributeHash', '');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (97, 'user/viewAttributeType', 'Пользователи/Показать типы атрибутов');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (98, 'user/viewResource', 'Пользователи/Показать ресурсы');
+INSERT INTO tm_user_resource (id, title, rtitle) VALUES (99, 'user/viewHash', 'Пользователи/Показать список атрибутов');
+
+
+--
+-- TOC entry 2168 (class 0 OID 16541)
+-- Dependencies: 189
+-- Data for Name: tm_user_role; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO tm_user_role (id, title, rtitle) VALUES (1, 'admin', 'Администратор');
+INSERT INTO tm_user_role (id, title, rtitle) VALUES (5, 'guest', 'Гость');
+
+
+--
+-- TOC entry 2169 (class 0 OID 16544)
+-- Dependencies: 190
+-- Data for Name: vote_email; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO vote_email (link_id, val) VALUES (34, 'ivan87kharlampenkov@gmail.com');
+
+
+--
+-- TOC entry 2104 (class 2606 OID 16631)
+-- Name: banner_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY banner
+    ADD CONSTRAINT banner_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2106 (class 2606 OID 16633)
+-- Name: banner_place_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY banner_place
+    ADD CONSTRAINT banner_place_pkey PRIMARY KEY (banner_id, bplace_id);
+
+
+--
+-- TOC entry 2108 (class 2606 OID 16602)
+-- Name: bplace_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY bplace
+    ADD CONSTRAINT bplace_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2110 (class 2606 OID 16652)
+-- Name: content_page_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY content_page
+    ADD CONSTRAINT content_page_pkey PRIMARY KEY (page_title);
+
+
+--
+-- TOC entry 2114 (class 2606 OID 16606)
+-- Name: document_folder_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY document_folder
+    ADD CONSTRAINT document_folder_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2112 (class 2606 OID 16604)
+-- Name: document_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY document
+    ADD CONSTRAINT document_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2116 (class 2606 OID 16608)
+-- Name: document_search_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY document_search
+    ADD CONSTRAINT document_search_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2118 (class 2606 OID 16610)
+-- Name: menu_handler_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_handler
+    ADD CONSTRAINT menu_handler_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2120 (class 2606 OID 16551)
+-- Name: menu_item_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_item
+    ADD CONSTRAINT menu_item_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2124 (class 2606 OID 16674)
+-- Name: menu_menu_item_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_menu_item
+    ADD CONSTRAINT menu_menu_item_pkey PRIMARY KEY (menu_id, item_id);
+
+
+--
+-- TOC entry 2122 (class 2606 OID 16612)
+-- Name: menu_menu_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY menu_menu
+    ADD CONSTRAINT menu_menu_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2126 (class 2606 OID 16614)
+-- Name: news_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY news
+    ADD CONSTRAINT news_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2128 (class 2606 OID 16616)
+-- Name: phone_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY phone
+    ADD CONSTRAINT phone_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2130 (class 2606 OID 16618)
+-- Name: tm_task_attribute_type_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY tm_task_attribute_type
+    ADD CONSTRAINT tm_task_attribute_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2134 (class 2606 OID 16622)
+-- Name: tm_user_attribute_type_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY tm_user_attribute_type
+    ADD CONSTRAINT tm_user_attribute_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2132 (class 2606 OID 16620)
+-- Name: tm_user_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY tm_user
+    ADD CONSTRAINT tm_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2136 (class 2606 OID 16624)
+-- Name: tm_user_resource_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY tm_user_resource
+    ADD CONSTRAINT tm_user_resource_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2138 (class 2606 OID 16626)
+-- Name: tm_user_role_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY tm_user_role
+    ADD CONSTRAINT tm_user_role_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2139 (class 2606 OID 16641)
+-- Name: banner_place_banner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY banner_place
+    ADD CONSTRAINT banner_place_banner_id_fkey FOREIGN KEY (banner_id) REFERENCES banner(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2140 (class 2606 OID 16646)
+-- Name: banner_place_bplace_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY banner_place
+    ADD CONSTRAINT banner_place_bplace_id_fkey FOREIGN KEY (bplace_id) REFERENCES bplace(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2141 (class 2606 OID 16653)
+-- Name: content_page_parent_page_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY content_page
+    ADD CONSTRAINT content_page_parent_page_fkey FOREIGN KEY (parent_page) REFERENCES content_page(page_title) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2142 (class 2606 OID 16658)
+-- Name: document_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY document
+    ADD CONSTRAINT document_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES document_folder(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2144 (class 2606 OID 16668)
+-- Name: menu_item_handler_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY menu_item
+    ADD CONSTRAINT menu_item_handler_id_fkey FOREIGN KEY (handler_id) REFERENCES menu_handler(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2143 (class 2606 OID 16663)
+-- Name: menu_item_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY menu_item
+    ADD CONSTRAINT menu_item_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES menu_item(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2146 (class 2606 OID 16680)
+-- Name: menu_menu_item_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY menu_menu_item
+    ADD CONSTRAINT menu_menu_item_item_id_fkey FOREIGN KEY (item_id) REFERENCES menu_item(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2145 (class 2606 OID 16675)
+-- Name: menu_menu_item_menu_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY menu_menu_item
+    ADD CONSTRAINT menu_menu_item_menu_id_fkey FOREIGN KEY (menu_id) REFERENCES menu_menu(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2176 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2013-04-06 14:19:06
+
+--
+-- PostgreSQL database dump complete
+--
+
