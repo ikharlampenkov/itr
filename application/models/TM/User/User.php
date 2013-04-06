@@ -13,20 +13,15 @@
  */
 class TM_User_User
 {
-
-    /** Aggregations: */
-
-    /** Compositions: */
-
-    /*** Attributes: ***/
-
-
     protected $_id;
 
     protected $_login;
 
     protected $_password;
 
+    /**
+     * @var TM_User_Role|null
+     */
     protected $_role = null;
 
     protected $_dateCreate;
@@ -36,12 +31,14 @@ class TM_User_User
      */
     protected $_attributeList = array();
 
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_db;
 
 
     public function setDateCreate($value)
     {
-        $value = $this->_db->prepareString($value);
         $this->_dateCreate = date("Y-m-d H:i:s", strtotime($value));
     }
 
@@ -62,7 +59,7 @@ class TM_User_User
 
     public function setLogin($value)
     {
-        $this->_login = $this->_db->prepareString($value);
+        $this->_login = $value;
     }
 
     public function getLogin()
@@ -72,7 +69,7 @@ class TM_User_User
 
     public function setPassword($value)
     {
-        $this->_password = $this->_db->prepareString($value);
+        $this->_password = $value;
     }
 
     public function getPassword()
@@ -90,72 +87,54 @@ class TM_User_User
         return $this->_role;
     }
 
-    public function getCity()
-    {
-        try {
-            $sql = 'SELECT * FROM city, city_user
-                            WHERE city.id=city_user.city_id AND user_id=' . $this->_id . '
-                            LIMIT 1';
-            $result = $this->_db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
-
-            if (isset($result[0])) {
-                $o = new EK_City_City();
-                $o->fillFromArray($result[0]);
-                return $o;
-            } else {
-                $o = EK_City_City::getInstanceById(1);
-                return $o;
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
     public function __get($name)
     {
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
     public function __construct()
     {
-        $this->_db = StdLib_DB::getInstance();
-
+        $this->_db = Zend_Registry::get('db');
     }
 
     /**
      *
      *
+     * @throws Exception
      * @return void
-     * @access public
      */
     public function insertToDb()
     {
         try {
-            $sql = 'INSERT INTO tm_user(login, password, role_id, date_create)
-                    VALUES ("' . $this->_login . '", "' . $this->_password . '", ' . $this->_role->getId() . ', "' . $this->_dateCreate . '")';
-            $this->_db->query($sql);
+            $sql = 'INSERT INTO tm_user(login, password, role_id, date_create) VALUES (:login, :password, :role, :date_create)';
+            $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role_id' => $this->_role->getId(), 'date_create' => $this->_dateCreate));
+
+            $this->_id = $this->_db->lastInsertId();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    } // end of member function insertToDb
+    }
 
     /**
      *
      *
-     * @return
-     * @access public
+     * @throws Exception
+     * @return void
      */
     public function updateToDb()
     {
         try {
-            $sql = 'UPDATE tm_user
-                    SET login="' . $this->_login . '", role_id="' . $this->_role->getId() . '",
-                    date_create="' . $this->_dateCreate . '", password="' . $this->_password . '"
-                    WHERE id=' . $this->_id;
-            $this->_db->query($sql);
+            $sql
+                = 'UPDATE tm_user
+                    SET login=:login, role_id=:role,
+                    date_create=:dateCreate, password=:password
+                    WHERE id=:id';
+            $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role_id' => $this->_role->getId(), 'date_create' => $this->_dateCreate, 'id' => $this->_id));
             $this->saveAttributeList();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -171,9 +150,8 @@ class TM_User_User
     public function deleteFromDb()
     {
         try {
-            $sql = 'DELETE FROM tm_user
-                    WHERE id=' . $this->_id;
-            $this->_db->query($sql);
+            $sql = 'DELETE FROM tm_user WHERE id=:id';
+            $this->_db->query($sql, array('id' => $this->_id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -183,6 +161,8 @@ class TM_User_User
      *
      *
      * @param int id
+     *
+     * @throws Exception
      * @return TM_User_User
      * @static
      * @access public
@@ -190,9 +170,9 @@ class TM_User_User
     public static function getInstanceById($id)
     {
         try {
-            $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user WHERE id=' . (int)$id;
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user WHERE id=:id';
+            $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
                 $o = new TM_User_User();
@@ -210,6 +190,8 @@ class TM_User_User
      *
      *
      * @param int id
+     *
+     * @throws Exception
      * @return TM_User_User
      * @static
      * @access public
@@ -217,9 +199,10 @@ class TM_User_User
     public static function getInstanceByLogin($login)
     {
         try {
-            $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user WHERE login="' . $login . '"';
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user WHERE login=:login';
+            $result = $db->query($sql, array('login' => $login))->fetchAll();
+            ;
 
             if (isset($result[0])) {
                 $o = new TM_User_User();
@@ -231,12 +214,14 @@ class TM_User_User
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    } // end of member function getInstanceById
+    }
 
     /**
      *
      *
      * @param array values
+     *
+     * @throws Exception
      * @return TM_User_User
      * @static
      * @access public
@@ -255,6 +240,7 @@ class TM_User_User
     /**
      *
      *
+     * @throws Exception
      * @return array
      * @static
      * @access public
@@ -262,9 +248,9 @@ class TM_User_User
     public static function getAllInstance()
     {
         try {
-            $db = StdLib_DB::getInstance();
+            $db = Zend_Registry::get('db');
             $sql = 'SELECT * FROM tm_user';
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $result = $db->query($sql)->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -284,6 +270,7 @@ class TM_User_User
      *
      *
      * @param array $values
+     *
      * @return void
      * @access public
      */

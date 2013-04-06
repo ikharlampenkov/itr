@@ -2,17 +2,20 @@
 
 /**
  * class TM_User_Role
- * 
+ *
  */
 class TM_User_Role
 {
-    
+
     protected $_id;
 
     protected $_title;
 
     protected $_rtitle;
 
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_db;
 
 
@@ -28,7 +31,7 @@ class TM_User_Role
 
     public function setTitle($title)
     {
-        $this->_title = $this->_db->prepareString($title);
+        $this->_title = $title;
     }
 
     public function getTitle()
@@ -46,24 +49,27 @@ class TM_User_Role
         return $this->_rtitle;
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
 
-    public function __construct() {
-        $this->_db = StdLib_DB::getInstance();
+    public function __construct()
+    {
+        $this->_db = Zend_Registry::get('db');
     }
 
     public function insertToDB()
     {
         try {
-            $sql = 'INSERT INTO tm_user_role(title, rtitle)
-                    VALUES ("' . $this->_title . '", "' . $this->_rtitle . '")';
-            $this->_db->query($sql);
+            $sql = 'INSERT INTO tm_user_role(title, rtitle) VALUES (:title, :rtitle)';
+            $this->_db->query($sql, array('title' => $this->_title, 'rtitle' => $this->_rtitle));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -74,15 +80,14 @@ class TM_User_Role
      *
      *
      * @return void
-     * @access public
      */
     public function updateToDB()
     {
         try {
-            $sql = 'UPDATE tm_user_role
-                    SET title="' . $this->_title . '", rtitle="' . $this->_rtitle . '"
-                    WHERE id=' .  $this->_id ;
-            $this->_db->query($sql);
+            $sql
+                = 'UPDATE tm_user_role SET title=:title, rtitle=:rtitle
+                   WHERE id=:id';
+            $this->_db->query($sql, array('title' => $this->_title, 'rtitle' => $this->_rtitle, 'id' => $this->_id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -92,13 +97,12 @@ class TM_User_Role
      *
      *
      * @return void
-     * @access public
      */
     public function deleteFromDB()
     {
         try {
-            $sql = 'DELETE FROM tm_user_role WHERE id=' . $this->_id;
-            $this->_db->query($sql);
+            $sql = 'DELETE FROM tm_user_role WHERE id=:id';
+            $this->_db->query($sql, array('id' => $this->_id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -108,7 +112,7 @@ class TM_User_Role
      *
      *
      * @param int $id
-
+     *
      * @return TM_User_Role
      * @static
      * @access public
@@ -116,9 +120,9 @@ class TM_User_Role
     public static function getInstanceById($id)
     {
         try {
-           $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_role WHERE id=' . (int)$id;
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_role WHERE id=:id';
+            $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
                 $o = new TM_User_Role();
@@ -142,9 +146,9 @@ class TM_User_Role
     public static function getAllInstance()
     {
         try {
-            $db = StdLib_DB::getInstance();
+            $db = Zend_Registry::get('db');
             $sql = 'SELECT * FROM tm_user_role';
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $result = $db->query($sql)->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -164,10 +168,9 @@ class TM_User_Role
      *
      *
      * @param array $values
-
+     *
      * @return TM_User_Role
      * @static
-     * @access public
      */
     public static function getInstanceByArray($values)
     {
@@ -187,5 +190,4 @@ class TM_User_Role
         $this->setRtitle($values['rtitle']);
     }
 
-} // end of TM_User_Role
-?>
+}

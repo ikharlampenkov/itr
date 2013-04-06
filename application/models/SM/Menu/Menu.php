@@ -169,9 +169,7 @@ class SM_Menu_Menu
         try {
             $sql = 'SELECT * FROM menu_menu';
 
-            $config = Zend_Registry::get('production');
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
-
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql)->fetchAll();
 
             if (isset($result[0])) {
@@ -198,9 +196,8 @@ class SM_Menu_Menu
     {
         try {
             $sql = 'SELECT * FROM menu_menu WHERE id=:id';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
@@ -226,9 +223,8 @@ class SM_Menu_Menu
     {
         try {
             $sql = 'SELECT * FROM menu_menu WHERE code=:code';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('code' => $code))->fetchAll();
 
             if (isset($result[0])) {

@@ -76,9 +76,9 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
     public function getInstanceById($id)
     {
         try {
-           $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_attribute_type WHERE id=' . (int)$id;
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+           $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_attribute_type WHERE id=:id';
+            $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
                 $class = $result[0]['handler'];

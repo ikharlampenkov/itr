@@ -7,13 +7,6 @@
  */
 class TM_Attribute_AttributeType
 {
-
-    /** Aggregations: */
-
-    /** Compositions: */
-
-    /*** Attributes: ***/
-
     /**
      *
      * @access protected
@@ -64,7 +57,7 @@ class TM_Attribute_AttributeType
      */
     public function getTitle()
     {
-        return $this->_db->prepareStringToOut($this->_title);
+        return $this->_title;
     } // end of member function getTitle
 
     /**
@@ -86,7 +79,7 @@ class TM_Attribute_AttributeType
      */
     public function getDescription()
     {
-        return $this->_db->prepareStringToOut($this->_description);
+        return $this->_description;
     } // end of member function getDescription
 
     /**
@@ -98,7 +91,7 @@ class TM_Attribute_AttributeType
      */
     protected function setId($value)
     {
-        $this->_id = (int)$this->_db->prepareString($value);
+        $this->_id = (int)$value;
     } // end of member function setId
 
     /**
@@ -110,7 +103,7 @@ class TM_Attribute_AttributeType
      */
     public function setTitle($value)
     {
-        $this->_title = $this->_db->prepareString($value);
+        $this->_title = $value;
     } // end of member function setTitle
 
     /**
@@ -122,7 +115,7 @@ class TM_Attribute_AttributeType
      */
     public function setHandler($value)
     {
-        $this->_handler = $this->_db->prepareString($value);
+        $this->_handler = $value;
     } // end of member function setHandler
 
     /**
@@ -134,7 +127,7 @@ class TM_Attribute_AttributeType
      */
     public function setDescription($value)
     {
-        $this->_description = $this->_db->prepareString($value);
+        $this->_description = $value;
     } // end of member function setDescription
 
     public function __get($name)
@@ -154,7 +147,6 @@ class TM_Attribute_AttributeType
      */
     public function __construct(TM_Attribute_AttributeTypeMapper $mapper)
     {
-        $this->_db = StdLib_DB::getInstance();
         $this->_mapper = $mapper;
     }
 

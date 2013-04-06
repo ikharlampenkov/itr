@@ -15,7 +15,7 @@ abstract class TM_Attribute_AttributeTypeMapper {
     protected $_type = null;
 
     /**
-     * @var StdLib_DB
+     * @var Zend_Db_Adapter_Abstract
      */
     protected $_db;
 

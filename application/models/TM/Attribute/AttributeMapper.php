@@ -10,7 +10,7 @@
 abstract class TM_Attribute_AttributeMapper {
     
     /**
-     * @var StdLib_DB
+     * @var Zend_Db_Adapter_Abstract
      */
     protected $_db;
 
@@ -21,7 +21,7 @@ abstract class TM_Attribute_AttributeMapper {
      */
     public function __construct()
     {
-        $this->_db = StdLib_DB::getInstance();
+        $this->_db = Zend_Registry::get('db');
     }
 
     /**
