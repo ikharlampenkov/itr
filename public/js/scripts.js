@@ -18,6 +18,21 @@ function confirmDelete(name) {
     }
 }
 
+function showContentPage(object, item) {
+    if ($(object).val() == 1) {
+        $.ajax({
+            type: "POST",
+            url: "/menu/contentpagelist",
+            data: "item=" + item,
+            success: function (html) {
+                $("#contentPageContainer").empty().html(html.html).removeClass('hide');
+            }
+        });
+    } else {
+        $("#contentPageContainer").empty().addClass('hide');
+    }
+}
+
 $(document).ready(function () {
     $('#mainmenu .menu li').hover(
         function () {
@@ -84,54 +99,54 @@ function StartSliderAuto() {
     });
 
     /*
-    $(document).everyTime(8500, 'timer', function () {
+     $(document).everyTime(8500, 'timer', function () {
 
 
-        var imgwidth = 598;
-        var box_left = $("#img_box").css("left");
+     var imgwidth = 598;
+     var box_left = $("#img_box").css("left");
 
-        var move, imgnumber, move_shape, imgnumber_shape, old_imgnumber;
+     var move, imgnumber, move_shape, imgnumber_shape, old_imgnumber;
 
-        if (box_left == 'auto') {
-            box_left = 0;
-        } else {
-            box_left = parseInt(box_left.replace("px", ""));
-        }
+     if (box_left == 'auto') {
+     box_left = 0;
+     } else {
+     box_left = parseInt(box_left.replace("px", ""));
+     }
 
-        // Если нажата кнопка для перехода на предыдущее изображение
+     // Если нажата кнопка для перехода на предыдущее изображение
 
-        // Если изображение последнее, то переходим на первую картинку
-        if (-(box_left) == (imgwidth * (total - 1))) {
-            move = 0;
-            move_shape = 0;
-        } else {
-            move = box_left - imgwidth;
-            move_shape = box_left - imgwidth;
-        }
+     // Если изображение последнее, то переходим на первую картинку
+     if (-(box_left) == (imgwidth * (total - 1))) {
+     move = 0;
+     move_shape = 0;
+     } else {
+     move = box_left - imgwidth;
+     move_shape = box_left - imgwidth;
+     }
 
-        imgnumber = Math.abs((box_left / imgwidth)) + 2;
-        old_imgnumber = imgnumber - 1;
-        if (imgnumber == (total + 1)) {
-            imgnumber = 1;
-            old_imgnumber = total;
-        }
+     imgnumber = Math.abs((box_left / imgwidth)) + 2;
+     old_imgnumber = imgnumber - 1;
+     if (imgnumber == (total + 1)) {
+     imgnumber = 1;
+     old_imgnumber = total;
+     }
 
-        imgnumber_shape = Math.abs((box_left / imgwidth)) + 2;
-        if (imgnumber_shape == (total + 1)) {
-            imgnumber_shape = 1;
-        }
-
-
-        $("#imglink_shape" + old_imgnumber).removeClass('select');
-        $("#imglink_shape" + imgnumber).addClass('select');
+     imgnumber_shape = Math.abs((box_left / imgwidth)) + 2;
+     if (imgnumber_shape == (total + 1)) {
+     imgnumber_shape = 1;
+     }
 
 
-        $("#img_box").animate({
-            left: move + 'px'
-        }, 800);
+     $("#imglink_shape" + old_imgnumber).removeClass('select');
+     $("#imglink_shape" + imgnumber).addClass('select');
 
 
-    });
-    */
+     $("#img_box").animate({
+     left: move + 'px'
+     }, 800);
+
+
+     });
+     */
 }
 

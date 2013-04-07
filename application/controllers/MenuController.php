@@ -214,6 +214,30 @@ class MenuController extends Zend_Controller_Action
         }
     }
 
+    public function contentpagelistAction()
+    {
+        if ($this->getRequest()->isPost()) {
+
+            $this->_helper->layout()->disableLayout();
+            Zend_Controller_Action_HelperBroker::removeHelper('viewRenderer');
+
+            $item = $this->getRequest()->getParam('item', 0);
+            $contentPageList = SM_Module_ContentPage::getAllInstance();
+
+            $html = $this->view->partial(
+                "/menu/_elements/contentpagelist.phtml",
+                array('contentPageList' => $contentPageList, 'item' => $item)
+            );
+
+            $json = Zend_Json::encode(array('html' => $html));
+
+            $this->getResponse()->setBody($json)->setHeader(
+                "content-type",
+                "application/json", true
+            );
+        }
+    }
+
 
 }
 

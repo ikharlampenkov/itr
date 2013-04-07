@@ -26,13 +26,17 @@
             <label class="control-label">Обработчик</label>
 
             <div class="controls">
-                <select name="data[handler_id]">
+                <select name="data[handler_id]" id="handler" onchange="showContentPage(this, 0);">
                     <?php foreach ($this->handlerList as $handler): ?>
                         <option value="<?php echo $this->escape($handler->id); ?>" <?php if ($this->menuItem->handler->id == $handler->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($handler->title); ?></option>
                     <?php endforeach; ?>
                 </select>
                 <span class="help-inline hide">Заполните поле</span>
             </div>
+        </div>
+
+        <div id="contentPageContainer" class="hide">
+
         </div>
 
         <div class="control-group">
@@ -85,5 +89,11 @@
             <a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
         </div>
     </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            showContentPage('#handler', 0);
+        });
+    </script>
 
 </div>
