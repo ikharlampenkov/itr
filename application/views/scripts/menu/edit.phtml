@@ -11,7 +11,7 @@
         </div>
     <?php endif; ?>
 
-    <form class="form-horizontal" action="/menu/edit/id/<?php echo $this->escape($this->menuItem->id); ?>/" method="post">
+    <form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'menu', 'action' => 'edit', 'id' => $this->menuItem->id)) ?>/" method="post">
 
         <div class="control-group">
             <label class="control-label">Название</label>
@@ -65,6 +65,14 @@
                 <span class="help-inline hide">Заполните поле</span>
             </div>
         </div>
+        <div class="control-group">
+            <label class="control-label">Порядок вывода</label>
+
+            <div class="controls">
+                <input name="data[sort_order]" value="<?php echo $this->escape($this->menuItem->sortOrder); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
 
         <div class="control-group">
             <label class="control-label">Меню</label>
@@ -82,7 +90,7 @@
 
         <div class="form-actions">
             <input type="submit" class="btn btn-success" value="Сохранить"/>
-            <a href="/menu/" class="btn btn-danger">Отмена</a>
+            <a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
         </div>
     </form>
 

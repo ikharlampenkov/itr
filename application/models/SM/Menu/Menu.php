@@ -110,7 +110,7 @@ class SM_Menu_Menu
             $sql = 'INSERT INTO menu_menu(title, code) VALUES (:title, :code)';
             $this->_db->query($sql, array('title' => $this->_title, 'code' => $this->_code));
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('menu_menu', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

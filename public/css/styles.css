@@ -1212,3 +1212,28 @@ a.ttovar {
     padding: 0;
     margin: 0 0 35px 0;
 }
+
+.well li {
+    position: relative;
+}
+
+.well .nav {
+    padding: 0 15px;
+    position: relative;
+    color: #696969;
+    font-family: Tahoma;
+    font-size: 14px;
+}
+
+.edit {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+}
+
+.del {
+    position: absolute;
+    right: 0px;
+    top: 5px;
+}
+

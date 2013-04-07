@@ -3,7 +3,7 @@
 <legend>Добавить меню</legend>
 
 
-    <form class="form-horizontal" action="/menu/addmenu/" method="post">
+    <form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'menu', 'action' => 'addmenu')) ?>" method="post">
 
         <div class="control-group">
             <label class="control-label">Название</label>
@@ -16,6 +16,6 @@
 
         <div class="form-actions">
             <input type="submit" class="btn btn-success" value="Сохранить"/>
-            <a href="/menu/" class="btn btn-danger">Отмена</a>
+            <a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
         </div>
     </form>
