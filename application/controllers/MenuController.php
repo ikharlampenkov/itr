@@ -10,14 +10,37 @@ class MenuController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->itemList = SM_Menu_Item::getAllInstance(null);
+        $menuId = $this->getRequest()->getParam('menuId', 0);
+        $parentId = $this->getRequest()->getParam('parentId', null);
+
         $this->view->menuList = SM_Menu_Menu::getAllInstance();
+
+        if ($parentId !== null) {
+            $this->view->itemList = SM_Menu_Item::getAllInstance($parentId);
+            $parentItem = SM_Menu_Item::getInstanceById($parentId);
+        } else {
+            if ($menuId != 0) {
+                $this->view->itemList = SM_Menu_Item::getAllInstanceByMenu(SM_Menu_Menu::getInstanceById($menuId));
+            } else {
+                $this->view->itemList = SM_Menu_Item::getAllInstance(null);
+            }
+            $parentItem = null;
+        }
+
+        $this->view->menuId = $menuId;
+        $this->view->parentItem = $parentItem;
     }
 
     public function addAction()
     {
+        $parentId = $this->getRequest()->getParam('parentId', null);
+
         $oMenuItem = new SM_Menu_Item();
-        $oMenuItem->setParent(null);
+        if ($parentId != null) {
+            $oMenuItem->setParent(SM_Menu_Item::getInstanceById($parentId));
+        } else {
+            $oMenuItem->setParent(null);
+        }
         $oMenuItem->setHandler(SM_Menu_Handler::getInstanceById(1));
 
         if ($this->getRequest()->isPost()) {
@@ -31,9 +54,10 @@ class MenuController extends Zend_Controller_Action
                 $oMenuItem->setIsVisible(0);
             }
 
+            $oMenuItem->setSortOrder($data['sort_order']);
 
             if ($data['parent_id'] != 'null') {
-                $oParent = SM_Menu_Menu::getInstanceById($data['parent_id']);
+                $oParent = SM_Menu_Item::getInstanceById($data['parent_id']);
                 $oMenuItem->setParent($oParent);
             } else {
                 $oMenuItem->setParent(null);
@@ -49,12 +73,20 @@ class MenuController extends Zend_Controller_Action
             try {
                 $oMenuItem->insertToDb();
 
-                $this->_redirect('/menu/');
+                if (isset($data['content_page'])) {
+                    $oConPage = SM_Module_ContentPage::getInstanceByTitle($data['content_page']);
+                    $oConPage->setLink($oMenuItem);
+                    $oConPage->updateToDB();
+                }
+
+                if ($parentId != null) {
+                    $this->_redirect('/menu/index/parentId/' . $parentId);
+                } else {
+                    $this->_redirect('/menu/');
+                }
             } catch (Exception $e) {
-                echo $e->getMessage();
                 $this->view->assign('exception_msg', $e->getMessage());
             }
-
         }
 
         $this->view->assign('menuItem', $oMenuItem);
@@ -65,6 +97,7 @@ class MenuController extends Zend_Controller_Action
 
     public function editAction()
     {
+        $parentId = $this->getRequest()->getParam('parentId', null);
         $oMenuItem = SM_Menu_Item::getInstanceById($this->getRequest()->getParam('id'));
 
         if ($this->getRequest()->isPost()) {
@@ -78,8 +111,10 @@ class MenuController extends Zend_Controller_Action
                 $oMenuItem->setIsVisible(0);
             }
 
+            $oMenuItem->setSortOrder($data['sort_order']);
+
             if ($data['parent_id'] != 'null') {
-                $oParent = SM_Menu_Menu::getInstanceById($data['parent_id']);
+                $oParent = SM_Menu_Item::getInstanceById($data['parent_id']);
                 $oMenuItem->setParent($oParent);
             } else {
                 $oMenuItem->setParent(null);
@@ -94,7 +129,18 @@ class MenuController extends Zend_Controller_Action
 
             try {
                 $oMenuItem->updateToDb();
-                $this->_redirect('/menu/');
+
+                if (isset($data['content_page'])) {
+                    $oConPage = SM_Module_ContentPage::getInstanceByTitle($data['content_page']);
+                    $oConPage->setLink($oMenuItem);
+                    $oConPage->updateToDB();
+                }
+
+                if ($parentId != null) {
+                    $this->_redirect('/menu/index/parentId/' . $parentId);
+                } else {
+                    $this->_redirect('/menu/');
+                }
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -109,15 +155,15 @@ class MenuController extends Zend_Controller_Action
 
     public function deleteAction()
     {
+        $parentId = $this->getRequest()->getParam('parentId', null);
         $oMenuItem = SM_Menu_Item::getInstanceById($this->getRequest()->getParam('id'));
         try {
-            if ($oMenuItem->getHandler()->getController() == 'Contentpage') {
-                $oConPage = SM_Module_ContentPage::getInstanceByTitle($oMenuItem->getLink());
-                $oConPage->deleteFromDB();
-            }
-
             $oMenuItem->deleteFromDB();
-            $this->_redirect('/menu/');
+            if ($parentId != null) {
+                $this->_redirect('/menu/index/parentId/' . $parentId);
+            } else {
+                $this->_redirect('/menu/');
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
 
@@ -135,7 +181,7 @@ class MenuController extends Zend_Controller_Action
 
             try {
                 $oMenuMenu->insertToDb();
-                $this->_redirect('/menu/');
+                $this->_redirect('/menu/index/menuId/' . $oMenuMenu->getId());
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -147,6 +193,7 @@ class MenuController extends Zend_Controller_Action
     public function editmenuAction()
     {
         $oMenuMenu = SM_Menu_Menu::getInstanceById($this->getRequest()->getParam('id'));
+        $menuId = $this->getRequest()->getParam('menuId', 0);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');
@@ -155,7 +202,11 @@ class MenuController extends Zend_Controller_Action
 
             try {
                 $oMenuMenu->updateToDb();
-                $this->_redirect('/menu/');
+                if ($menuId != 0) {
+                    $this->_redirect('/menu/index/menuId/' . $menuId);
+                } else {
+                    $this->_redirect('/menu/');
+                }
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -173,6 +224,30 @@ class MenuController extends Zend_Controller_Action
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
 
+        }
+    }
+
+    public function contentpagelistAction()
+    {
+        if ($this->getRequest()->isPost()) {
+
+            $this->_helper->layout()->disableLayout();
+            Zend_Controller_Action_HelperBroker::removeHelper('viewRenderer');
+
+            $item = $this->getRequest()->getParam('item', 0);
+            $contentPageList = SM_Module_ContentPage::getAllInstance();
+
+            $html = $this->view->partial(
+                "/menu/_elements/contentpagelist.phtml",
+                array('contentPageList' => $contentPageList, 'item' => $item)
+            );
+
+            $json = Zend_Json::encode(array('html' => $html));
+
+            $this->getResponse()->setBody($json)->setHeader(
+                "content-type",
+                "application/json", true
+            );
         }
     }
 

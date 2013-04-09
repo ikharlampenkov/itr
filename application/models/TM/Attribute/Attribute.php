@@ -10,13 +10,6 @@ require_once 'Attribute.php';
  */
 class TM_Attribute_Attribute
 {
-
-    /** Aggregations: */
-
-    /** Compositions: */
-
-    /*** Attributes: ***/
-
     /**
      *
      * @access protected
@@ -45,13 +38,6 @@ class TM_Attribute_Attribute
      * @var TM_Attribute_AttributeMapper
      */
     protected $_mapper = null;
-
-    /**
-     *
-     * @access protected
-     */
-    protected $_db;
-
 
     /**
      *
@@ -94,14 +80,14 @@ class TM_Attribute_Attribute
      */
     public function getValue()
     {
-        return $this->_db->prepareStringToOut($this->_value);
+        return $this->_value;
     } // end of member function getValue
 
     /**
      *
      *
      * @param TM_Task_Task $value
-
+     *
      * @return void
      * @access protected
      */
@@ -115,19 +101,20 @@ class TM_Attribute_Attribute
      *
      *
      * @param string $value
-
+     *
      * @return void
      * @access public
      */
     public function setAttribyteKey($value)
     {
-        $this->_attribyteKey = $this->_db->prepareString($value);
+        $this->_attribyteKey = $value;
     } // end of member function setAttribyteKey
 
     /**
      *
      *
      * @param TM_Attribute_AttributeType $value
+     *
      * @return void
      * @access public
      */
@@ -140,7 +127,7 @@ class TM_Attribute_Attribute
      *
      *
      * @param string $value
-
+     *
      * @return void
      * @access public
      */
@@ -149,35 +136,38 @@ class TM_Attribute_Attribute
         if ($value === 'on') {
             $this->_value = 1;
         }
-        $this->_value = trim($this->_db->prepareString($value));
+        $this->_value = trim($value);
     } // end of member function setValue
 
     /**
      *
      * @param string $name
+     *
+     * @throws Exception
      * @return mixed
-     * @access public
      */
 
-     public function __get($name)
+    public function __get($name)
     {
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
     /**
      *
      * @param TM_Attribute_AttributeMapper $mapper
-     * @param $object
+     * @param                              $object
+     *
      * @return TM_Attribute_Attribute
      * @access public
      */
     public function __construct(TM_Attribute_AttributeMapper $mapper, $object)
     {
         $this->_mapper = $mapper;
-        $this->_db = StdLib_DB::getInstance();
         $this->_task = $object;
     }
 
@@ -213,8 +203,9 @@ class TM_Attribute_Attribute
      *
      *
      * @param TM_Attribute_AttributeMapper $mapper
-     * @param $object
-     * @param string $key
+     * @param                              $object
+     * @param string                       $key
+     *
      * @return TM_Attribute_Attribute
      * @static
      * @access public
@@ -229,7 +220,8 @@ class TM_Attribute_Attribute
      *
      *
      * @param TM_Attribute_AttributeMapper $mapper
-     * @param $object
+     * @param                              $object
+     *
      * @return array
      * @static
      * @access public
@@ -243,8 +235,9 @@ class TM_Attribute_Attribute
      *
      *
      * @param TM_Attribute_AttributeMapper $mapper
-     * @param $object
-     * @param array $values
+     * @param                              $object
+     * @param array                        $values
+     *
      * @return TM_Attribute_Attribute
      * @static
      * @access public
@@ -258,7 +251,7 @@ class TM_Attribute_Attribute
      *
      *
      * @param array values
-
+     *
      * @return
      * @access public
      */

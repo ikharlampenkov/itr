@@ -16,6 +16,8 @@ class TM_User_AttributeMapper extends TM_Attribute_AttributeMapper
      *
      *
      * @param TM_Attribute_Attribute $attribute
+     *
+     * @throws Exception
      * @return void
      * @access public
      */
@@ -29,8 +31,8 @@ class TM_User_AttributeMapper extends TM_Attribute_AttributeMapper
             }
 
             $sql = 'INSERT INTO tm_user_attribute(user_id, attribute_key, type_id, attribute_value, is_fill)
-                    VALUES (' . $attribute->task->getId() . ', "' . $attribute->attribyteKey . '", ' . $attribute->type->getId() . ', "' . $attribute->value . '", ' . $isFill . ')';
-            $this->_db->query($sql);
+                    VALUES (:user_id, :attribute_key, :type_id, :attribute_value, :is_fill)';
+            $this->_db->query($sql, array('user_id' => $attribute->task->getId(), 'attribute_key' => $attribute->attribyteKey, 'type_id' => $attribute->type->getId(), 'attribute_value' => $attribute->value, 'is_fill' => $isFill));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -52,9 +54,9 @@ class TM_User_AttributeMapper extends TM_Attribute_AttributeMapper
             }
 
             $sql = 'UPDATE tm_user_attribute
-                    SET type_id="' . $attribute->type->getId() . '", attribute_value="' . $attribute->value . '", is_fill=' . $isFill . ' 
-                    WHERE user_id=' . $attribute->task->getId() . ' AND attribute_key="' . $attribute->attribyteKey . '"';
-            $this->_db->query($sql);
+                    SET type_id=:type_id, attribute_value=:attribute_value, is_fill=:is_fill
+                    WHERE user_id=:user_id AND attribute_key=:attribute_key';
+            $this->_db->query($sql, array('user_id' => $attribute->task->getId(), 'attribute_key' => $attribute->attribyteKey, 'type_id' => $attribute->type->getId(), 'attribute_value' => $attribute->value, 'is_fill' => $isFill));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -70,8 +72,8 @@ class TM_User_AttributeMapper extends TM_Attribute_AttributeMapper
     {
         try {
             $sql = 'DELETE FROM tm_user_attribute
-                    WHERE user_id=' . $attribute->task->getId() . ' AND attribute_key="' . $attribute->attribyteKey . '"';
-            $this->_db->query($sql);
+                    WHERE user_id=:user_id AND attribute_key=:attribute_key';
+            $this->_db->query($sql, array('user_id' => $attribute->task->getId(), 'attribute_key' => $attribute->attribyteKey));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -90,9 +92,9 @@ class TM_User_AttributeMapper extends TM_Attribute_AttributeMapper
     public function getInstanceByKey($object, $key)
     {
         try {
-            $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_attribute WHERE user_id=' . $object->getId() . ' AND attribute_key="' . $key . '"';
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_attribute WHERE user_id=:user_id AND attribute_key=:attribute_key';
+            $result = $db->query($sql, array('user_id' => $object->getId(), 'attribute_key' => $key))->fetchAll();
 
             if (isset($result[0])) {
                 $o = new TM_Attribute_Attribute($object, $this);
@@ -118,9 +120,9 @@ class TM_User_AttributeMapper extends TM_Attribute_AttributeMapper
     public function getAllInstance($object)
     {
         try {
-            $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_attribute WHERE user_id=' . $object->getId();
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_attribute WHERE user_id=:user_id';
+            $result = $db->query($sql, array('user_id' => $object->getId()))->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();

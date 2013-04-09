@@ -2,29 +2,27 @@
 
 /**
  * class TM_User_AttributeType
- * 
+ *
  */
 class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
 {
 
-    public function __construct() {
-       parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
     }
 
     /**
      *
      *
-
      * @return void
-       @access public
      */
     public function insertToDB($type)
     {
         try {
-            $sql = 'INSERT INTO tm_user_attribute_type(title, `handler`, description)
-                    VALUES ("' . $type->title . '", "' . $type->handler . '", "' . $type->description  . '")';
-            $this->_db->query($sql);
+            $sql = 'INSERT INTO tm_user_attribute_type(title, `handler`, description) VALUES (:title, :handler, :description)';
+            $this->_db->query($sql, array('title' => $type->title, 'handler' => $type->handler, 'description' => $type->description));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -40,10 +38,11 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
     public function updateToDB($type)
     {
         try {
-            $sql = 'UPDATE tm_user_attribute_type
-                    SET title="' . $type->title . '", `handler`="' . $type->handler . '", description="' . $type->description  . '"
-                    WHERE id=' .  $type->id ;
-            $this->_db->query($sql);
+            $sql
+                = 'UPDATE tm_user_attribute_type
+                    SET title=:title, `handler`=:handler, description=:description
+                    WHERE id=:id';
+            $this->_db->query($sql, array('title' => $type->title, 'handler' => $type->handler, 'description' => $type->description, 'id' => $type->id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -58,8 +57,8 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
     public function deleteFromDB($type)
     {
         try {
-            $sql = 'DELETE FROM tm_user_attribute_type WHERE id=' . $type->id;
-            $this->_db->query($sql);
+            $sql = 'DELETE FROM tm_user_attribute_type WHERE id=:id';
+            $this->_db->query($sql, array('id' => $type->id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -69,16 +68,17 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
      *
      *
      * @param int $id
-
+     *
+     * @throws Exception
      * @return TM_Attribute_AttributeType
      * @access public
      */
     public function getInstanceById($id)
     {
         try {
-           $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_attribute_type WHERE id=' . (int)$id;
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_attribute_type WHERE id=:id';
+            $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
                 $class = $result[0]['handler'];
@@ -102,9 +102,9 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
     public function getAllInstance()
     {
         try {
-            $db = StdLib_DB::getInstance();
+            $db = Zend_Registry::get('db');
             $sql = 'SELECT * FROM tm_user_attribute_type';
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $result = $db->query($sql)->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -124,7 +124,7 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
      *
      *
      * @param array $values
-
+     *
      * @return TM_Attribute_AttributeType
      * @access public
      */
@@ -142,14 +142,15 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
 
     /**
      * @param int $id
+     *
      * @return bool|array
      */
     public function selectFromDB($id)
     {
         try {
-           $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_attribute_type WHERE id=' . (int)$id;
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_attribute_type WHERE id=:id';
+            $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
                 return $result[0];

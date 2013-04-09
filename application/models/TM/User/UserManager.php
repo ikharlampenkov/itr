@@ -12,6 +12,9 @@ class TM_User_UserManager implements Zend_Auth_Adapter_Interface
 
     static private $_instance = null;
 
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_db;
 
     protected $_login;
@@ -52,7 +55,7 @@ class TM_User_UserManager implements Zend_Auth_Adapter_Interface
 
     private function __construct()
     {
-        $this->_db = StdLib_DB::getInstance();
+        $this->_db = Zend_Registry::get('db');
     }
 
     public function logIn($login, $password)

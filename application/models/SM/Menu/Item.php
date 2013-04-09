@@ -60,6 +60,12 @@ class SM_Menu_Item
     protected $_isVisible = 0;
 
     /**
+     * @var int порядок сортировки
+     */
+    protected $_sortOrder = 1;
+
+
+    /**
      * @var array
      */
     protected $_menuList = array();
@@ -164,6 +170,22 @@ class SM_Menu_Item
     public function getIsVisible()
     {
         return $this->_isVisible;
+    }
+
+    /**
+     * @param $sortOrder
+     */
+    public function setSortOrder($sortOrder)
+    {
+        $this->_sortOrder = $sortOrder;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->_sortOrder;
     }
 
     /**
@@ -333,22 +355,21 @@ class SM_Menu_Item
 
     public function __construct()
     {
-        $config = Zend_Registry::get('production');
-        $this->_db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+        $this->_db = Zend_Registry::get('db');
     }
 
     public function insertToDb()
     {
         try {
             $sql
-                = 'INSERT INTO menu_item(title, link, parent_id, handler_id, is_visible)
-                        VALUES (:title, :link, :parent_id, :handler_id, :is_visible)';
+                = 'INSERT INTO menu_item(title, link, parent_id, handler_id, is_visible, sort_order)
+                        VALUES (:title, :link, :parent_id, :handler_id, :is_visible, :sort_order)';
             $this->_db->query(
                 $sql, array('title'      => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
-                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible)
+                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible, 'sort_order' => $this->_sortOrder)
             );
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('menu_item', 'id');
 
             $this->updateMenuList();
         } catch (Exception $e) {
@@ -361,11 +382,11 @@ class SM_Menu_Item
         try {
             $sql
                 = 'UPDATE menu_item
-                       SET title=:title, link=:link, parent_id=:parent_id, handler_id=:handler_id, is_visible=:is_visible
+                       SET title=:title, link=:link, parent_id=:parent_id, handler_id=:handler_id, is_visible=:is_visible, sort_order=:sort_order
                      WHERE id=:id';
             $this->_db->query(
                 $sql, array('id'         => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
-                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible)
+                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible, 'sort_order' => $this->_sortOrder)
             );
             $this->updateMenuList();
         } catch (Exception $e) {
@@ -377,6 +398,9 @@ class SM_Menu_Item
     public function deleteFromDb()
     {
         try {
+            $sql = 'DELETE FROM menu_menu_item WHERE item_id=:item';
+            $this->_db->query($sql, array('item' => $this->_id));
+
             $sql = 'DELETE FROM menu_item WHERE id=:id';
             $this->_db->query($sql, array('id' => $this->_id));
         } catch (Exception $e) {
@@ -418,18 +442,17 @@ class SM_Menu_Item
     public static function getAllInstance($parent)
     {
         try {
-            $config = Zend_Registry::get('production');
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
 
             $sql = 'SELECT * FROM menu_item';
 
             if ($parent != null) {
-                $sql .= ' WHERE parent_id=:parent_id';
-				$result = $db->query($sql, array('parent_id' => $parent))->fetchAll();
+                $sql .= ' WHERE parent_id=:parent_id ORDER BY sort_order';
+                $result = $db->query($sql, array('parent_id' => $parent))->fetchAll();
             } else {
-                $sql .= ' WHERE parent_id IS NULL';
-				$result = $db->query($sql)->fetchAll();
-            }            
+                $sql .= ' WHERE parent_id IS NULL ORDER BY sort_order';
+                $result = $db->query($sql)->fetchAll();
+            }
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -454,13 +477,9 @@ class SM_Menu_Item
     public static function getAllInstanceByMenu($menu)
     {
         try {
-            $sql = 'SELECT * FROM menu_item JOIN menu_menu_item ON menu_item.id=menu_menu_item.item_id WHERE parent_id IS NULL AND menu_menu_item.menu_id=:menu_id';
+            $sql = 'SELECT * FROM menu_item JOIN menu_menu_item ON menu_item.id=menu_menu_item.item_id WHERE parent_id IS NULL AND menu_menu_item.menu_id=:menu_id ORDER BY sort_order';
 
-            $config = Zend_Registry::get('production');
-
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
-
-
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('menu_id' => $menu->getId()))->fetchAll();
 
             if (isset($result[0])) {
@@ -489,9 +508,8 @@ class SM_Menu_Item
     {
         try {
             $sql = 'SELECT * FROM menu_item WHERE id=:id';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('id' => (int)$id))->fetchAll();
 
             if (isset($result[0])) {
@@ -518,9 +536,8 @@ class SM_Menu_Item
     {
         try {
             $sql = 'SELECT * FROM menu_item WHERE link=:link';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('link' => $link))->fetchAll();
 
             if (isset($result[0])) {
@@ -558,12 +575,12 @@ class SM_Menu_Item
         $this->setHandler($oHandler);
 
         $this->setIsVisible($values['is_visible']);
+        $this->setSortOrder($values['sort_order']);
         $this->extractMenuList();
     }
 
     public function setMenuList($data)
     {
-        print_r($data);
         $this->_menuList = array();
         foreach ($data as $menuId) {
             $this->_menuList[] = $menuId;

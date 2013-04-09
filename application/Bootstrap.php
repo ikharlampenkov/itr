@@ -36,6 +36,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('production', new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'production'));
     }
 
+    protected function _initDb()
+    {
+        $config = Zend_Registry::get('production');
+        Zend_Registry::set('db', Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params));
+    }
+
     protected function _initLog()
     {
         // Получаем опции
@@ -95,7 +101,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         Zend_Loader::loadClass('ShowPhone');
         Zend_Controller_Front::getInstance()->registerPlugin(new ShowPhone());
-        
+
         Zend_Loader::loadClass('ShowNews');
         Zend_Controller_Front::getInstance()->registerPlugin(new ShowNews());
 
