@@ -15,7 +15,7 @@
 
 </script>
 
-<legend>Редактировать контентную страницу</legend>
+<legend>Добавить контентную страницу</legend>
 
 <?php if (isset($this->exception_msg)): ?>
     <div class="alert alert-error">
@@ -24,13 +24,13 @@
     </div>
 <?php endif; ?>
 
-<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'edit', 'title' => $this->contentPage->pageTitle)); ?>" method="post">
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'add')); ?>" method="post">
 
     <div class="control-group">
         <label class="control-label">Ключ</label>
 
         <div class="controls">
-            <input type="text" name="data[page_title]" value="<?php echo $this->escape($this->contentPage->pageTitle); ?>" disabled/>
+            <input name="data[page_title]" value="<?php echo $this->escape($this->contentPage->pageTitle); ?>"/>
             <span class="help-inline hide">Заполните поле</span>
         </div>
     </div>
@@ -38,11 +38,10 @@
         <label class="control-label">Название</label>
 
         <div class="controls">
-            <input type="text" name="data[title]" value="<?php echo $this->escape($this->contentPage->title); ?>"/>
+            <input name="data[title]" value="<?php echo $this->escape($this->contentPage->title); ?>"/>
             <span class="help-inline hide">Заполните поле</span>
         </div>
     </div>
-
     <div class="control-group">
         <label class="control-label">Родительский элемент</label>
 

@@ -65,7 +65,7 @@ class SM_Module_ContentPage
      */
     public function getContent()
     {
-        return str_replace('&quot;', "", stripcslashes($this->_content));
+        return $this->_content; //str_replace('&quot;', "", stripcslashes($this->_content));
     }
 
     /**
@@ -142,6 +142,11 @@ class SM_Module_ContentPage
         }
     }
 
+    /**
+     * @param SM_Module_ContentPage|null $value
+     *
+     * @return null
+     */
     protected function _prepareNull($value)
     {
         if (is_null($value) || empty($value)) {
@@ -149,7 +154,20 @@ class SM_Module_ContentPage
         } else {
             return $value->getPageTitle();
         }
+    }
 
+    /**
+     * @param SM_Menu_Item|null $value
+     *
+     * @return null
+     */
+    protected function _prepareNullLink($value)
+    {
+        if (is_null($value) || empty($value)) {
+            return null;
+        } else {
+            return $value->getId();
+        }
     }
 
     public function  __construct()
@@ -160,9 +178,10 @@ class SM_Module_ContentPage
     public function insertToDB()
     {
         try {
-            $sql = 'INSERT INTO content_page(link_id, page_title, parent_page, title, content)
+            $sql
+                = 'INSERT INTO content_page(link_id, page_title, parent_page, title, content)
                             VALUES(:link_id, :page_title, :parent_page, :title, :content)';
-            $this->_db->query($sql, array('link_id' => $this->_link->getId(), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
+            $this->_db->query($sql, array('link_id' => $this->_prepareNullLink($this->_link), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -173,10 +192,11 @@ class SM_Module_ContentPage
     public function updateToDB()
     {
         try {
-            $sql = 'UPDATE content_page
+            $sql
+                = 'UPDATE content_page
                        SET link_id=:link_id, parent_page=:parent_page, title=:title, content=:content
                     WHERE page_title=:page_title';
-            $this->_db->query($sql, array('link_id' => $this->_link->getId(), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
+            $this->_db->query($sql, array('link_id' => $this->_prepareNullLink($this->_link), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -232,7 +252,9 @@ class SM_Module_ContentPage
 
     /**
      * @static
+     *
      * @param $title
+     *
      * @return bool|SM_Module_ContentPage
      * @throws Exception
      */
@@ -260,6 +282,7 @@ class SM_Module_ContentPage
      *
      *
      * @param array $values
+     *
      * @return void
      * @access public
      */

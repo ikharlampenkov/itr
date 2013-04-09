@@ -44,9 +44,16 @@ class ContentpageController extends Zend_Controller_Action
             $oContentPage->setTitle($data['title']);
             $oContentPage->setContent($data['content']);
 
+            if ($data['parent_page'] != 'null') {
+                $oParent = SM_Module_ContentPage::getInstanceByTitle($data['parent_page']);
+                $oContentPage->setParentPage($oParent);
+            } else {
+                $oContentPage->setParentPage(null);
+            }
+
             try {
                 $oContentPage->insertToDb();
-                $this->_redirect('/contentPage/');
+                $this->_redirect('/contentpage/');
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -54,6 +61,7 @@ class ContentpageController extends Zend_Controller_Action
         }
 
         $this->view->assign('contentPage', $oContentPage);
+        $this->view->assign('parentPageList', SM_Module_ContentPage::getAllInstance());
     }
 
     public function editAction()
@@ -65,9 +73,20 @@ class ContentpageController extends Zend_Controller_Action
             $oContentPage->setTitle($data['title']);
             $oContentPage->setContent($data['content']);
 
+            if ($data['parent_page'] != 'null') {
+                $oParent = SM_Module_ContentPage::getInstanceByTitle($data['parent_page']);
+                $oContentPage->setParentPage($oParent);
+            } else {
+                $oContentPage->setParentPage(null);
+            }
+
             try {
                 $oContentPage->updateToDb();
-                $this->_redirect('/contentpage/edit/title/' . $this->getRequest()->getParam('title') . '/link/' . $this->getRequest()->getParam('link'));
+                if ($this->_link != null) {
+                    $this->_redirect('/contentpage/edit/title/' . $this->getRequest()->getParam('title') . '/link/' . $this->_link->getLink());
+                } else {
+                    $this->_redirect('/contentpage/');
+                }
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -75,6 +94,7 @@ class ContentpageController extends Zend_Controller_Action
         }
 
         $this->view->assign('contentPage', $oContentPage);
+        $this->view->assign('parentPageList', SM_Module_ContentPage::getAllInstance());
     }
 
     public function deleteAction()
@@ -82,7 +102,7 @@ class ContentpageController extends Zend_Controller_Action
         $oContentPage = SM_Module_ContentPage::getInstanceByTitle($this->getRequest()->getParam('title'));
         try {
             $oContentPage->deleteFromDB();
-            $this->_redirect('/contentPage/');
+            $this->_redirect('/contentpage/');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
 
