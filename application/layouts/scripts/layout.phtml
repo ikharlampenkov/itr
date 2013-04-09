@@ -86,12 +86,13 @@
     <div class="center">
         <div class="admin_menu_link">
             <?php if ($this->authUserRole !== 'guest'): ?>
-                <a href="/menu/" class="uppercase">Управление разделами</a> /
-                <a href="/banner/" class="uppercase">Баннеры</a> /
-                <a href="/phone/" class="uppercase">Телефоны</a> /
+                <a href="/menu/">Управление разделами</a> /
+                <a href="/contentpage/">Контентные страницы</a> /
+                <a href="/banner/">Баннеры</a> /
+                <a href="/phone/">Телефоны</a> /
             <?php endif; ?>
         </div>
-        <div class="account_link"><?php if ($this->authUserRole !== 'guest'): ?><a href="/login/logout/" class="uppercase"><?php echo $this->authUser; ?> (выход)</a><?php else: ?><a href="/login/">Вход</a><?php endif; ?></div>
+        <div class="account_link"><?php if ($this->authUserRole !== 'guest'): ?><a href="/login/logout/"><?php echo $this->authUser; ?> (выход)</a><?php else: ?><a href="/login/">Вход</a><?php endif; ?></div>
         <div class="social">
             <ul>
                 <li>

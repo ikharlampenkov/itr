@@ -10,20 +10,22 @@ class ContentpageController extends Zend_Controller_Action
 
     public function init()
     {
-        $this->_link = SM_Menu_Item::getInstanceByLink($this->getRequest()->getParam('link'));
-        if ($this->_link == false) {
-            $this->_link = SM_Menu_Menu::getInstanceByLink($this->getRequest()->getParam('link'));
-        }
-        $this->view->assign('link', $this->_link->getLink());
+        $link = $this->getRequest()->getParam('link', '');
+        if (!empty($link)) {
+            $this->_link = SM_Menu_Item::getInstanceByLink($link);
+            $this->view->assign('link', $this->_link->getLink());
 
-        $this->view->assign('linkInfo', $this->_link);
-        $this->view->assign('pathway', $this->_link->getPathWay());
+            $this->view->assign('linkInfo', $this->_link);
+            $this->view->assign('pathway', $this->_link->getPathWay());
+        } else {
+            $this->_link = null;
+        }
         /* Initialize action controller here */
     }
 
     public function indexAction()
     {
-        $this->view->assign('contentPageList', EK_Share_ContentPage::getAllInstance());
+        $this->view->assign('contentPageList', SM_Module_ContentPage::getAllInstance());
     }
 
     public function viewAction()
@@ -34,21 +36,6 @@ class ContentpageController extends Zend_Controller_Action
 
     public function addAction()
     {
-
-        /*
-        include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
-        include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
-
-        $CKEditor = new CKEditor();
-        $CKEditor->basePath = '/ckeditor/';
-        $CKEditor->returnOutput = true;
-
-        $ckFinder = new CKFinder();
-        $ckFinder->BasePath = '/ckfinder/';
-        $ckFinder->SetupCKEditorObject($CKEditor);
-        */
-
-
         $oContentPage = new SM_Module_ContentPage();
 
         if ($this->getRequest()->isPost()) {
@@ -66,32 +53,16 @@ class ContentpageController extends Zend_Controller_Action
 
         }
 
-        //$this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
         $this->view->assign('contentPage', $oContentPage);
     }
 
     public function editAction()
     {
-        /*
-        include_once Zend_Registry::get('production')->editor->path . 'ckeditor/ckeditor.php';
-        include_once Zend_Registry::get('production')->editor->path . 'ckfinder/ckfinder.php';
-
-        $CKEditor = new CKEditor();
-        $CKEditor->basePath = '/ckeditor/';
-        $CKEditor->returnOutput = true;
-
-        $ckFinder = new CKFinder();
-        $ckFinder->BasePath = '/ckfinder/';
-        $ckFinder->SetupCKEditorObject($CKEditor);
-        */
-
-
         $oContentPage = SM_Module_ContentPage::getInstanceByTitle($this->getRequest()->getParam('title'));
-
-
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');
+            $oContentPage->setTitle($data['title']);
             $oContentPage->setContent($data['content']);
 
             try {
@@ -103,7 +74,6 @@ class ContentpageController extends Zend_Controller_Action
 
         }
 
-        //$this->view->assign('ckeditor', $CKEditor->editor('data[content]', $oContentPage->getContent()));
         $this->view->assign('contentPage', $oContentPage);
     }
 

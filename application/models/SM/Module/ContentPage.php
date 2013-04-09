@@ -137,6 +137,8 @@ class SM_Module_ContentPage
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+
         }
     }
 
@@ -152,8 +154,7 @@ class SM_Module_ContentPage
 
     public function  __construct()
     {
-        $config = Zend_Registry::get('production');
-        $this->_db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+        $this->_db = Zend_Registry::get('db');
     }
 
     public function insertToDB()
@@ -201,11 +202,7 @@ class SM_Module_ContentPage
         try {
             $sql = 'SELECT * FROM content_page';
 
-            $config = Zend_Registry::get('production');
-
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
-
-
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql)->fetchAll();
 
             if (isset($result[0])) {
@@ -243,9 +240,8 @@ class SM_Module_ContentPage
     {
         try {
             $sql = 'SELECT * FROM content_page WHERE page_title=:page_title';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('page_title' => $title))->fetchAll();
 
             if (isset($result[0])) {
@@ -274,10 +270,9 @@ class SM_Module_ContentPage
         $this->setContent($values['content']);
 
         $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
-        if ($oMenuItem === false) {
-            $oMenuItem = SM_Menu_Menu::getInstanceById($values['link_id']);
+        if ($oMenuItem != false) {
+            $this->setLink($oMenuItem);
         }
-        $this->setLink($oMenuItem);
 
         $oConPage = SM_Module_ContentPage::getInstanceByTitle($values['parent_page']);
         if ($oConPage !== false) {
