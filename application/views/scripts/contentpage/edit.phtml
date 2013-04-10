@@ -51,6 +51,9 @@
                 <option value="null" <?php if ($this->contentPage->parent == null): ?>selected="selected"<?php endif; ?>>нет</option>
                 <?php foreach ($this->parentPageList as $parent): ?>
                     <option value="<?php echo $this->escape($parent->pageTitle); ?>" <?php if ($this->contentPage->parentPage !== null && $this->contentPage->parentPage->getPageTitle() == $parent->pageTitle): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($parent->title); ?></option>
+                    <?php if ($parent->hasChild): ?>
+                        <?php echo $this->partial('contentpage/_elements/child.phtml', array('child' => $parent->getChild(), 'contentPage' => $this->contentPage, 'wid' => '--')); ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select>
             <span class="help-inline hide">Заполните поле</span>

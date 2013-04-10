@@ -1,5 +1,15 @@
 <legend>Контентные страницы</legend>
 
+<?php if ($this->parentItem != null): ?>
+    <ul class="breadcrumb">
+        <li><a href="/contentpage/">Контентные страницы</a> <span class="divider">/</span></li>
+        <?php if ($this->parentItem->parentPage !== null): ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'index', 'parentPage' => $this->parentItem->parentPage->pageTitle)); ?>"><?php echo $this->escape($this->parentItem->parentPage->getTitle()); ?></a> <span class="divider">/</span></li>
+        <?php endif; ?>
+        <li class="active"><?php echo $this->escape($this->parentItem->title); ?></li>
+    </ul>
+<?php endif; ?>
+
 <a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'add')) ?>"><i class="icon-plus"></i>Добавить страницу</a><br/><br/>
 
 
@@ -11,14 +21,14 @@
     </tr>
     <?php if ($this->contentPageList != false): ?>
         <?php foreach ($this->contentPageList as $contentPage): ?>
-        <tr>
-            <td><?php echo $this->escape($contentPage->pageTitle); ?> </td>
-            <td><?php echo $this->escape($contentPage->title); ?> </td>
-            <td class="tedit">
-                <a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'edit', 'title' => $contentPage->pageTitle)); ?> "><i class="icon-pencil"></a>
-                <a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'delete', 'title' => $contentPage->pageTitle)); ?> " onclick="return confirmDelete('<?php $contentPage->title ?> ');"><i class="icon-remove"></i></a>
-            </td>
-        </tr>
+            <tr>
+                <td><?php echo $this->escape($contentPage->pageTitle); ?> </td>
+                <td><a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'index', 'parentPage' => $this->contentPage->pageTitle)) ?>"><?php echo $this->escape($contentPage->title); ?></a></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'edit', 'title' => $contentPage->pageTitle)); ?> "><i class="icon-pencil"></a>
+                    <a href="<?php echo $this->url(array('controller' => 'contentpage', 'action' => 'delete', 'title' => $contentPage->pageTitle)); ?> " onclick="return confirmDelete('<?php $contentPage->title ?> ');"><i class="icon-remove"></i></a>
+                </td>
+            </tr>
         <?php endforeach; ?>
     <?php endif; ?>
 </table>

@@ -179,7 +179,7 @@ class SM_Module_ContentPage
     {
         try {
             $sql
-                = 'INSERT INTO content_page(link_id, page_title, parent_page, title, content)
+                    = 'INSERT INTO content_page(link_id, page_title, parent_page, title, content)
                             VALUES(:link_id, :page_title, :parent_page, :title, :content)';
             $this->_db->query($sql, array('link_id' => $this->_prepareNullLink($this->_link), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
         } catch (Exception $e) {
@@ -193,7 +193,7 @@ class SM_Module_ContentPage
     {
         try {
             $sql
-                = 'UPDATE content_page
+                    = 'UPDATE content_page
                        SET link_id=:link_id, parent_page=:parent_page, title=:title, content=:content
                     WHERE page_title=:page_title';
             $this->_db->query($sql, array('link_id' => $this->_prepareNullLink($this->_link), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
@@ -214,16 +214,26 @@ class SM_Module_ContentPage
 
     /**
      * @static
-     * @return array|bool
+     * @param string $parentPage
      * @throws Exception
+     * @return array|bool
      */
-    public static function getAllInstance()
+    public static function getAllInstance($parentPage = '')
     {
         try {
-            $sql = 'SELECT * FROM content_page';
-
             $db = Zend_Registry::get('db');
-            $result = $db->query($sql)->fetchAll();
+
+            $sql = 'SELECT * FROM content_page ';
+            $bind = array();
+
+            if ($parentPage == null) {
+                $sql .= ' WHERE parent_page IS NULL ';
+            } elseif (!empty($parentPage)) {
+                $sql .= ' WHERE parent_page=:parent_page ';
+                $bind = array('parent_page' => $parentPage);
+            }
+
+            $result = $db->query($sql, $bind)->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -300,6 +310,33 @@ class SM_Module_ContentPage
         $oConPage = SM_Module_ContentPage::getInstanceByTitle($values['parent_page']);
         if ($oConPage !== false) {
             $this->setParentPage($oConPage);
+        }
+    }
+
+    public function getChild()
+    {
+        return $this::getAllInstance($this->_pageTitle);
+    }
+
+    /**
+     * Позволяет оперделить наличие потомков
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function hasChild()
+    {
+        try {
+            $sql = 'SELECT COUNT(page_title) AS child_cnt FROM content_page WHERE parent_page=:parent_page';
+            $result = $this->_db->query($sql, array('parent_page' => $this->_pageTitle))->fetch();
+
+            if (isset($result['child_cnt']) && $result['child_cnt'] > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 

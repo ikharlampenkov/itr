@@ -25,7 +25,16 @@ class ContentpageController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->assign('contentPageList', SM_Module_ContentPage::getAllInstance());
+        $parentTitle = $this->getRequest()->getParam('parentPage', null);
+        if ($parentTitle != null) {
+            $this->view->assign('contentPageList', SM_Module_ContentPage::getAllInstance($parentTitle));
+            $oParent = SM_Module_ContentPage::getInstanceByTitle($parentTitle);
+        } else {
+            $this->view->assign('contentPageList', SM_Module_ContentPage::getAllInstance(null));
+            $oParent = null;
+        }
+
+        $this->view->parentItem = $oParent;
     }
 
     public function viewAction()
@@ -61,7 +70,7 @@ class ContentpageController extends Zend_Controller_Action
         }
 
         $this->view->assign('contentPage', $oContentPage);
-        $this->view->assign('parentPageList', SM_Module_ContentPage::getAllInstance());
+        $this->view->assign('parentPageList', SM_Module_ContentPage::getAllInstance(null));
     }
 
     public function editAction()
@@ -94,7 +103,7 @@ class ContentpageController extends Zend_Controller_Action
         }
 
         $this->view->assign('contentPage', $oContentPage);
-        $this->view->assign('parentPageList', SM_Module_ContentPage::getAllInstance());
+        $this->view->assign('parentPageList', SM_Module_ContentPage::getAllInstance(null));
     }
 
     public function deleteAction()
