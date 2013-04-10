@@ -249,7 +249,6 @@ class SM_Menu_Item
         if ($this->_handler->getController() == 'Contentpage') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
-            $defaults['title'] = $this->_link;
             $defaults['link'] = $this->_link;
 
             if ($this->_parent !== null) {
@@ -258,12 +257,24 @@ class SM_Menu_Item
                     $defaults, $reqs
                 );
                 $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/subtitle/:subtitle/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('subtitle' => '[\w\-]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-subtitle', $route);
             } else {
                 $route = new Zend_Controller_Router_Route(
                     '/' . $this->_link . '/',
                     $defaults, $reqs
                 );
                 $router->addRoute($this->_link, $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/subtitle/:subtitle/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('subtitle' => '[\w\-]+')
+                );
+                $router->addRoute($this->_link . '-subtitle', $route);
             }
         } elseif ($this->_handler->getController() == 'Document') {
             $defaults['controller'] = $this->_handler->getController();

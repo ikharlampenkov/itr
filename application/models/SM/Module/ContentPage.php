@@ -138,7 +138,7 @@ class SM_Module_ContentPage
         if (method_exists($this, $method)) {
             return $this->$method();
         } else {
-
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
@@ -179,7 +179,7 @@ class SM_Module_ContentPage
     {
         try {
             $sql
-                    = 'INSERT INTO content_page(link_id, page_title, parent_page, title, content)
+                = 'INSERT INTO content_page(link_id, page_title, parent_page, title, content)
                             VALUES(:link_id, :page_title, :parent_page, :title, :content)';
             $this->_db->query($sql, array('link_id' => $this->_prepareNullLink($this->_link), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
         } catch (Exception $e) {
@@ -193,7 +193,7 @@ class SM_Module_ContentPage
     {
         try {
             $sql
-                    = 'UPDATE content_page
+                = 'UPDATE content_page
                        SET link_id=:link_id, parent_page=:parent_page, title=:title, content=:content
                     WHERE page_title=:page_title';
             $this->_db->query($sql, array('link_id' => $this->_prepareNullLink($this->_link), 'page_title' => $this->_pageTitle, 'parent_page' => $this->_prepareNull($this->_parentPage), 'title' => $this->_title, 'content' => $this->_content));
@@ -214,7 +214,9 @@ class SM_Module_ContentPage
 
     /**
      * @static
+     *
      * @param string $parentPage
+     *
      * @throws Exception
      * @return array|bool
      */
@@ -279,6 +281,32 @@ class SM_Module_ContentPage
             if (isset($result[0])) {
                 $o = new SM_Module_ContentPage();
                 $o->fillFromArray($result[0]);
+                return $o;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @param SM_Menu_Item $link
+     *
+     * @return bool|SM_Module_ContentPage
+     * @throws Exception
+     */
+    public static function getInstanceByLink($link)
+    {
+        try {
+            $sql = 'SELECT * FROM content_page WHERE link_id=:link';
+
+            $db = Zend_Registry::get('db');
+            $result = $db->query($sql, array('link' => $link->getId()))->fetch();
+
+            if (!empty($result)) {
+                $o = new SM_Module_ContentPage();
+                $o->fillFromArray($result);
                 return $o;
             } else {
                 return false;

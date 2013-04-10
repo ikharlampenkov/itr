@@ -53,8 +53,30 @@
 
 </div>
 <div class="content">
+
+    <?php if ($this->contentPage->parentPage != null): ?>
+        <ul class="breadcrumb">
+            <?php if ($this->contentPage->parentPage->parentPage !== null): ?>
+                <?php echo $this->partial('contentpage/_elements/public_breadcrumb.phtml', array('parentItem' => $this->contentPage->parentPage->parentPage, 'link' => $this->link)); ?>
+            <?php endif; ?>
+            <?php if ($this->contentPage->parentPage->getLink()->link == $this->link): ?>
+                <li><a href="/<?php echo $this->escape($this->link); ?>/"><?php echo $this->escape($this->contentPage->parentPage->getTitle()); ?></a></li>
+            <?php else: ?>
+                <li><a href="/<?php echo $this->escape($this->link); ?>/subtitle/<?php echo $this->escape($this->contentPage->parentPage->pageTitle); ?>/"><?php echo $this->escape($this->contentPage->parentPage->getTitle()); ?></a></li>
+            <?php endif; ?>
+        </ul>
+    <?php endif; ?>
+
     <h1><?php echo $this->escape($this->contentPage->title); ?></h1>
 
     <?php echo $this->contentPage->content ?>
+
+    <?php if ($this->contentPage->hasChild()): ?>
+        <ul>
+            <?php foreach ($this->contentPage->getChild() as $child): ?>
+                <li><a href="/<?php echo $this->escape($this->link); ?>/subtitle/<?php echo $this->escape($child->pageTitle); ?>/"><?php echo $this->escape($child->title); ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
 </div>

@@ -39,13 +39,26 @@ class ContentpageController extends Zend_Controller_Action
 
     public function viewAction()
     {
-        $oContentPage = SM_Module_ContentPage::getInstanceByTitle($this->getRequest()->getParam('title'));
+        $subTitle = $this->getRequest()->getParam('subtitle', '');
+
+        if (!empty($subTitle)) {
+            $oContentPage = SM_Module_ContentPage::getInstanceByTitle($subTitle);
+        } else {
+            $oContentPage = SM_Module_ContentPage::getInstanceByLink($this->_link);
+        }
+
+
         $this->view->assign('contentPage', $oContentPage);
     }
 
     public function addAction()
     {
+        $parentTitle = $this->getRequest()->getParam('parentPage', null);
+
         $oContentPage = new SM_Module_ContentPage();
+        if ($parentTitle != null) {
+            $oContentPage->setParentPage(SM_Module_ContentPage::getInstanceByTitle($parentTitle));
+        }
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');
@@ -62,7 +75,11 @@ class ContentpageController extends Zend_Controller_Action
 
             try {
                 $oContentPage->insertToDb();
-                $this->_redirect('/contentpage/');
+                if ($parentTitle != null) {
+                    $this->_redirect('/contentpage/index/parentPage/' . $parentTitle);
+                } else {
+                    $this->_redirect('/contentpage/');
+                }
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
