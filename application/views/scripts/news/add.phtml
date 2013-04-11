@@ -1,5 +1,3 @@
-<div class="clear"></div>
-
 <script src="/ckeditor/ckeditor.js"></script>
 <script src="/ckfinder/ckfinder.js"></script>
 
@@ -14,43 +12,61 @@
             filebrowserFlashUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
         });
     });
-
 </script>
 
-<h1>Добавить новость</h1>
+<legend>Добавить новость</legend>
 
-<div class="cont_text">
+<?php if (isset($this->exception_msg)): ?>
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Ошибка!</h4>
+        <?php echo $this->escape($this->exception_msg); ?>
+    </div>
+<?php endif; ?>
 
-    <?php if (isset($this->exception_msg)): ?>
-        <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-        <br/>
-    <?php endif; ?>
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'news', 'action' => 'add')); ?>" method="post" enctype="multipart/form-data">
+    <div class="control-group">
+        <label class="control-label">Название</label>
 
-    <form action="<?php echo $this->url(array('controller' => 'news', 'action' => 'add')); ?>" method="post" enctype="multipart/form-data">
-        <table>
-            <tr>
-                <td class="ttovar" width="170">Название</td>
-                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->news->title); ?>"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar" width="200">Дата публикации</td>
-                <td class="ttovar"><input name="data[date]" value="<?php echo $this->escape(date('d.m.Y', strtotime($this->news->datePublic))); ?>" class="datepicker"/></td>
-            </tr>
+        <div class="controls">
+            <input type="text" name="data[title]" value="<?php echo $this->escape($this->news->title); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Дата публикации</label>
 
-            <tr>
-                <td class="ttovar_title">Файл</td>
-                <td class="ttovar"><input type="file" name="file"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar">Анонс</td>
-                <td class="ttovar"><textarea name="data[short_text]"><?php echo $this->escape($this->news->shortText); ?></textarea></td>
-            </tr>
-            <tr>
-                <td class="ttovar">Полный текст</td>
-                <td class="ttovar"><textarea name="data[full_text]"><?php echo $this->news->fullText; ?></textarea></td>
-            </tr>
-        </table>
-        <input id="save" name="save" type="submit" value="Сохранить"/>
-    </form>
+        <div class="controls">
+            <input type="text" name="data[date]" value="<?php echo $this->escape(date('d.m.Y', strtotime($this->news->datePublic))); ?>" class="datepicker"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Файл</label>
 
-</div>
+        <div class="controls">
+            <input type="file" name="file"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Анонс</label>
+
+        <div class="controls">
+            <textarea name="data[short_text]"><?php echo $this->escape($this->news->shortText); ?></textarea>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Полный текст</label>
+
+        <div class="controls">
+            <textarea name="data[full_text]"><?php echo $this->news->fullText; ?></textarea>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-success" value="Сохранить"/>
+        <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
+    </div>
+</form>

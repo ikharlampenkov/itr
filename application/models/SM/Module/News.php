@@ -210,9 +210,15 @@ class SM_Module_News
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
+    /**
+     * @param $value
+     * @return null
+     */
     protected function _prepareNull($value)
     {
         if (is_null($value) || empty($value)) {
@@ -226,7 +232,7 @@ class SM_Module_News
     public function  __construct()
     {
         $config = Zend_Registry::get('production');
-        $this->_db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+        $this->_db = Zend_Registry::get('db');
 
         $this->_dateCreate = date('Y-m-d');
         $this->_datePublic = date('Y-m-d');
@@ -242,7 +248,7 @@ class SM_Module_News
             $this->_db->query($sql, array('link_id' => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
                 'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText));
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('news', 'id');
 
             $fileName = $this->_file->download('file');
             if ($fileName !== false) {
@@ -300,8 +306,7 @@ class SM_Module_News
             $sql = 'SELECT * FROM news WHERE link_id=:link_id ORDER BY date_public DESC';
             $bind = array('link_id' => $link->getId());
 
-            $config = Zend_Registry::get('production');
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
 
             $result = $db->query($sql, $bind)->fetchAll();
 
@@ -332,9 +337,7 @@ class SM_Module_News
             $sql = 'SELECT * FROM news WHERE link_id=:link_id ORDER BY date_public DESC LIMIT ' . SM_Module_News::TOP_NEWS_COUNT;
             $bind = array('link_id' => $link->getId());
 
-            $config = Zend_Registry::get('production');
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
-
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, $bind)->fetchAll();
 
             if (isset($result[0])) {
@@ -358,9 +361,7 @@ class SM_Module_News
             $sql = 'SELECT * FROM news ORDER BY date_public DESC LIMIT ' . SM_Module_News::TOP_NEWS_COUNT;
             $bind = array();
 
-            $config = Zend_Registry::get('production');
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
-
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, $bind)->fetchAll();
 
             if (isset($result[0])) {
@@ -405,9 +406,8 @@ class SM_Module_News
     {
         try {
             $sql = 'SELECT * FROM news WHERE id=:id';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
@@ -440,26 +440,7 @@ class SM_Module_News
 
         $this->setFile($values['file']);
 
-        $oMenuItem = SM_Menu_Menu::getInstanceById($values['link_id']);
-        if ($oMenuItem === false) {
-            $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
-        }
+        $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
         $this->setLink($oMenuItem);
     }
-
-    protected function getLastInsertId()
-    {
-        try {
-            $sql = 'SELECT LAST_INSERT_ID()';
-            $id = $this->_db->query($sql)->fetchAll(Zend_Db::FETCH_NUM);
-            if (isset($id[0][0])) {
-                return $id[0][0];
-            } else {
-                return 0;
-            }
-        } catch (StdLib_Exception $s_e) {
-            throw new StdLib_Exception('Can`t return last id');
-        }
-    }
-
 }
