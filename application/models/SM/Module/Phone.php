@@ -135,13 +135,14 @@ class SM_Module_Phone
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
     public function  __construct()
     {
-        $config = Zend_Registry::get('production');
-        $this->_db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+        $this->_db = Zend_Registry::get('db');
 
         $this->_dateCreate = date('Y-m-d');
     }
@@ -153,7 +154,7 @@ class SM_Module_Phone
                          VALUES(:address, :phone, :post_index, :date_create)';
             $this->_db->query($sql, array('address' => $this->_address, 'phone' => $this->_phone, 'date_create' => $this->_dateCreate, 'post_index' => $this->_post_index));
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('phone', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -210,9 +211,8 @@ class SM_Module_Phone
     {
         try {
             $sql = 'SELECT * FROM phone WHERE id=:id';
-            $config = Zend_Registry::get('production');
 
-            $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
+            $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('id' => $id))->fetchAll();
 
             if (isset($result[0])) {
