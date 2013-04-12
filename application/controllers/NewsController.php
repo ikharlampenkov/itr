@@ -19,6 +19,9 @@ class NewsController extends Zend_Controller_Action
         if ($this->_link == false) {
             $this->_link = SM_Menu_Menu::getInstanceByLink($this->getRequest()->getParam('link'));
         }
+
+        $this->view->assign('categoryList', SM_Module_NewsCategory::getAllInstance());
+
         $this->view->assign('link', $this->_link->getLink());
 
         $this->view->assign('linkInfo', $this->_link);
