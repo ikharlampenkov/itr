@@ -122,7 +122,7 @@ class SM_Module_NewsCategory
             $sql = 'INSERT INTO news_category(title, date_create) VALUES(:title, :date_create)';
             $this->_db->query($sql, array('title' => $this->_title, 'date_create' => $this->_dateCreate));
 
-            $this->_id = $this->_db->lastInsertId('news', 'id');
+            $this->_id = $this->_db->lastInsertId('news_category', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

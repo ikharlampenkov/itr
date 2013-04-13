@@ -1,4 +1,4 @@
-<legend>Добавить категорию</legend>
+<legend>Редактировать категорию</legend>
 
 <?php if (isset($this->exception_msg)): ?>
     <div class="alert alert-error">
@@ -7,7 +7,7 @@
     </div>
 <?php endif; ?>
 
-<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'news', 'action' => 'addcategory', 'link' => $this->escape($this->link))) ?>" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'news', 'action' => 'editcategory', 'categoryId' => $this->newsCategory->id, 'link' => $this->escape($this->link))) ?>" method="post" enctype="multipart/form-data">
     <div class="control-group">
         <label class="control-label">Название</label>
 

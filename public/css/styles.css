@@ -1048,9 +1048,8 @@ header .social {
 }
 
 .secand_menu li ul li {
-
     margin: 0;
-
+    position: relative;
 }
 
 /****************** footer **************************/

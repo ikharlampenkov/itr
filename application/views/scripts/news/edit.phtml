@@ -41,6 +41,19 @@
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label">Категория</label>
+
+        <div class="controls">
+            <select name="data[category_id]">
+                <option value="null" <?php if ($this->news->category == null): ?>selected="selected"<?php endif; ?>>нет</option>
+                <?php foreach ($this->categoryList as $category): ?>
+                    <option value="<?php echo $this->escape($category->id); ?>" <?php if ($this->news->category !== null && $this->news->category->getId() == $category->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($category->title); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label">Файл</label>
 
         <div class="controls">

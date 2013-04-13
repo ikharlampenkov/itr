@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="583517499">
-    <data-source source="LOCAL" name="Data Source" product="MySQL" version="5.1.50-community" jdbc-version="4.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.22 ( Revision: ${bzr.revision-id} )" uuid="87c8d121-2097-49c7-af46-26e90850c81a">
-      <extra-name-characters>#@</extra-name-characters>
-      <identifier-quote-string>`</identifier-quote-string>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost/itr</jdbc-url>
-      <user-name>root</user-name>
-      <user-password>df98dfe8dfeddfd2dffadfe3dfe3dfe8</user-password>
-      <libraries>
-        <library>
-          <url>jar://$PROJECT_DIR$/../mysql-connector-java-5.1.22-bin.jar!/</url>
-        </library>
-        <library>
-          <url>file://$PROJECT_DIR$/../mysql-connector-license.txt</url>
-        </library>
-      </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="Data Source [2]" product="PostgreSQL" version="9.2.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.2 JDBC4 (build 1002)" uuid="476a30ec-02ff-47f0-9883-7ffa7359936c">
+  <component name="DataSourceManagerImpl" format="xml" hash="1057466585">
+    <data-source source="LOCAL" name="Data Source [2]" product="PostgreSQL" version="9.1.9" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.1 JDBC4 (build 901)" uuid="476a30ec-02ff-47f0-9883-7ffa7359936c">
       <identifier-quote-string>&quot;</identifier-quote-string>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://192.168.10.1/garage</jdbc-url>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/garage</jdbc-url>
       <user-name>garage</user-name>
       <user-password>df99df9cdf9ddf93df9fdfc9dfc8dfccdf9edf9fdf9ddf9fdf9ddf9bdf9adf9edf9edf9bdfcbdf9adfcbdfcbdf92dfccdf9fdf98df9cdf9fdfccdf92df9edf9f</user-password>
       <schema-pattern>garage.public</schema-pattern>
@@ -30,10 +13,7 @@
       <default-dialect>PostgreSQL</default-dialect>
       <libraries>
         <library>
-          <url>jar://$PROJECT_DIR$/../postgresql-9.2-1002.jdbc4.jar!/</url>
-        </library>
-        <library>
-          <url>file://$PROJECT_DIR$/../postgresql-driver-license.txt</url>
+          <url>file://C:/Program Files (x86)/PostgreSQL/pgJDBC/postgresql-9.1-901.jdbc4.jar</url>
         </library>
       </libraries>
     </data-source>

@@ -8,18 +8,25 @@
  */
 
 /*
- * CREATE TABLE IF NOT EXISTS `news` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `link_id` int(10) unsigned NOT NULL,
-   `date_public` datetime NOT NULL,
-   `title` varchar(255) NOT NULL,
-   `file` varchar(255) DEFAULT NULL,
-   `short_text` text,
-   `full_text` text,
-   `date_create` date NOT NULL,
-   PRIMARY KEY (`id`),
-   KEY `link_id` (`link_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+ * CREATE TABLE news
+ (
+   id bigserial NOT NULL,
+   link_id bigint NOT NULL,
+   date_public timestamp(3) without time zone NOT NULL,
+   title character varying(255) NOT NULL,
+   file character varying(255),
+   short_text text,
+   full_text text,
+   date_create date NOT NULL,
+   category_id bigint,
+   CONSTRAINT news_pkey PRIMARY KEY (id),
+   CONSTRAINT news_category_id_fkey FOREIGN KEY (category_id)
+       REFERENCES news_category (id) MATCH SIMPLE
+       ON UPDATE SET NULL ON DELETE SET NULL
+ )
+ WITH (
+   OIDS=FALSE
+ );
  */
 
 class SM_Module_News
@@ -66,6 +73,11 @@ class SM_Module_News
      * @var string
      */
     protected $_dateCreate;
+
+    /**
+     * @var SM_Module_NewsCategory|null
+     */
+    protected $_category = null;
 
     /**
      * @var Zend_Db_Adapter_Abstract
@@ -205,6 +217,22 @@ class SM_Module_News
         return $this->_datePublic;
     }
 
+    /**
+     * @param null|\SM_Module_NewsCategory $category
+     */
+    public function setCategory($category)
+    {
+        $this->_category = $category;
+    }
+
+    /**
+     * @return null|\SM_Module_NewsCategory
+     */
+    public function getCategory()
+    {
+        return $this->_category;
+    }
+
     public function __get($name)
     {
         $method = "get{$name}";
@@ -216,10 +244,11 @@ class SM_Module_News
     }
 
     /**
-     * @param $value
+     * @param null|\SM_Module_NewsCategory $value
+     *
      * @return null
      */
-    protected function _prepareNull($value)
+    protected function _prepareNullCategory($value)
     {
         if (is_null($value) || empty($value)) {
             return null;
@@ -243,10 +272,14 @@ class SM_Module_News
     public function insertToDB()
     {
         try {
-            $sql = 'INSERT INTO news(link_id, title, date_public, date_create, short_text, full_text)
-                                    VALUES(:link_id, :title, :date_public, :date_create, :short_text, :full_text)';
-            $this->_db->query($sql, array('link_id' => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
-                'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText));
+            $sql
+                = 'INSERT INTO news(link_id, title, date_public, date_create, short_text, full_text, category_id)
+                             VALUES(:link_id, :title, :date_public, :date_create, :short_text, :full_text, :category_id)';
+            $this->_db->query(
+                $sql, array('link_id'     => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
+                            'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText,
+                            'category_id' => $this->_prepareNullCategory($this->_category))
+            );
 
             $this->_id = $this->_db->lastInsertId('news', 'id');
 
@@ -265,12 +298,16 @@ class SM_Module_News
     public function updateToDB()
     {
         try {
-            $sql = 'UPDATE news
-                       SET link_id=:link_id, title=:title, date_public=:date_public, date_create=:date_create,
-                           short_text=:short_text, full_text=:full_text
-                     WHERE id=:id';
-            $this->_db->query($sql, array('link_id' => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
-                'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText, 'id' => $this->_id));
+            $sql
+                = 'UPDATE news
+                      SET link_id=:link_id, title=:title, date_public=:date_public, date_create=:date_create,
+                           short_text=:short_text, full_text=:full_text, category_id=:category_id
+                    WHERE id=:id';
+            $this->_db->query(
+                $sql, array('link_id'     => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
+                            'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText,
+                            'category_id' => $this->_prepareNullCategory($this->_category), 'id' => $this->_id)
+            );
 
             $fileName = $this->_file->download('file');
             if ($fileName !== false) {
@@ -296,48 +333,26 @@ class SM_Module_News
 
     /**
      * @static
-     * @param $link
-     * @return array|bool
+     *
+     * @param                             $link
+     * @param SM_Module_NewsCategory|null $category
+     *
      * @throws Exception
+     * @return array|bool
      */
-    public static function getAllInstance($link)
+    public static function getAllInstance($link, $category = null)
     {
         try {
-            $sql = 'SELECT * FROM news WHERE link_id=:link_id ORDER BY date_public DESC';
-            $bind = array('link_id' => $link->getId());
-
             $db = Zend_Registry::get('db');
 
-            $result = $db->query($sql, $bind)->fetchAll();
-
-            if (isset($result[0])) {
-                $retArray = array();
-                foreach ($result as $res) {
-                    $retArray[] = SM_Module_News::getInstanceByArray($res);
-                }
-                return $retArray;
+            if ($category != null) {
+                $sql = 'SELECT * FROM news WHERE link_id=:link_id AND category_id=:category_id ORDER BY date_public DESC';
+                $bind = array('link_id' => $link->getId(), 'category_id' => $category->getId());
             } else {
-                return false;
+                $sql = 'SELECT * FROM news WHERE link_id=:link_id ORDER BY date_public DESC';
+                $bind = array('link_id' => $link->getId());
             }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            throw new Exception($e->getMessage());
-        }
-    }
 
-    /**
-     * @static
-     * @param $link
-     * @return array|bool
-     * @throws Exception
-     */
-    public static function getTopNewsInstance($link)
-    {
-        try {
-            $sql = 'SELECT * FROM news WHERE link_id=:link_id ORDER BY date_public DESC LIMIT ' . SM_Module_News::TOP_NEWS_COUNT;
-            $bind = array('link_id' => $link->getId());
-
-            $db = Zend_Registry::get('db');
             $result = $db->query($sql, $bind)->fetchAll();
 
             if (isset($result[0])) {
@@ -381,7 +396,9 @@ class SM_Module_News
 
     /**
      * @static
+     *
      * @param $values
+     *
      * @return SM_Module_Document
      * @throws Exception
      */
@@ -398,8 +415,10 @@ class SM_Module_News
 
     /**
      * @static
+     *
      * @param $id
-     * @return bool|SM_Module_Document
+     *
+     * @return bool|SM_Module_News
      * @throws Exception
      */
     public static function getInstanceById($id)
@@ -426,6 +445,7 @@ class SM_Module_News
      *
      *
      * @param array $values
+     *
      * @return void
      * @access public
      */
@@ -442,5 +462,10 @@ class SM_Module_News
 
         $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
         $this->setLink($oMenuItem);
+
+        $oCategory = SM_Module_NewsCategory::getInstanceById($values['category_id']);
+        if ($oCategory !== false) {
+            $this->setCategory($oCategory);
+        }
     }
 }
