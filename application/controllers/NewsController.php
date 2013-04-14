@@ -26,7 +26,7 @@ class NewsController extends Zend_Controller_Action
         $this->view->assign('pathway', $this->_link->getPathWay());
 
         $categoryId = $this->getRequest()->getParam('categoryId', '');
-        if ($categoryId != '') {
+        if ($categoryId != '' && $categoryId != 0) {
             $this->_category = SM_Module_NewsCategory::getInstanceById($categoryId);
         }
 
@@ -45,11 +45,13 @@ class NewsController extends Zend_Controller_Action
     {
         $oNews = SM_Module_News::getInstanceById($this->getRequest()->getParam('id'));
         $this->view->assign('news', $oNews);
+
+        $this->view->assign('categoryList', SM_Module_NewsCategory::getAllInstance());
     }
 
     public function viewAction()
     {
-        $this->view->assign('newsList', SM_Module_News::getAllInstance($this->_link));
+        $this->view->assign('newsList', SM_Module_News::getAllInstance($this->_link, $this->_category));
         $this->view->assign('categoryList', SM_Module_NewsCategory::getAllInstance());
     }
 

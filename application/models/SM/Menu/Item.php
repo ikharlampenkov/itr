@@ -313,10 +313,22 @@ class SM_Menu_Item
                 $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
 
                 $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-category', $route);
+
+                $route = new Zend_Controller_Router_Route(
                     '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\w\-]+')
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+')
                 );
                 $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews', $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews-category', $route);
             } else {
                 $route = new Zend_Controller_Router_Route(
                     '/' . $this->_link . '/',
@@ -325,10 +337,22 @@ class SM_Menu_Item
                 $router->addRoute($this->_link, $route);
 
                 $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
+                );
+                $router->addRoute($this->_link . '-category', $route);
+
+                $route = new Zend_Controller_Router_Route(
                     '/' . $this->_link . '/viewnews/:id/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\w\-]+')
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+')
                 );
                 $router->addRoute($this->_link . '-viewnews', $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/viewnews/:id/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
+                );
+                $router->addRoute($this->_link . '-viewnews-category', $route);
             }
         } elseif ($this->_handler->getController() == 'Vote') {
             $defaults['controller'] = $this->_handler->getController();
