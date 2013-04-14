@@ -1,0 +1,61 @@
+<div class="right">
+
+    <a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'addcategory', 'link' => $this->escape($this->link))) ?>"><i class="icon-plus"></i> Добавить категорию</a><br/><br/>
+
+    <ul class="secand_menu">
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'index', 'link' => $this->escape($this->link), 'categoryId' => '')) ?>">КАТЕГОРИИ</a>
+            <ul>
+                <?php if ($this->categoryList !== false): ?>
+                    <?php foreach ($this->categoryList as $item): ?>
+                        <li>
+                            <a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'index', 'categoryId' => $item->id, 'link' => $this->escape($this->link))) ?>"><?php echo $this->escape($item->title); ?></a>
+                            <span class="edit"><a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'editcategory', 'categoryId' => $item->id, 'link' => $this->escape($this->link))) ?>"><i class="icon-pencil"></i></a></span>
+                            <span class="del"><a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'deletecategory', 'categoryId' => $item->id, 'link' => $this->escape($this->link))) ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');"><i class="icon-remove"></i></a></span>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+
+        </li>
+    </ul>
+
+</div>
+<div class="content">
+
+    <legend><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Календарь<?php endif; ?></legend>
+
+    <?php if (isset($this->exception_msg)): ?>
+        <div class="alert alert-error">
+            <h4 class="alert-heading">Ошибка!</h4>
+            <?php echo $this->escape($this->exception_msg); ?>
+        </div>
+    <?php endif; ?>
+
+    <a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'add', 'link' => $this->escape($this->link))) ?>"><i class="icon-plus"></i>Добавить событие</a><br/><br/>
+
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Дата</th>
+            <th>Название</th>
+            <th>Анонс</th>
+            <th>Действия</th>
+        </tr>
+
+        <?php if ($this->calendarList !== false): ?>
+            <?php foreach ($this->calendarList as $item): ?>
+                <tr>
+                    <td><?php echo $this->escape(date('d.m.Y', strtotime($item->dateEvent))) . ' ' . $this->escape(date('H:i', strtotime($item->timeEvent))); ?></td>
+                    <td><?php echo $this->escape($item->title); ?></td>
+                    <td><?php echo $this->escape($item->shortText); ?></td>
+                    <td class="tedit">
+                        <a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'edit', 'id' => $item->id, 'link' => $this->escape($this->link))); ?>"><i class="icon-pencil"></a>
+                        <a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'delete', 'id' => $item->id, 'link' => $this->escape($this->link))); ?>" onclick="return confirmDelete('<?php echo $this->escape($item->title); ?>');"><i class="icon-remove"></i></a>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </table>
+
+    <div class="clear"></div>
+</div>

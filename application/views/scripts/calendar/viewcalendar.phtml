@@ -1,0 +1,23 @@
+<div class="right">
+    <?php echo $this->partial('calendar/_element/category.phtml', array('linkInfo' => $this->linkInfo, 'categoryList' => $this->categoryList)); ?>
+
+</div>
+<div class="content">
+
+    <h1><?php echo $this->escape($this->calendar->title); ?></h1>
+
+    <br/>
+
+    <p><?php echo $this->escape(date('d.m.Y', strtotime($this->calendar->dateEvent))) . ' ' . $this->escape(date('d.m.Y', strtotime($this->calendar->timeEvent))); ?></p>
+
+    <?php if ($this->calendar->file->getName()): ?>
+        <img src="/files<?php echo $this->escape($this->calendar->file->getSubPath()); ?>/<?php echo $this->escape($this->calendar->file->getName()); ?>"/>
+    <?php endif; ?>
+
+    <p><?php echo $this->calendar->place; ?></p>
+
+    <p><?php echo $this->calendar->fullText; ?></p>
+
+
+    <div class="clear"></div>
+</div>

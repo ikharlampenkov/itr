@@ -226,6 +226,8 @@ class SM_Menu_Item
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } elseif ($this->_handler->getController() == 'News') {
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
+            } elseif ($this->_handler->getController() == 'Calendar') {
+                $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } elseif ($this->_handler->getController() == 'Vote') {
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } else {
@@ -353,6 +355,60 @@ class SM_Menu_Item
                     array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
                 );
                 $router->addRoute($this->_link . '-viewnews-category', $route);
+            }
+        } elseif ($this->_handler->getController() == 'Calendar') {
+            $defaults['controller'] = $this->_handler->getController();
+            $defaults['action'] = 'view';
+            $defaults['link'] = $this->_link;
+
+            if ($this->_parent !== null) {
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
+                    $defaults, $reqs
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-category', $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewcalendar/:id/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewcalendar', $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewcalendar/:id/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
+                );
+                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewcalendar-category', $route);
+            } else {
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/',
+                    $defaults, $reqs
+                );
+                $router->addRoute($this->_link, $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
+                );
+                $router->addRoute($this->_link . '-category', $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/viewcalendar/:id/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+')
+                );
+                $router->addRoute($this->_link . '-viewcalendar', $route);
+
+                $route = new Zend_Controller_Router_Route(
+                    '/' . $this->_link . '/viewcalendar/:id/categoryId/:categoryId/',
+                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
+                );
+                $router->addRoute($this->_link . '-viewcalendar-category', $route);
             }
         } elseif ($this->_handler->getController() == 'Vote') {
             $defaults['controller'] = $this->_handler->getController();
