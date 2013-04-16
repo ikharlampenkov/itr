@@ -28,11 +28,16 @@
             <h3>Пункты меню</h3>
 
             <?php if ($this->parentItem != null): ?>
-            <ul class="breadcrumb">
-              <li><a href="/menu/">Управление разделами</a> <span class="divider">/</span></li>
-              <?php if ($this->parentItem->parent !== null): ?><li><a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'index', 'parentId' => $this->parentItem->parent->getId())); ?>"><?php echo $this->escape($this->parentItem->parent->getTitle()); ?></a> <span class="divider">/</span></li><?php endif; ?>
-              <li class="active"><?php echo $this->escape($this->parentItem->title); ?></li>
-            </ul>
+                <ul class="breadcrumb">
+                    <li><a href="/menu/">Управление разделами</a> <span class="divider">/</span></li>
+                    <?php if ($this->parentItem->parent !== null): ?>
+                        <?php if ($this->parentItem->parent->parent !== null): ?>
+                            <?php echo $this->partial('menu/_elements/breadcrumb.phtml', array('parentItem' => $this->parentItem->parent->parent)); ?>
+                        <?php endif; ?>
+                        <li><a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'index', 'parentId' => $this->parentItem->parent->getId())); ?>"><?php echo $this->escape($this->parentItem->parent->getTitle()); ?></a> <span class="divider">/</span></li>
+                    <?php endif; ?>
+                    <li class="active"><?php echo $this->escape($this->parentItem->title); ?></li>
+                </ul>
             <?php endif; ?>
 
             <a href="<?php echo $this->url(array('controller' => 'menu', 'action' => 'add')) ?>"><i class="icon-plus"></i> Добавить пункт</a><br/><br/>

@@ -710,4 +710,31 @@ class SM_Menu_Item
             }
         }
     }
+
+    public function getChild()
+    {
+        return $this::getAllInstance($this->_id);
+    }
+
+    /**
+     * Позволяет оперделить наличие потомков
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function hasChild()
+    {
+        try {
+            $sql = 'SELECT COUNT(id) AS child_cnt FROM menu_item WHERE parent_id=:parent_id';
+            $result = $this->_db->query($sql, array('parent_id' => $this->_id))->fetch();
+
+            if (isset($result['child_cnt']) && $result['child_cnt'] > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
 }

@@ -47,6 +47,9 @@
                     <option value="null" <?php if ($this->menuItem->parent == null): ?>selected="selected"<?php endif; ?>>нет</option>
                     <?php foreach ($this->parentList as $parent): ?>
                         <option value="<?php echo $this->escape($parent->id); ?>" <?php if ($this->menuItem->parent !== null && $this->menuItem->parent->getId() == $parent->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($parent->title); ?></option>
+                        <?php if ($parent->hasChild()): ?>
+                            <?php echo $this->partial('menu/_elements/child.phtml', array('child' => $parent->getChild(), 'menuItem' => $this->menuItem, 'wid' => '--')); ?>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
                 <span class="help-inline hide">Заполните поле</span>
