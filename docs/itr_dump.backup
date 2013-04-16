@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.9
 -- Dumped by pg_dump version 9.2.2
--- Started on 2013-04-14 22:17:59
+-- Started on 2013-04-16 23:35:28
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -13,7 +13,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 205 (class 3079 OID 11639)
+-- TOC entry 207 (class 3079 OID 11639)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -21,8 +21,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2121 (class 0 OID 0)
--- Dependencies: 205
+-- TOC entry 2134 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -132,7 +132,7 @@ CREATE TABLE calendar (
 ALTER TABLE public.calendar OWNER TO garage;
 
 --
--- TOC entry 2122 (class 0 OID 0)
+-- TOC entry 2135 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: TABLE calendar; Type: COMMENT; Schema: public; Owner: garage
 --
@@ -155,7 +155,7 @@ CREATE TABLE calendar_category (
 ALTER TABLE public.calendar_category OWNER TO garage;
 
 --
--- TOC entry 2123 (class 0 OID 0)
+-- TOC entry 2136 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: TABLE calendar_category; Type: COMMENT; Schema: public; Owner: garage
 --
@@ -179,7 +179,7 @@ CREATE SEQUENCE calendar_category_id_seq
 ALTER TABLE public.calendar_category_id_seq OWNER TO garage;
 
 --
--- TOC entry 2124 (class 0 OID 0)
+-- TOC entry 2137 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: calendar_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: garage
 --
@@ -203,7 +203,7 @@ CREATE SEQUENCE calendar_id_seq
 ALTER TABLE public.calendar_id_seq OWNER TO garage;
 
 --
--- TOC entry 2125 (class 0 OID 0)
+-- TOC entry 2138 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: calendar_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: garage
 --
@@ -228,7 +228,7 @@ CREATE TABLE content_page (
 ALTER TABLE public.content_page OWNER TO garage;
 
 --
--- TOC entry 2126 (class 0 OID 0)
+-- TOC entry 2139 (class 0 OID 0)
 -- Dependencies: 166
 -- Name: COLUMN content_page.page_title; Type: COMMENT; Schema: public; Owner: garage
 --
@@ -392,7 +392,7 @@ CREATE TABLE menu_item (
 ALTER TABLE public.menu_item OWNER TO garage;
 
 --
--- TOC entry 2127 (class 0 OID 0)
+-- TOC entry 2140 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: COLUMN menu_item.sort_order; Type: COMMENT; Schema: public; Owner: garage
 --
@@ -478,7 +478,7 @@ CREATE TABLE news (
 ALTER TABLE public.news OWNER TO garage;
 
 --
--- TOC entry 2128 (class 0 OID 0)
+-- TOC entry 2141 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: TABLE news; Type: COMMENT; Schema: public; Owner: garage
 --
@@ -501,7 +501,7 @@ CREATE TABLE news_category (
 ALTER TABLE public.news_category OWNER TO garage;
 
 --
--- TOC entry 2129 (class 0 OID 0)
+-- TOC entry 2142 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: TABLE news_category; Type: COMMENT; Schema: public; Owner: garage
 --
@@ -525,12 +525,62 @@ CREATE SEQUENCE news_category_id_seq
 ALTER TABLE public.news_category_id_seq OWNER TO garage;
 
 --
--- TOC entry 2130 (class 0 OID 0)
+-- TOC entry 2143 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: news_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: garage
 --
 
 ALTER SEQUENCE news_category_id_seq OWNED BY news_category.id;
+
+
+--
+-- TOC entry 206 (class 1259 OID 32835)
+-- Name: partners; Type: TABLE; Schema: public; Owner: garage; Tablespace: 
+--
+
+CREATE TABLE partners (
+    id bigint NOT NULL,
+    link_id bigint,
+    title character varying(50) NOT NULL,
+    url character varying(255),
+    file character varying(255),
+    date_create date
+);
+
+
+ALTER TABLE public.partners OWNER TO garage;
+
+--
+-- TOC entry 2144 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: TABLE partners; Type: COMMENT; Schema: public; Owner: garage
+--
+
+COMMENT ON TABLE partners IS 'Таблица партнеров';
+
+
+--
+-- TOC entry 205 (class 1259 OID 32833)
+-- Name: partners_id_seq; Type: SEQUENCE; Schema: public; Owner: garage
+--
+
+CREATE SEQUENCE partners_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.partners_id_seq OWNER TO garage;
+
+--
+-- TOC entry 2145 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: partners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: garage
+--
+
+ALTER SEQUENCE partners_id_seq OWNED BY partners.id;
 
 
 --
@@ -788,7 +838,7 @@ CREATE TABLE vote_email (
 ALTER TABLE public.vote_email OWNER TO garage;
 
 --
--- TOC entry 2017 (class 2604 OID 32812)
+-- TOC entry 2024 (class 2604 OID 32812)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: garage
 --
 
@@ -796,7 +846,7 @@ ALTER TABLE ONLY calendar ALTER COLUMN id SET DEFAULT nextval('calendar_id_seq':
 
 
 --
--- TOC entry 2016 (class 2604 OID 32804)
+-- TOC entry 2023 (class 2604 OID 32804)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: garage
 --
 
@@ -804,7 +854,7 @@ ALTER TABLE ONLY calendar_category ALTER COLUMN id SET DEFAULT nextval('calendar
 
 
 --
--- TOC entry 2015 (class 2604 OID 32782)
+-- TOC entry 2022 (class 2604 OID 32782)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: garage
 --
 
@@ -812,7 +862,15 @@ ALTER TABLE ONLY news_category ALTER COLUMN id SET DEFAULT nextval('news_categor
 
 
 --
--- TOC entry 2071 (class 0 OID 16398)
+-- TOC entry 2025 (class 2604 OID 32838)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY partners ALTER COLUMN id SET DEFAULT nextval('partners_id_seq'::regclass);
+
+
+--
+-- TOC entry 2082 (class 0 OID 16398)
 -- Dependencies: 162
 -- Data for Name: banner; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -820,7 +878,7 @@ ALTER TABLE ONLY news_category ALTER COLUMN id SET DEFAULT nextval('news_categor
 
 
 --
--- TOC entry 2131 (class 0 OID 0)
+-- TOC entry 2146 (class 0 OID 0)
 -- Dependencies: 161
 -- Name: banner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -829,7 +887,7 @@ SELECT pg_catalog.setval('banner_id_seq', 22, true);
 
 
 --
--- TOC entry 2072 (class 0 OID 16405)
+-- TOC entry 2083 (class 0 OID 16405)
 -- Dependencies: 163
 -- Data for Name: banner_place; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -837,7 +895,7 @@ SELECT pg_catalog.setval('banner_id_seq', 22, true);
 
 
 --
--- TOC entry 2074 (class 0 OID 16410)
+-- TOC entry 2085 (class 0 OID 16410)
 -- Dependencies: 165
 -- Data for Name: bplace; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -846,7 +904,7 @@ INSERT INTO bplace (id, title, width, height, change_time) VALUES (1, 'Глав�
 
 
 --
--- TOC entry 2132 (class 0 OID 0)
+-- TOC entry 2147 (class 0 OID 0)
 -- Dependencies: 164
 -- Name: bplace_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -855,7 +913,7 @@ SELECT pg_catalog.setval('bplace_id_seq', 2, true);
 
 
 --
--- TOC entry 2113 (class 0 OID 32809)
+-- TOC entry 2124 (class 0 OID 32809)
 -- Dependencies: 204
 -- Data for Name: calendar; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -873,7 +931,7 @@ INSERT INTO calendar (id, link_id, date_event, time_event, title, file, place, s
 
 
 --
--- TOC entry 2111 (class 0 OID 32801)
+-- TOC entry 2122 (class 0 OID 32801)
 -- Dependencies: 202
 -- Data for Name: calendar_category; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -881,7 +939,7 @@ INSERT INTO calendar (id, link_id, date_event, time_event, title, file, place, s
 
 
 --
--- TOC entry 2133 (class 0 OID 0)
+-- TOC entry 2148 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: calendar_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -890,7 +948,7 @@ SELECT pg_catalog.setval('calendar_category_id_seq', 1, false);
 
 
 --
--- TOC entry 2134 (class 0 OID 0)
+-- TOC entry 2149 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: calendar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -899,14 +957,14 @@ SELECT pg_catalog.setval('calendar_id_seq', 1, true);
 
 
 --
--- TOC entry 2075 (class 0 OID 16415)
+-- TOC entry 2086 (class 0 OID 16415)
 -- Dependencies: 166
 -- Data for Name: content_page; Type: TABLE DATA; Schema: public; Owner: garage
 --
 
-INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (61, 'fom', NULL, 'Форум', NULL);
 INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (62, 'kalenda', NULL, 'Календарь', NULL);
 INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (35, 'main_page', NULL, 'Главная страница', '');
+INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (72, 'fom', NULL, 'Форум', NULL);
 INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALUES (59, 'o_nas', NULL, 'О нас', '<p><img src="/ckfinder/userfiles/images/boy2.jpg" /></p>
 
 <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств.</p>
@@ -938,7 +996,7 @@ INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALU
 
 
 --
--- TOC entry 2077 (class 0 OID 16423)
+-- TOC entry 2088 (class 0 OID 16423)
 -- Dependencies: 168
 -- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -946,7 +1004,7 @@ INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALU
 
 
 --
--- TOC entry 2079 (class 0 OID 16432)
+-- TOC entry 2090 (class 0 OID 16432)
 -- Dependencies: 170
 -- Data for Name: document_folder; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -954,7 +1012,7 @@ INSERT INTO content_page (link_id, page_title, parent_page, title, content) VALU
 
 
 --
--- TOC entry 2135 (class 0 OID 0)
+-- TOC entry 2150 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: document_folder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -963,7 +1021,7 @@ SELECT pg_catalog.setval('document_folder_id_seq', 1, false);
 
 
 --
--- TOC entry 2136 (class 0 OID 0)
+-- TOC entry 2151 (class 0 OID 0)
 -- Dependencies: 167
 -- Name: document_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -972,7 +1030,7 @@ SELECT pg_catalog.setval('document_id_seq', 1, false);
 
 
 --
--- TOC entry 2081 (class 0 OID 16438)
+-- TOC entry 2092 (class 0 OID 16438)
 -- Dependencies: 172
 -- Data for Name: document_search; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -980,7 +1038,7 @@ SELECT pg_catalog.setval('document_id_seq', 1, false);
 
 
 --
--- TOC entry 2137 (class 0 OID 0)
+-- TOC entry 2152 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: document_search_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -989,7 +1047,7 @@ SELECT pg_catalog.setval('document_search_id_seq', 1, false);
 
 
 --
--- TOC entry 2083 (class 0 OID 16447)
+-- TOC entry 2094 (class 0 OID 16447)
 -- Dependencies: 174
 -- Data for Name: menu_handler; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1002,7 +1060,7 @@ INSERT INTO menu_handler (id, title, controller) VALUES (6, 'Календарь'
 
 
 --
--- TOC entry 2138 (class 0 OID 0)
+-- TOC entry 2153 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: menu_handler_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1011,7 +1069,7 @@ SELECT pg_catalog.setval('menu_handler_id_seq', 6, true);
 
 
 --
--- TOC entry 2085 (class 0 OID 16456)
+-- TOC entry 2096 (class 0 OID 16456)
 -- Dependencies: 176
 -- Data for Name: menu_item; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1022,19 +1080,20 @@ INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible, sort_
 INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible, sort_order) VALUES (60, 'Новости', 'novoisti', NULL, 3, B'1', 2);
 INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible, sort_order) VALUES (61, 'Форум', 'fom', NULL, 1, B'1', 3);
 INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible, sort_order) VALUES (62, 'Календарь', 'kalenda', NULL, 6, B'1', 4);
+INSERT INTO menu_item (id, title, link, parent_id, handler_id, is_visible, sort_order) VALUES (72, 'Ntcn', 'ntcn', 71, 1, B'1', 1);
 
 
 --
--- TOC entry 2139 (class 0 OID 0)
+-- TOC entry 2154 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: menu_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
 
-SELECT pg_catalog.setval('menu_item_id_seq', 71, true);
+SELECT pg_catalog.setval('menu_item_id_seq', 72, true);
 
 
 --
--- TOC entry 2087 (class 0 OID 16466)
+-- TOC entry 2098 (class 0 OID 16466)
 -- Dependencies: 178
 -- Data for Name: menu_menu; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1044,7 +1103,7 @@ INSERT INTO menu_menu (id, title, code) VALUES (17, 'Нижнее меню', 'ni
 
 
 --
--- TOC entry 2140 (class 0 OID 0)
+-- TOC entry 2155 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: menu_menu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1053,7 +1112,7 @@ SELECT pg_catalog.setval('menu_menu_id_seq', 18, true);
 
 
 --
--- TOC entry 2088 (class 0 OID 16473)
+-- TOC entry 2099 (class 0 OID 16473)
 -- Dependencies: 179
 -- Data for Name: menu_menu_item; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1063,10 +1122,11 @@ INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 71);
 INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 60);
 INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 61);
 INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 62);
+INSERT INTO menu_menu_item (menu_id, item_id) VALUES (16, 72);
 
 
 --
--- TOC entry 2090 (class 0 OID 16478)
+-- TOC entry 2101 (class 0 OID 16478)
 -- Dependencies: 181
 -- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1077,7 +1137,7 @@ INSERT INTO news (id, link_id, date_public, title, file, short_text, full_text, 
 
 
 --
--- TOC entry 2109 (class 0 OID 32779)
+-- TOC entry 2120 (class 0 OID 32779)
 -- Dependencies: 200
 -- Data for Name: news_category; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1087,7 +1147,7 @@ INSERT INTO news_category (id, title, date_create) VALUES (2, 'События', 
 
 
 --
--- TOC entry 2141 (class 0 OID 0)
+-- TOC entry 2156 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: news_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1096,7 +1156,7 @@ SELECT pg_catalog.setval('news_category_id_seq', 3, true);
 
 
 --
--- TOC entry 2142 (class 0 OID 0)
+-- TOC entry 2157 (class 0 OID 0)
 -- Dependencies: 180
 -- Name: news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1105,7 +1165,25 @@ SELECT pg_catalog.setval('news_id_seq', 8, true);
 
 
 --
--- TOC entry 2092 (class 0 OID 16487)
+-- TOC entry 2126 (class 0 OID 32835)
+-- Dependencies: 206
+-- Data for Name: partners; Type: TABLE DATA; Schema: public; Owner: garage
+--
+
+INSERT INTO partners (id, link_id, title, url, file, date_create) VALUES (1, NULL, 'Центр Digital October', 'digitaloctober.ru', 'img_16-04-2013-23-19-27.jpg', '2013-04-16');
+
+
+--
+-- TOC entry 2158 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: partners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
+--
+
+SELECT pg_catalog.setval('partners_id_seq', 1, true);
+
+
+--
+-- TOC entry 2103 (class 0 OID 16487)
 -- Dependencies: 183
 -- Data for Name: phone; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1114,7 +1192,7 @@ INSERT INTO phone (id, address, phone, post_index, date_create) VALUES (1, '', '
 
 
 --
--- TOC entry 2143 (class 0 OID 0)
+-- TOC entry 2159 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: phone_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1123,7 +1201,7 @@ SELECT pg_catalog.setval('phone_id_seq', 2, true);
 
 
 --
--- TOC entry 2093 (class 0 OID 16494)
+-- TOC entry 2104 (class 0 OID 16494)
 -- Dependencies: 184
 -- Data for Name: tm_acl_role; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1183,7 +1261,7 @@ INSERT INTO tm_acl_role (tm_user_role_id, tm_user_resource_id, is_allow, privile
 
 
 --
--- TOC entry 2095 (class 0 OID 16500)
+-- TOC entry 2106 (class 0 OID 16500)
 -- Dependencies: 186
 -- Data for Name: tm_task_attribute_type; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1198,7 +1276,7 @@ INSERT INTO tm_task_attribute_type (id, title, handler, description) VALUES (7, 
 
 
 --
--- TOC entry 2144 (class 0 OID 0)
+-- TOC entry 2160 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: tm_task_attribute_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1207,7 +1285,7 @@ SELECT pg_catalog.setval('tm_task_attribute_type_id_seq', 8, true);
 
 
 --
--- TOC entry 2097 (class 0 OID 16506)
+-- TOC entry 2108 (class 0 OID 16506)
 -- Dependencies: 188
 -- Data for Name: tm_user; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1216,7 +1294,7 @@ INSERT INTO tm_user (id, login, password, role_id, date_create) VALUES (1, 'admi
 
 
 --
--- TOC entry 2098 (class 0 OID 16510)
+-- TOC entry 2109 (class 0 OID 16510)
 -- Dependencies: 189
 -- Data for Name: tm_user_attribute; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1224,7 +1302,7 @@ INSERT INTO tm_user (id, login, password, role_id, date_create) VALUES (1, 'admi
 
 
 --
--- TOC entry 2100 (class 0 OID 16519)
+-- TOC entry 2111 (class 0 OID 16519)
 -- Dependencies: 191
 -- Data for Name: tm_user_attribute_type; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1235,7 +1313,7 @@ INSERT INTO tm_user_attribute_type (id, title, handler, description) VALUES (3, 
 
 
 --
--- TOC entry 2145 (class 0 OID 0)
+-- TOC entry 2161 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: tm_user_attribute_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1244,7 +1322,7 @@ SELECT pg_catalog.setval('tm_user_attribute_type_id_seq', 4, true);
 
 
 --
--- TOC entry 2101 (class 0 OID 16523)
+-- TOC entry 2112 (class 0 OID 16523)
 -- Dependencies: 192
 -- Data for Name: tm_user_hash; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1253,7 +1331,7 @@ INSERT INTO tm_user_hash (user_id, attribute_key, title, type_id, list_value) VA
 
 
 --
--- TOC entry 2146 (class 0 OID 0)
+-- TOC entry 2162 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: tm_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1262,7 +1340,7 @@ SELECT pg_catalog.setval('tm_user_id_seq', 2, true);
 
 
 --
--- TOC entry 2102 (class 0 OID 16529)
+-- TOC entry 2113 (class 0 OID 16529)
 -- Dependencies: 193
 -- Data for Name: tm_user_profile; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1270,7 +1348,7 @@ SELECT pg_catalog.setval('tm_user_id_seq', 2, true);
 
 
 --
--- TOC entry 2104 (class 0 OID 16537)
+-- TOC entry 2115 (class 0 OID 16537)
 -- Dependencies: 195
 -- Data for Name: tm_user_resource; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1304,7 +1382,7 @@ INSERT INTO tm_user_resource (id, title, rtitle) VALUES (99, 'user/viewHash', '�
 
 
 --
--- TOC entry 2147 (class 0 OID 0)
+-- TOC entry 2163 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: tm_user_resource_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1313,7 +1391,7 @@ SELECT pg_catalog.setval('tm_user_resource_id_seq', 100, true);
 
 
 --
--- TOC entry 2106 (class 0 OID 16543)
+-- TOC entry 2117 (class 0 OID 16543)
 -- Dependencies: 197
 -- Data for Name: tm_user_role; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1323,7 +1401,7 @@ INSERT INTO tm_user_role (id, title, rtitle) VALUES (5, 'guest', 'Гость');
 
 
 --
--- TOC entry 2148 (class 0 OID 0)
+-- TOC entry 2164 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: tm_user_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: garage
 --
@@ -1332,7 +1410,7 @@ SELECT pg_catalog.setval('tm_user_role_id_seq', 6, true);
 
 
 --
--- TOC entry 2107 (class 0 OID 16547)
+-- TOC entry 2118 (class 0 OID 16547)
 -- Dependencies: 198
 -- Data for Name: vote_email; Type: TABLE DATA; Schema: public; Owner: garage
 --
@@ -1341,7 +1419,7 @@ INSERT INTO vote_email (link_id, val) VALUES (34, 'ivan87kharlampenkov@gmail.com
 
 
 --
--- TOC entry 2019 (class 2606 OID 16553)
+-- TOC entry 2027 (class 2606 OID 16553)
 -- Name: banner_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1350,7 +1428,7 @@ ALTER TABLE ONLY banner
 
 
 --
--- TOC entry 2021 (class 2606 OID 16555)
+-- TOC entry 2029 (class 2606 OID 16555)
 -- Name: banner_place_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1359,7 +1437,7 @@ ALTER TABLE ONLY banner_place
 
 
 --
--- TOC entry 2023 (class 2606 OID 16557)
+-- TOC entry 2031 (class 2606 OID 16557)
 -- Name: bplace_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1368,7 +1446,7 @@ ALTER TABLE ONLY bplace
 
 
 --
--- TOC entry 2057 (class 2606 OID 32806)
+-- TOC entry 2065 (class 2606 OID 32806)
 -- Name: calendar_category_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1377,7 +1455,7 @@ ALTER TABLE ONLY calendar_category
 
 
 --
--- TOC entry 2059 (class 2606 OID 32817)
+-- TOC entry 2067 (class 2606 OID 32817)
 -- Name: calendar_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1386,7 +1464,7 @@ ALTER TABLE ONLY calendar
 
 
 --
--- TOC entry 2025 (class 2606 OID 16559)
+-- TOC entry 2033 (class 2606 OID 16559)
 -- Name: content_page_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1395,7 +1473,7 @@ ALTER TABLE ONLY content_page
 
 
 --
--- TOC entry 2029 (class 2606 OID 16561)
+-- TOC entry 2037 (class 2606 OID 16561)
 -- Name: document_folder_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1404,7 +1482,7 @@ ALTER TABLE ONLY document_folder
 
 
 --
--- TOC entry 2027 (class 2606 OID 16563)
+-- TOC entry 2035 (class 2606 OID 16563)
 -- Name: document_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1413,7 +1491,7 @@ ALTER TABLE ONLY document
 
 
 --
--- TOC entry 2031 (class 2606 OID 16565)
+-- TOC entry 2039 (class 2606 OID 16565)
 -- Name: document_search_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1422,7 +1500,7 @@ ALTER TABLE ONLY document_search
 
 
 --
--- TOC entry 2033 (class 2606 OID 16567)
+-- TOC entry 2041 (class 2606 OID 16567)
 -- Name: menu_handler_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1431,7 +1509,7 @@ ALTER TABLE ONLY menu_handler
 
 
 --
--- TOC entry 2035 (class 2606 OID 16569)
+-- TOC entry 2043 (class 2606 OID 16569)
 -- Name: menu_item_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1440,7 +1518,7 @@ ALTER TABLE ONLY menu_item
 
 
 --
--- TOC entry 2039 (class 2606 OID 16571)
+-- TOC entry 2047 (class 2606 OID 16571)
 -- Name: menu_menu_item_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1449,7 +1527,7 @@ ALTER TABLE ONLY menu_menu_item
 
 
 --
--- TOC entry 2037 (class 2606 OID 16573)
+-- TOC entry 2045 (class 2606 OID 16573)
 -- Name: menu_menu_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1458,7 +1536,7 @@ ALTER TABLE ONLY menu_menu
 
 
 --
--- TOC entry 2055 (class 2606 OID 32784)
+-- TOC entry 2063 (class 2606 OID 32784)
 -- Name: news_category_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1467,7 +1545,7 @@ ALTER TABLE ONLY news_category
 
 
 --
--- TOC entry 2041 (class 2606 OID 16575)
+-- TOC entry 2049 (class 2606 OID 16575)
 -- Name: news_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1476,7 +1554,16 @@ ALTER TABLE ONLY news
 
 
 --
--- TOC entry 2043 (class 2606 OID 16577)
+-- TOC entry 2069 (class 2606 OID 32843)
+-- Name: partners_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
+--
+
+ALTER TABLE ONLY partners
+    ADD CONSTRAINT partners_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2051 (class 2606 OID 16577)
 -- Name: phone_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1485,7 +1572,7 @@ ALTER TABLE ONLY phone
 
 
 --
--- TOC entry 2045 (class 2606 OID 16579)
+-- TOC entry 2053 (class 2606 OID 16579)
 -- Name: tm_task_attribute_type_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1494,7 +1581,7 @@ ALTER TABLE ONLY tm_task_attribute_type
 
 
 --
--- TOC entry 2049 (class 2606 OID 16581)
+-- TOC entry 2057 (class 2606 OID 16581)
 -- Name: tm_user_attribute_type_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1503,7 +1590,7 @@ ALTER TABLE ONLY tm_user_attribute_type
 
 
 --
--- TOC entry 2047 (class 2606 OID 16583)
+-- TOC entry 2055 (class 2606 OID 16583)
 -- Name: tm_user_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1512,7 +1599,7 @@ ALTER TABLE ONLY tm_user
 
 
 --
--- TOC entry 2051 (class 2606 OID 16585)
+-- TOC entry 2059 (class 2606 OID 16585)
 -- Name: tm_user_resource_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1521,7 +1608,7 @@ ALTER TABLE ONLY tm_user_resource
 
 
 --
--- TOC entry 2053 (class 2606 OID 16587)
+-- TOC entry 2061 (class 2606 OID 16587)
 -- Name: tm_user_role_pkey; Type: CONSTRAINT; Schema: public; Owner: garage; Tablespace: 
 --
 
@@ -1530,7 +1617,7 @@ ALTER TABLE ONLY tm_user_role
 
 
 --
--- TOC entry 2060 (class 2606 OID 16588)
+-- TOC entry 2070 (class 2606 OID 16588)
 -- Name: banner_place_banner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1539,7 +1626,7 @@ ALTER TABLE ONLY banner_place
 
 
 --
--- TOC entry 2061 (class 2606 OID 16593)
+-- TOC entry 2071 (class 2606 OID 16593)
 -- Name: banner_place_bplace_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1548,7 +1635,7 @@ ALTER TABLE ONLY banner_place
 
 
 --
--- TOC entry 2069 (class 2606 OID 32823)
+-- TOC entry 2079 (class 2606 OID 32823)
 -- Name: calendar_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1557,7 +1644,7 @@ ALTER TABLE ONLY calendar
 
 
 --
--- TOC entry 2062 (class 2606 OID 24585)
+-- TOC entry 2072 (class 2606 OID 24585)
 -- Name: content_page_parent_page_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1566,7 +1653,7 @@ ALTER TABLE ONLY content_page
 
 
 --
--- TOC entry 2063 (class 2606 OID 16603)
+-- TOC entry 2073 (class 2606 OID 16603)
 -- Name: document_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1575,7 +1662,7 @@ ALTER TABLE ONLY document
 
 
 --
--- TOC entry 2064 (class 2606 OID 16637)
+-- TOC entry 2074 (class 2606 OID 16637)
 -- Name: menu_item_handler_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1584,7 +1671,7 @@ ALTER TABLE ONLY menu_item
 
 
 --
--- TOC entry 2065 (class 2606 OID 16642)
+-- TOC entry 2075 (class 2606 OID 16642)
 -- Name: menu_item_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1593,7 +1680,7 @@ ALTER TABLE ONLY menu_item
 
 
 --
--- TOC entry 2066 (class 2606 OID 16618)
+-- TOC entry 2076 (class 2606 OID 16618)
 -- Name: menu_menu_item_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1602,7 +1689,7 @@ ALTER TABLE ONLY menu_menu_item
 
 
 --
--- TOC entry 2067 (class 2606 OID 16623)
+-- TOC entry 2077 (class 2606 OID 16623)
 -- Name: menu_menu_item_menu_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1611,7 +1698,7 @@ ALTER TABLE ONLY menu_menu_item
 
 
 --
--- TOC entry 2068 (class 2606 OID 32828)
+-- TOC entry 2078 (class 2606 OID 32828)
 -- Name: news_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
 --
 
@@ -1620,7 +1707,16 @@ ALTER TABLE ONLY news
 
 
 --
--- TOC entry 2120 (class 0 OID 0)
+-- TOC entry 2080 (class 2606 OID 32844)
+-- Name: partners_link_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: garage
+--
+
+ALTER TABLE ONLY partners
+    ADD CONSTRAINT partners_link_id_fkey FOREIGN KEY (link_id) REFERENCES menu_item(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 2133 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -1631,7 +1727,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-04-14 22:17:59
+-- Completed on 2013-04-16 23:35:28
 
 --
 -- PostgreSQL database dump complete
