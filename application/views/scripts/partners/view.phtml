@@ -1,0 +1,40 @@
+<div class="right">
+
+    <?php echo $this->partial('news/_element/category.phtml', array('linkInfo' => $this->linkInfo, 'categoryList' => $this->categoryList)); ?>
+
+</div>
+<div class="content">
+
+    <h1><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Новости<?php endif; ?></h1>
+
+
+    <?php if ($this->newsList !== false): ?>
+        <div class="news">
+            <?php foreach ($this->newsList as $item): ?>
+                <div class="item">
+                    <div class="img">
+                        <?php if ($item->file->getName()): ?>
+                            <img src="/files<?php echo $this->escape($item->file->getSubPath()); ?>/<?php echo $this->escape($item->file->getPreview()); ?>"/>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="descript">
+                        <p class="title">
+                            <?php if ($this->category != null): ?>
+                                <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id, 'categoryId' => $this->category->id), $this->linkInfo->link . '-viewnews-category') ?>"><?php echo $this->escape($item->title); ?></a>
+                            <?php else: ?>
+                                <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $this->linkInfo->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a>
+                            <?php endif; ?>
+                        </p>
+
+                        <p class="date"><?php echo $this->escape(date('d.m.Y', strtotime($item->datePublic))); ?></p>
+
+                        <p><?php echo $this->escape($item->shortText); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="clear"></div>
+</div>

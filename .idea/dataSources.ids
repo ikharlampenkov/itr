@@ -214,6 +214,7 @@
       <foreign-key name="menu_item_parent_id_fkey" columns="parent_id" ref-table="menu_item" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
       <exported-key name="menu_item_parent_id_fkey" table="menu_item" schema="public" catalog="garage" columns="parent_id"/>
       <exported-key name="menu_menu_item_item_id_fkey" table="menu_menu_item" schema="public" catalog="garage" columns="item_id"/>
+      <exported-key name="partners_link_id_fkey" table="partners" schema="public" catalog="garage" columns="link_id"/>
     </table>
     <table name="menu_item_id_seq" schema="public" catalog="garage" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
@@ -286,6 +287,28 @@
       <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
     </table>
     <table name="news_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="partners" schema="public" catalog="garage" type="TABLE" remarks="0KLQsNCx0LvQuNGG0LAg0L/QsNGA0YLQvdC10YDQvtCy">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncGFydG5lcnNfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="link_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5"/>
+      <column name="title" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="url" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="file" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="true" jdbcType="91"/>
+      <primary-key name="partners_pkey" columns="id"/>
+      <foreign-key name="partners_link_id_fkey" columns="link_id" ref-table="menu_item" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="2" deferrability="2"/>
+    </table>
+    <table name="partners_id_seq" schema="public" catalog="garage" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
       <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
