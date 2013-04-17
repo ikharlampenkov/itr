@@ -47,7 +47,6 @@ class ContentpageController extends Zend_Controller_Action
             $oContentPage = SM_Module_ContentPage::getInstanceByLink($this->_link);
         }
 
-
         $this->view->assign('contentPage', $oContentPage);
     }
 
@@ -92,7 +91,11 @@ class ContentpageController extends Zend_Controller_Action
 
     public function editAction()
     {
-        $oContentPage = SM_Module_ContentPage::getInstanceByTitle($this->getRequest()->getParam('title'));
+        if ($this->_link != null) {
+            $oContentPage = SM_Module_ContentPage::getInstanceByLink($this->_link);
+        } else {
+            $oContentPage = SM_Module_ContentPage::getInstanceByTitle($this->getRequest()->getParam('title'));
+        }
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');

@@ -258,6 +258,7 @@ class SM_Menu_Item
                     '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
                     $defaults, $reqs
                 );
+                print_r($route);
                 $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
 
                 $route = new Zend_Controller_Router_Route(

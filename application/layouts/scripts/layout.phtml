@@ -119,11 +119,14 @@
         <div class="logo"><a href="/"></a></div>
 
         <nav>
-            <ul>
+            <ul id="menu">
                 <?php $firstItem = true; ?>
                 <?php foreach ($this->topMenuList as $item): ?>
                     <li <?php if ($firstItem): $firstItem = false; ?>class="first"<?php endif; ?> >
                         <a href="<?php echo $this->escape($item->getUrl($this->authUserRole)); ?>"><?php echo $this->escape($item->title) ?></a>
+                        <?php if ($item->hasChild()): ?>
+                            <?php echo $this->partial('_submenu.phtml', array('itemList' => $item->getChild(), 'authUserRole' => $this->authUserRole)); ?>
+                        <?php endif;?>
                     </li>
                 <?php endforeach; ?>
             </ul>
