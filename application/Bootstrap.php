@@ -116,6 +116,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $oMenuItemList = SM_Menu_Item::getAllInstance(null);
         foreach ($oMenuItemList as $menuItem) {
             $menuItem->getRoute($router);
+            if ($menuItem->hasChild()) {
+                $this->prepareChildRoute($menuItem->getChild(), $router);
+            }
+        }
+    }
+
+    private function prepareChildRoute($childList, $router)
+    {
+        foreach ($childList as $menuItem) {
+            $menuItem->getRoute($router);
+            if ($menuItem->hasChild()) {
+                $this->prepareChildRoute($menuItem->getChild(), $router);
+            }
         }
     }
 
