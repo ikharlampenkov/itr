@@ -45,6 +45,13 @@ class IndexController extends Zend_Controller_Action
 
         $partnersList = SM_Module_Partners::getAllInstance(null);
         $this->view->assign('partnersList', $partnersList);
+
+        //$now = date('Y-m-d');
+        $now = '2013-04-14';
+        $eventList = SM_Module_Calendar::getEventByDate($now);
+
+        $this->view->assign('calendarNow', $now);
+        $this->view->assign('calendarEventList', $eventList);
     }
 }
 

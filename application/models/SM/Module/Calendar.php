@@ -411,6 +411,31 @@ class SM_Module_Calendar
         }
     }
 
+    public static function getEventByDate($date)
+    {
+        try {
+            $db = Zend_Registry::get('db');
+
+            $sql = 'SELECT * FROM calendar WHERE date_event=:date ORDER BY time_event';
+            $bind = array('date' => $date);
+
+            $result = $db->query($sql, $bind)->fetchAll();
+
+            if (isset($result[0])) {
+                $retArray = array();
+                foreach ($result as $res) {
+                    $retArray[] = SM_Module_Calendar::getInstanceByArray($res);
+                }
+                return $retArray;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public static function getAllTopCalendarInstance()
     {
         try {
