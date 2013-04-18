@@ -279,34 +279,32 @@
         </div>
     </div>
 
+    <?php if ($this->partnersList != false): ?>
+        <!--Партнеры-->
+        <div class="center partners">
+            <h2>Партнеры</h2>
 
-    <!--Партнеры-->
-    <div class="center partners">
-        <h2>Партнеры</h2>
-
-        <div class="slider_partners">
-            <div class="jcarousel-skin-tango">
-                <div class="jcarousel-container">
-                    <div class="jcarousel-clip">
-                        <ul class="jcarousel-list" id="partners_carousel">
-                            <li class="jcarousel-item-1"><a href="/" target="_blank"><img src="/images/rvk.jpg" border="0"></a></li>
-                            <li class="jcarousel-item-2"><img src="/images/sk.jpg" border="0"></li>
-                            <li class="jcarousel-item-3"><img src="/images/fenam.jpg" border="0"></li>
-                            <li class="jcarousel-item-4"><img src="/images/ventures.jpg" border="0"></li>
-                            <li class="jcarousel-item-5"><img src="/images/do.jpg" border="0"></li>
-
-                            <li class="jcarousel-item-6"><img src="/images/fenam.jpg" border="0"></li>
-                            <li class="jcarousel-item-7"><img src="/images/rvk.jpg" border="0"></li>
-                            <li class="jcarousel-item-8"><img src="/images/do.jpg" border="0"></li>
-                            <li class="jcarousel-item-9"><img src="/images/ventures.jpg" border="0"></li>
-                        </ul>
+            <div class="slider_partners">
+                <div class="jcarousel-skin-tango">
+                    <div class="jcarousel-container">
+                        <div class="jcarousel-clip">
+                            <ul class="jcarousel-list" id="partners_carousel">
+                                <?php $i = 1; ?>
+                                <?php foreach ($this->partnersList as $partner): ?>
+                                    <?php if ($partner->file->getName()): ?>
+                                        <li class="jcarousel-item-<?php echo $i;?>"><a href="http://<?php echo $this->escape($partner->url); ?>" target="_blank"><img src="/files<?php echo $this->escape($partner->file->getSubPath()); ?>/<?php echo $this->escape($partner->file->getName()); ?>" border="0"></a></li>
+                                        <?php $i++; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div disabled="disabled" class="jcarousel-prev jcarousel-prev-disabled"></div>
+                        <div class="jcarousel-next"></div>
                     </div>
-                    <div disabled="disabled" class="jcarousel-prev jcarousel-prev-disabled"></div>
-                    <div class="jcarousel-next"></div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <?php //echo $this->contentPage->content; ?>
 <?php endif; ?>
