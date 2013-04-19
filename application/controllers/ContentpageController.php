@@ -47,6 +47,10 @@ class ContentpageController extends Zend_Controller_Action
             $oContentPage = SM_Module_ContentPage::getInstanceByLink($this->_link);
         }
 
+        if (!($oContentPage instanceof SM_Module_ContentPage)) {
+            $oContentPage = new SM_Module_ContentPage();
+        }
+
         $this->view->assign('contentPage', $oContentPage);
     }
 
