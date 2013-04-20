@@ -46,12 +46,41 @@ class IndexController extends Zend_Controller_Action
         $partnersList = SM_Module_Partners::getAllInstance(null);
         $this->view->assign('partnersList', $partnersList);
 
-        //$now = date('Y-m-d');
-        $now = '2013-04-14';
+        $now = date('Y-m-d');
+        //$now = '2013-04-14';
         $eventList = SM_Module_Calendar::getEventByDate($now);
 
         $this->view->assign('calendarNow', $now);
         $this->view->assign('calendarEventList', $eventList);
+    }
+
+    public function refreshCalendarAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $this->_helper->layout()->disableLayout();
+            Zend_Controller_Action_HelperBroker::removeHelper('viewRenderer');
+
+            $startDate = $this->getRequest()->getParam('date');
+            $direction = $this->getRequest()->getParam('direction', '+1');
+
+            $tempDate = date_parse($startDate);
+            if ($direction == '+1') {
+                $now = date('Y-m-d', mktime('0', '0', '0', $tempDate['month'], $tempDate['day'] + 1, $tempDate['year']));
+            } else {
+                $now = date('Y-m-d', mktime('0', '0', '0', $tempDate['month'], $tempDate['day'] - 1, $tempDate['year']));
+            }
+
+            $eventList = SM_Module_Calendar::getEventByDate($now);
+
+            $html = $this->view->partial("/index/refresh-calendar.phtml", array('calendarEventList' => $eventList));
+
+            $json = Zend_Json::encode(array('html' => $html, 'calendarNow' => $now, 'dateHtml' => '<b>' . date('d', strtotime($now)) . '</b> ' . date('F, l', strtotime($now))));
+
+            $this->getResponse()->setBody($json)->setHeader(
+                "content-type",
+                "application/json", true
+            );
+        }
     }
 }
 

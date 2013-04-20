@@ -124,7 +124,8 @@
 
                 <div class="today">
                     <a href="#" class="prev"></a>
-                    <b><?php echo date('d', strtotime($this->calendarNow)); ?></b> <?php echo date('F, l', strtotime($this->calendarNow)); ?>
+                    <span><b><?php echo date('d', strtotime($this->calendarNow)); ?></b> <?php echo date('F, l', strtotime($this->calendarNow)); ?></span>
+                    <input type="hidden" name="calendarDate" id="calendarDate" value="<?php echo $this->escape($this->calendarNow); ?>">
                     <a href="#" class="next"></a>
                 </div>
 

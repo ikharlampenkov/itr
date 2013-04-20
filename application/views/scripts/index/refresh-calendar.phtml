@@ -1,0 +1,10 @@
+<?php if ($this->calendarEventList): ?>
+    <?php foreach ($this->calendarEventList as $event): ?>
+        <article>
+            <header>
+                <h1><a href="<?php echo $this->url(array('controller' => 'calendar', 'action' => 'viewcalendar', 'id' => $event->id), $event->link->link . '-viewcalendar') ?>" rel="bookmark" title="<?php echo $this->escape($event->title); ?>"><?php echo $this->escape($event->title); ?></a></h1>
+            </header>
+            <p><?php echo $this->escape($event->shortText); ?></p>
+        </article>
+    <?php endforeach; ?>
+<?php endif; ?>

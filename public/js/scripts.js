@@ -41,6 +41,24 @@ function showContentPage(object, item) {
     }
 }
 
+function refreshCalendar(id, direction)
+{
+    var date = $('#' + id).val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/index/refresh-calendar/',
+        data: {date: date, direction: direction},
+        dataType: 'json',
+        success: function(data) {
+            $('div.projects_from_cal').empty().html(data.html);
+            $('#' + id).val(data.calendarNow);
+            $('.today span').html(data.dateHtml);
+
+        }
+    });
+}
+
 $(document).ready(function () {
     $('#mainmenu .menu li').hover(
         function () {

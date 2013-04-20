@@ -63,10 +63,12 @@
         jQuery(document).ready(function () {
 
             $('.cal_nav .prev').click(function () {
-                alert('По клику по видимому аякс запрос надо поставить на обновление списка ');
+                //alert('По клику по видимому аякс запрос надо поставить на обновление списка ');
+                refreshCalendar('calendarDate', '-1');
             });
             $('.cal_nav .next').click(function () {
-                alert('По клику по видимому аякс запрос надо поставить на обновление списка ');
+                //alert('По клику по видимому аякс запрос надо поставить на обновление списка ');
+                refreshCalendar('calendarDate', '+1');
             });
 
             jQuery('#partners_carousel').jcarousel({
