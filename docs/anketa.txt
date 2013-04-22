@@ -56,3 +56,70 @@ E-mail	*
 Смотреть на Твиттере всю ленту
 
 
+CREATE TABLE project_branch
+(
+  id bigserial NOT NULL,
+  title character varying(75) NOT NULL,
+  date_create date NOT NULL,
+  CONSTRAINT project_branch_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_branch
+  OWNER TO garage;
+COMMENT ON TABLE project_branch
+  IS 'Отрасли проектов';
+  
+CREATE TABLE project_direction
+(
+  id bigserial NOT NULL,
+  title character varying(75) NOT NULL,
+  branch_id bigint,
+  date_create date NOT NULL,
+  CONSTRAINT project_direction_pkey PRIMARY KEY (id),
+  CONSTRAINT project_direction_branch_id_fkey FOREIGN KEY (branch_id)
+      REFERENCES project_branch (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE SET NULL
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_direction
+  OWNER TO garage;
+COMMENT ON TABLE project_direction
+  IS 'Направление проекта';
+
+
+CREATE TABLE project_requirements
+(
+  id bigserial NOT NULL,
+  title character varying(75) NOT NULL,
+  date_create date NOT NULL,
+  CONSTRAINT project_requirements_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_requirements
+  OWNER TO garage;
+COMMENT ON TABLE project_requirements
+  IS 'Что требуется для завершения проекта';
+
+CREATE TABLE project_stage
+(
+  id bigserial NOT NULL,
+  title character varying(75) NOT NULL,
+  date_create date NOT NULL,
+  CONSTRAINT project_stage_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_stage
+  OWNER TO garage;
+COMMENT ON TABLE project_stage
+  IS 'Стадия проекта';
+  
+
+

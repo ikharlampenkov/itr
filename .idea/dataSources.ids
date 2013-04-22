@@ -340,6 +340,78 @@
       <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
     </table>
+    <table name="project_branch" schema="public" catalog="garage" type="TABLE" remarks="0J7RgtGA0LDRgdC70Lgg0L/RgNC+0LXQutGC0L7Qsg==">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9icmFuY2hfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91"/>
+      <primary-key name="project_branch_pkey" columns="id"/>
+      <exported-key name="project_direction_branch_id_fkey" table="project_direction" schema="public" catalog="garage" columns="branch_id"/>
+    </table>
+    <table name="project_branch_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="project_direction" schema="public" catalog="garage" type="TABLE" remarks="0J3QsNC/0YDQsNCy0LvQtdC90LjQtSDQv9GA0L7QtdC60YLQsA==">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9kaXJlY3Rpb25faWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
+      <column name="branch_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="project_direction_pkey" columns="id"/>
+      <foreign-key name="project_direction_branch_id_fkey" columns="branch_id" ref-table="project_branch" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="2" deferrability="2"/>
+    </table>
+    <table name="project_direction_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="project_requirements" schema="public" catalog="garage" type="TABLE" remarks="0KfRgtC+INGC0YDQtdCx0YPQtdGC0YHRjyDQtNC70Y8g0LfQsNCy0LXRgNGI0LXQvdC40Y8g0L/RgNC+0LXQutGC0LA=">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9yZXF1aXJlbWVudHNfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="project_requirements_pkey" columns="id"/>
+    </table>
+    <table name="project_requirements_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="project_stage" schema="public" catalog="garage" type="TABLE" remarks="0KHRgtCw0LTQuNGPINC/0YDQvtC10LrRgtCw">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9zdGFnZV9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="project_stage_pkey" columns="id"/>
+    </table>
+    <table name="project_stage_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
     <table name="tm_acl_role" schema="public" catalog="garage" type="TABLE">
       <column name="tm_user_role_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="tm_user_resource_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
