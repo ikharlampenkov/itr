@@ -1,0 +1,22 @@
+<legend>Стадии проекта</legend>
+
+<a href="<?php echo $this->url(array('controller' => 'project-stage', 'action' => 'add')) ?>"><i class="icon-plus"></i>Добавить стадию</a><br/><br/>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    <?php if ($this->stageList != false): ?>
+        <?php foreach ($this->stageList as $stage): ?>
+            <tr>
+                <td><?php echo $this->escape($stage->title); ?></a></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'project-stage', 'action' => 'edit', 'id' => $stage->id)); ?> "><i class="icon-pencil"></a>
+                    <a href="<?php echo $this->url(array('controller' => 'project-stage', 'action' => 'delete', 'id' => $stage->id)); ?> " onclick="return confirmDelete('<?php $stage->title ?> ');"><i class="icon-remove"></i></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</table>
