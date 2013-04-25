@@ -1,0 +1,37 @@
+<legend>Отрасль проекта</legend>
+
+<a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add')) ?>"><i class="icon-plus"></i>Добавить отрасль</a> /
+<a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add-direction')) ?>"><i class="icon-plus"></i>Добавить направление</a> /
+<br/><br/>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    <?php if ($this->branchList != false): ?>
+        <?php foreach ($this->branchList as $branch): ?>
+            <tr>
+                <td><?php echo $this->escape($branch->title); ?></a></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'edit', 'id' => $branch->id)); ?> "><i class="icon-pencil"></a>
+                    <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'delete', 'id' => $branch->id)); ?> " onclick="return confirmDelete('<?php $branch->title ?> ');"><i class="icon-remove"></i></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($this->directionList != false): ?>
+        <?php foreach ($this->directionList as $direction): ?>
+            <tr>
+                <td><?php echo $this->escape($direction->title); ?></a></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'edit-direction', 'id' => $direction->id)); ?> "><i class="icon-pencil"></a>
+                    <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'delete-direction', 'id' => $direction->id)); ?> " onclick="return confirmDelete('<?php $direction->title ?> ');"><i class="icon-remove"></i></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</table>
+

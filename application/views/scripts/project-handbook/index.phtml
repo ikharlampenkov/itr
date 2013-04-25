@@ -9,16 +9,16 @@
             <div class="well" style="padding: 8px 0;">
                 <ul class="nav nav-list">
                     <li <?php if ($this->currentHandbook == 'branch'): ?>class="active"<?php endif; ?>>
-                        <a href="/project-handbook/index/handbook/branch/">Отрасли</a>
+                        <a href="/project-handbook/index/handbook/branch/" onclick="changeHandbook('#handbookContent', 'branch', this); return false;">Отрасли</a>
                     </li>
                     <li <?php if ($this->currentHandbook == 'direction'): ?>class="active"<?php endif; ?>>
-                        <a href="/project-handbook/index/handbook/direction/">Направления</a>
+                        <a href="/project-handbook/index/handbook/direction/" onclick="changeHandbook('#handbookContent', 'direction', this); return false;">Направления</a>
                     </li>
                     <li <?php if ($this->currentHandbook == 'stage'): ?>class="active"<?php endif; ?>>
-                        <a href="/project-handbook/index/handbook/stage/">Стадии</a>
+                        <a href="/project-handbook/index/handbook/stage/" onclick="changeHandbook('#handbookContent', 'stage', this); return false;">Стадии</a>
                     </li>
                     <li <?php if ($this->currentHandbook == 'requirements'): ?>class="active"<?php endif; ?>>
-                        <a href="/project-handbook/index/handbook/requirements/">Что требуется</a>
+                        <a href="/project-handbook/index/handbook/requirements/" onclick="changeHandbook('#handbookContent', 'requirements', this); return false;">Что требуется</a>
                     </li>
                 </ul>
             </div>
@@ -33,6 +33,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        changeHandbook('#handbookContent', <?php echo $this->currentHandbook; ?>)
+        changeHandbook('#handbookContent', '<?php echo $this->currentHandbook; ?>', null);
     });
 </script>

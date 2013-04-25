@@ -1,0 +1,22 @@
+<legend>Что требуется для завершения проекта</legend>
+
+<a href="<?php echo $this->url(array('controller' => 'project-requirements', 'action' => 'add')) ?>"><i class="icon-plus"></i>Добавить стадию</a><br/><br/>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    <?php if ($this->requirementsList != false): ?>
+        <?php foreach ($this->requirementsList as $requirements): ?>
+            <tr>
+                <td><?php echo $this->escape($requirements->title); ?></a></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'project-requirements', 'action' => 'edit', 'id' => $requirements->id)); ?> "><i class="icon-pencil"></a>
+                    <a href="<?php echo $this->url(array('controller' => 'project-requirements', 'action' => 'delete', 'id' => $requirements->id)); ?> " onclick="return confirmDelete('<?php $requirements->title ?> ');"><i class="icon-remove"></i></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</table>

@@ -41,12 +41,18 @@ function showContentPage(object, item) {
     }
 }
 
-function changeHandbook(object, handbook) {
+function changeHandbook(object, handbook, link) {
     $.ajax({
         type: "GET",
         url: "/project-" + handbook + "/index/",
         success: function (data) {
             $(object).empty().html(data.html);
+            if (link != null) {
+                $('.nav-list li').each(function() {
+                    $(this).removeClass('active');
+                });
+                $(link).parent().addClass('active');
+            }
         }
     });
 }

@@ -1,0 +1,40 @@
+<legend>Добавить направление</legend>
+
+<?php if (isset($this->exception_msg)): ?>
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Ошибка!</h4>
+        <?php echo $this->escape($this->exception_msg); ?>
+    </div>
+<?php endif; ?>
+
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add-direction')); ?>" method="post">
+
+    <div class="control-group">
+        <label class="control-label">Название</label>
+
+        <div class="controls">
+            <input type="text" name="data[title]" value="<?php echo $this->escape($this->direction->title); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Отрасль</label>
+
+        <div class="controls">
+            <select name="data[branch_id]">
+                <?php if ($this->branchList != false): ?>
+                    <?php foreach ($this->branchList as $branch): ?>
+                        <option value="<?php echo $this->escape($branch->id); ?>" <?php if ($this->direction->branch !== null && $branch->id == $this->direction->branch->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($branch->title); ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-success" value="Сохранить"/>
+        <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
+    </div>
+</form>
