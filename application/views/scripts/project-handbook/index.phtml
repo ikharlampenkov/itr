@@ -8,19 +8,31 @@
 
             <div class="well" style="padding: 8px 0;">
                 <ul class="nav nav-list">
-                    <li class="active">
-                        <a href="/project-branch/index/">Отрасли</a>
-                        <a href="/project-handbook/index/">Направления</a>
-                        <a href="/project-handbook/index/">Стадии</a>
-                        <a href="/project-handbook/index/">Что требуется</a>
+                    <li <?php if ($this->currentHandbook == 'branch'): ?>class="active"<?php endif; ?>>
+                        <a href="/project-handbook/index/handbook/branch/">Отрасли</a>
+                    </li>
+                    <li <?php if ($this->currentHandbook == 'direction'): ?>class="active"<?php endif; ?>>
+                        <a href="/project-handbook/index/handbook/direction/">Направления</a>
+                    </li>
+                    <li <?php if ($this->currentHandbook == 'stage'): ?>class="active"<?php endif; ?>>
+                        <a href="/project-handbook/index/handbook/stage/">Стадии</a>
+                    </li>
+                    <li <?php if ($this->currentHandbook == 'requirements'): ?>class="active"<?php endif; ?>>
+                        <a href="/project-handbook/index/handbook/requirements/">Что требуется</a>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="span9">
+        <div class="span9" id="handbookContent">
 
             <h3>Справочник</h3>
 
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        changeHandbook('#handbookContent', <?php echo $this->currentHandbook; ?>)
+    });
+</script>

@@ -9,6 +9,7 @@
 
 class ProjectHandbookController extends Zend_Controller_Action
 {
+
     public function init()
     {
 
@@ -16,7 +17,10 @@ class ProjectHandbookController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        ///project-handbook/index/handbook/stage/
+        $handbook = $this->getRequest()->getParam('handbook', 'branch');
 
+        $this->view->assign('currentHandbook', $handbook);
     }
 
 }

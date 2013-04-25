@@ -16,7 +16,27 @@ class ProjectStageController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->assign('stageList', SM_Project_Stage::getAllInstance());
+        if ($this->_request->isXmlHttpRequest()) {
+
+            $this->_helper->layout()->disableLayout();
+            Zend_Controller_Action_HelperBroker::removeHelper('viewRenderer');
+
+
+            $stageList = SM_Project_Stage::getAllInstance();
+
+            $html = $this->view->partial(
+                "/project-stage/index.phtml", array('stageList' => $stageList)
+            );
+
+            $json = Zend_Json::encode(array('html' => $html));
+
+            $this->getResponse()->setBody($json)->setHeader(
+                "content-type",
+                "application/json", true
+            );
+        } else {
+            $this->view->assign('stageList', SM_Project_Stage::getAllInstance());
+        }
     }
 
     public function addAction()

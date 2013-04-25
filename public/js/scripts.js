@@ -41,8 +41,17 @@ function showContentPage(object, item) {
     }
 }
 
-function refreshCalendar(id, direction)
-{
+function changeHandbook(object, handbook) {
+    $.ajax({
+        type: "GET",
+        url: "/project-" + handbook + "/index/",
+        success: function (data) {
+            $(object).empty().html(data.html);
+        }
+    });
+}
+
+function refreshCalendar(id, direction) {
     var date = $('#' + id).val();
 
     $.ajax({
@@ -50,7 +59,7 @@ function refreshCalendar(id, direction)
         url: '/index/refresh-calendar/',
         data: {date: date, direction: direction},
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             $('div.projects_from_cal').empty().html(data.html);
             $('#' + id).val(data.calendarNow);
             $('.today span').html(data.dateHtml);
