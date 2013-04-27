@@ -1,7 +1,16 @@
-<legend>Отрасль проекта</legend>
+<legend>
+    <?php if ($this->currentBranch == null): ?>
+        Отрасль проекта
+    <?php else: ?>
+        Направление проекта для <?php echo $this->escape($this->currentBranch->title); ?>
+    <?php endif; ?>
+</legend>
 
-<a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add')) ?>"><i class="icon-plus"></i>Добавить отрасль</a> /
-<a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add-direction')) ?>"><i class="icon-plus"></i>Добавить направление</a> /
+<?php if ($this->branchId == 0): ?>
+    <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add')) ?>"><i class="icon-plus"></i>Добавить отрасль</a>
+<?php else: ?>
+    <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'add-direction')) ?>"><i class="icon-plus"></i>Добавить направление</a>
+<?php endif; ?>
 <br/><br/>
 
 
@@ -13,7 +22,7 @@
     <?php if ($this->branchList != false): ?>
         <?php foreach ($this->branchList as $branch): ?>
             <tr>
-                <td><?php echo $this->escape($branch->title); ?></a></td>
+                <td><a href="<?php echo $this->url(array('controller' => 'project-handbook', 'action' => 'index', 'handbook' => 'branch', 'branchId' => $branch->id)); ?>"><?php echo $this->escape($branch->title); ?></a></td>
                 <td class="tedit">
                     <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'edit', 'id' => $branch->id)); ?> "><i class="icon-pencil"></a>
                     <a href="<?php echo $this->url(array('controller' => 'project-branch', 'action' => 'delete', 'id' => $branch->id)); ?> " onclick="return confirmDelete('<?php $branch->title ?> ');"><i class="icon-remove"></i></a>

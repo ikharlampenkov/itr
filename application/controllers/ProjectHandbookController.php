@@ -21,6 +21,7 @@ class ProjectHandbookController extends Zend_Controller_Action
         $handbook = $this->getRequest()->getParam('handbook', 'branch');
 
         $this->view->assign('currentHandbook', $handbook);
+        $this->view->assign('branchId', $this->getRequest()->getParam('branchId', 0));
     }
 
 }

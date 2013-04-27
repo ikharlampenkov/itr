@@ -44,7 +44,7 @@ function showContentPage(object, item) {
 function changeHandbook(object, handbook, link) {
     $.ajax({
         type: "GET",
-        url: "/project-" + handbook + "/index/",
+        url: "/project-" + handbook + "/",
         success: function (data) {
             $(object).empty().html(data.html);
             if (link != null) {

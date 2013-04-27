@@ -11,9 +11,6 @@
                     <li <?php if ($this->currentHandbook == 'branch'): ?>class="active"<?php endif; ?>>
                         <a href="/project-handbook/index/handbook/branch/" onclick="changeHandbook('#handbookContent', 'branch', this); return false;">Отрасли</a>
                     </li>
-                    <li <?php if ($this->currentHandbook == 'direction'): ?>class="active"<?php endif; ?>>
-                        <a href="/project-handbook/index/handbook/direction/" onclick="changeHandbook('#handbookContent', 'direction', this); return false;">Направления</a>
-                    </li>
                     <li <?php if ($this->currentHandbook == 'stage'): ?>class="active"<?php endif; ?>>
                         <a href="/project-handbook/index/handbook/stage/" onclick="changeHandbook('#handbookContent', 'stage', this); return false;">Стадии</a>
                     </li>
@@ -33,6 +30,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        <?php if ($this->currentHandbook == 'branch'): ?>
+        changeHandbook('#handbookContent', 'branch/index/branchId/<?php echo $this->branchId; ?>', null);
+        <?php else: ?>
         changeHandbook('#handbookContent', '<?php echo $this->currentHandbook; ?>', null);
+        <?php endif; ?>
     });
 </script>
