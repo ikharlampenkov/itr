@@ -42,16 +42,18 @@
 
 
                 <div id="img_box">
-                    <div class="item">
-                        <img id="img1" class="item_img" src="/images/boy.jpg" border="0" width="231" height="249">
 
-                        <div class="description">
-                            <h1>О нас</h1>
+                    <?php if ($this->bannerList != false): ?>
+                        <?php foreach ($this->bannerList as $banner): ?>
+                            <div class="item">
+                                <a href="http://<?php echo $banner->getBanner()->link; ?>" title="<?php echo $banner->getBanner()->title; ?>">
+                                    <img src="/banners/<?php echo $banner->getBanner()->img->getName(); ?>" alt="<?php echo $banner->getBanner()->title; ?>">
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
 
-                            <p>Наше предназначение - помочь Стартаперу найти инвестиции в свой проект, а банкам и инвесторам - принять активное участие в развитии инновационных разработок, получать дивиденды от вложенных денежных средств. </p>
-                            <a href="/" class="read_more"></a>
-                        </div>
-                    </div>
+                    <?php /*
                     <div class="item">
                         <img id="img2" class="item_img" src="/images/boy.jpg" border="0" width="231" height="249">
 
@@ -72,11 +74,18 @@
                             <a href="/" class="read_more"></a>
                         </div>
                     </div>
+ */
+                    ?>
+
                 </div>
                 <div id="imgthumb_shape">
-                    <a href="" class="thumblink_shape" id="imglink_shape1"></a>
-                    <a href="" class="thumblink_shape" id="imglink_shape2"></a>
-                    <a href="" class="thumblink_shape" id="imglink_shape3"></a>
+                    <?php if ($this->bannerList != false): ?>
+                        <?php $i = 1; ?>
+                        <?php foreach ($this->bannerList as $banner): ?>
+                            <a href="" class="thumblink_shape" id="imglink_shape<?php echo $i; ?>"></a>
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
 
                     <div class="clear"></div>
                 </div>

@@ -52,6 +52,10 @@ class IndexController extends Zend_Controller_Action
 
         $this->view->assign('calendarNow', $now);
         $this->view->assign('calendarEventList', $eventList);
+
+        $oPlace = SM_Banner_Place::getInstanceById(1);
+        $this->view->assign('bannerList', SM_Banner_PlaceMark::getAllInstance($oPlace));
+        $this->view->assign('mainPlace', $oPlace);
     }
 
     public function refreshCalendarAction()
