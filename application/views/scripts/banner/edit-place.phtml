@@ -1,33 +1,48 @@
+<legend>Редактировать площадку</legend>
 
-<h1>Редактировать площадку</h1>
+<?php if (isset($this->exception_msg)): ?>
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Ошибка!</h4>
+        <?php echo $this->escape($this->exception_msg); ?>
+    </div>
+<?php endif; ?>
 
-<div class="cont_text">
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'editPlace', 'id' => $this->place->id)); ?>" method="post" enctype="multipart/form-data">
+    <div class="control-group">
+        <label class="control-label">Название</label>
 
-    <?php if (isset($this->exception_msg)): ?>
-    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-    <br/>
-    <?php endif; ?>
+        <div class="controls">
+            <input type="text" name="data[title]" value="<?php echo $this->escape($this->place->title); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Ширина</label>
 
-    <form action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'editPlace', 'id' => $this->place->id)); ?>" method="post" enctype="multipart/form-data">
-        <table width="100%">
-            <tr>
-                <td class="ttovar_title">Название</td>
-                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->place->title); ?>"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar_title">Ширина</td>
-                <td class="ttovar"><input name="data[width]" value="<?php echo $this->escape($this->place->width); ?>"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar_title">Высота</td>
-                <td class="ttovar"><input name="data[height]" value="<?php echo $this->escape($this->place->height); ?>"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar_title">Время между сменой баннеров</td>
-                <td class="ttovar"><input name="data[change_time]" value="<?php echo $this->escape($this->place->changeTime); ?>"/></td>
-            </tr>
-        </table>
-        <input id="save" name="save" type="submit" value="Сохранить"/>
-    </form>
+        <div class="controls">
+            <input type="text" name="data[width]" value="<?php echo $this->escape($this->place->width); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Высота</label>
 
-</div>
+        <div class="controls">
+            <input type="text" name="data[height]" value="<?php echo $this->escape($this->place->height); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Время между сменой баннеров</label>
+
+        <div class="controls">
+            <input type="text" name="data[change_time]" value="<?php echo $this->escape($this->place->changeTime); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-success" value="Сохранить"/>
+        <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'viewPlace')) ?>" class="btn btn-danger">Отмена</a>
+    </div>
+</form>

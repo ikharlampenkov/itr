@@ -1,40 +1,37 @@
+<legend>Размещение баннеров. Площадка <?php echo $this->escape($this->place->title); ?></legend>
 
-<h1>Размещение баннеров. Площадка <?php echo $this->escape($this->place->title); ?></h1>
-
-<div class="cont_text">
-
-    <?php if (isset($this->exception_msg)): ?>
-    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-    <br/>
-    <?php endif; ?>
-
-    <div class="sub-menu">
-        <a href="<?php $this->url(array('controller' => 'banner', 'action' => 'viewPlace')); ?>">Все Площадки</a>
+<?php if (isset($this->exception_msg)): ?>
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Ошибка!</h4>
+        <?php echo $this->escape($this->exception_msg); ?>
     </div>
-    <br/>
+<?php endif; ?>
 
-    <form action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'placemark', 'idPlace' => $this->place->id)); ?>" method="post" enctype="multipart/form-data">
+<a href="<?php $this->url(array('controller' => 'banner', 'action' => 'viewPlace')); ?>">Все Площадки</a><br/><br/>
 
-        <table width="100%">
-            <tr>
-                <td class="ttovar_title">Пользователь</td>
-                <td class="ttovar" style="width: 90px;">Разместить</td>
-                <td class="ttovar"></td>
-            </tr>
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'placemark', 'idPlace' => $this->place->id)); ?>" method="post" enctype="multipart/form-data">
 
-            <?php if ($this->bannerList !== false): ?>
+    <table class="table">
+        <tr>
+            <th>Баннер</th>
+            <th style="width: 90px;">Разместить</th>
+            <th></th>
+        </tr>
+
+        <?php if ($this->bannerList !== false): ?>
             <?php foreach ($this->bannerList as $banner): ?>
                 <tr>
                     <td class="ttovar_title"><?php echo $this->escape($banner->title); ?></td>
                     <td class="ttovar"><input type="checkbox" name="data[<?php echo $this->escape($banner->id); ?>][place]" <?php if (isset($this->placeAcl[$banner->id])): ?>checked="checked"<?php endif; ?> /></td>
                     <td class="ttovar"></td>
                 </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-        </table>
+    </table>
 
-        <input id="save" name="save" type="submit" value="Сохранить"/>
-    </form>
-
-</div>
+    <div class="form-actions">
+        <input type="submit" class="btn btn-success" value="Сохранить"/>
+        <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'viewPlace')) ?>" class="btn btn-danger">Отмена</a>
+    </div>
+</form>

@@ -1,29 +1,41 @@
+<legend>Добавить баннер</legend>
 
-<h1>Добавить баннер</h1>
+<?php if (isset($this->exception_msg)): ?>
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Ошибка!</h4>
+        <?php echo $this->escape($this->exception_msg); ?>
+    </div>
+<?php endif; ?>
 
-<div class="cont_text">
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'add')); ?>" method="post" enctype="multipart/form-data">
 
-    <?php if (isset($this->exception_msg)): ?>
-    <div>Ошибка: <?php echo $this->escape($this->exception_msg); ?></div>
-    <br/>
-    <?php endif; ?>
+    <div class="control-group">
+        <label class="control-label">Название</label>
 
-    <form action="<?php echo $this->url(array('controller' => 'banner', 'action' => 'add')); ?>" method="post" enctype="multipart/form-data">
-        <table width="100%">
-            <tr>
-                <td class="ttovar_title">Название</td>
-                <td class="ttovar"><input name="data[title]" value="<?php echo $this->escape($this->banner->title); ?>"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar_title">Ссылка</td>
-                <td class="ttovar"><input name="data[link]" value="<?php echo $this->escape($this->banner->link); ?>"/></td>
-            </tr>
-            <tr>
-                <td class="ttovar_title">Файл</td>
-                <td class="ttovar"><input type="file" name="img"/></td>
-            </tr>
-        </table>
-        <input id="save" name="save" type="submit" value="Сохранить"/>
-    </form>
+        <div class="controls">
+            <input type="text" name="data[title]" value="<?php echo $this->escape($this->banner->title); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Ссылка</label>
 
-</div>
+        <div class="controls">
+            <input type="text" name="data[link]" value="<?php echo $this->escape($this->banner->link); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Файл</label>
+
+        <div class="controls">
+            <input type="file" name="img"/>
+            <span class="help-inline hide">Заполните поле</span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-success" value="Сохранить"/>
+        <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
+    </div>
+</form>

@@ -1,30 +1,30 @@
+<legend>Баннеры</legend>
 
-<h1>Баннеры</h1>
 
-<div class="cont_text">
+<a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'add')); ?>"><i class="icon-plus"></i>добавить баннер</a> /
+<a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'viewPlace')); ?>">Площадки</a><br/><br/>
 
-    <div class="sub-menu">
-        <img src="/images/add.png" alt="Добавить"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'add')); ?>">добавить баннер</a>&nbsp;&nbsp;
-        <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'viewPlace')); ?>">Площадки</a>
-    </div>
+<table class="table table-bordered">
+    <tr>
+        <th>Баннер</th>
+        <th>Название</th>
+        <th>Ссылка</th>
+        <th>Действия</th>
+    </tr>
 
-    <table width="100%">
-
-        <?php if ($this->bannerList!==false): ?>
+    <?php if ($this->bannerList !== false): ?>
         <?php foreach ($this->bannerList as $banner): ?>
-        <tr>
-            <td class="ttovar"><?php if ($banner->img->getName()): ?><img src="/banners/<?php echo $banner->img->getPreview(); ?>"/><?php endif; ?></td>
-            <td class="ttovar"><?php echo $this->escape($banner->title); ?></td>
-            <td class="ttovar"><?php echo $this->escape($banner->link); ?></td>
-            <td class="tedit">
-                <a href="<?php echo $this->url(array('controller' => 'banner','action' => 'edit', 'id' => $banner->id)); ?>">редактировать</a><br/>
-                <a href="<?php echo $this->url(array('controller' => 'banner','action' => 'delete', 'id' => $banner->id)); ?>" onclick="return confirmDelete('<?php echo $this->escape($banner->title); ?>');" style="color: #830000">удалить</a>
-            </td>
+            <tr>
+                <td><?php if ($banner->img->getName()): ?><img src="/banners/<?php echo $banner->img->getPreview(); ?>"/><?php endif; ?></td>
+                <td><?php echo $this->escape($banner->title); ?></td>
+                <td><?php echo $this->escape($banner->link); ?></td>
+                <td class="tedit">
+                    <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'edit', 'id' => $banner->id)); ?>"><i class="icon-pencil"></i></a>
+                    <a href="<?php echo $this->url(array('controller' => 'banner', 'action' => 'delete', 'id' => $banner->id)); ?>" onclick="return confirmDelete('<?php echo $this->escape($banner->title); ?>');"><i class="icon-remove"></i></a>
+                </td>
 
-        </tr>
+            </tr>
         <?php endforeach; ?>
-        <?php endif; ?>
+    <?php endif; ?>
 
-    </table>
-
-</div>
+</table>
