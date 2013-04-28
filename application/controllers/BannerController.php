@@ -140,7 +140,6 @@ class BannerController extends Zend_Controller_Action
             SM_Banner_PlaceMark::deleteFromDB($oPlace);
             try {
                 foreach ($data as $idBanner => $values) {
-
                     $companyAcl = new SM_Banner_PlaceMark($oPlace);
                     $companyAcl->setBanner(SM_Banner_Banner::getInstanceById($idBanner));
 

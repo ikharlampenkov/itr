@@ -213,7 +213,7 @@ class SM_Banner_Place
             $sql = 'INSERT INTO bplace(title, width, height, change_time) VALUES (:title, :width, :height, :change_time)';
             $this->_db->query($sql, array('title' => $this->_title, 'width' => $this->_width, 'height' => $this->_height, 'change_time' => $this->_changeTime));
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('bplace', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

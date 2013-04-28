@@ -60,6 +60,7 @@ class SM_Banner_PlaceMark
 
     /**
      * @param $place
+     *
      * @return SM_Banner_PlaceMark
      */
     public function __construct($place)
@@ -76,11 +77,19 @@ class SM_Banner_PlaceMark
     public function saveToDb()
     {
         try {
-            $sql = 'REPLACE INTO banner_place(banner_id, bplace_id)
+            $this->_db->beginTransaction();
+
+            $sql = 'DELETE FROM banner_place WHERE banner_id=:banner_id AND bplace_id=:bplace_id';
+            $this->_db->query($sql, array('banner_id' => $this->_banner->getId(), 'bplace_id' => $this->_place->getId()));
+
+            $sql
+                = 'INSERT INTO banner_place(banner_id, bplace_id)
                                 VALUES (:banner_id, :bplace_id)';
             $this->_db->query($sql, array('banner_id' => $this->_banner->getId(), 'bplace_id' => $this->_place->getId()));
 
+            $this->_db->commit();
         } catch (Exception $e) {
+            $this->_db->rollBack();
             throw new Exception($e->getMessage());
         }
     }
@@ -104,8 +113,10 @@ class SM_Banner_PlaceMark
 
     /**
      *
-     * @param $place
+     * @param       $place
      * @param array $values
+     *
+     * @throws Exception
      * @return SM_Banner_PlaceMark
      * @static
      * @access public
@@ -125,6 +136,7 @@ class SM_Banner_PlaceMark
      *
      * @param $place
      * @param $city_id
+     *
      * @return array
      * @static
      * @access public
@@ -135,7 +147,8 @@ class SM_Banner_PlaceMark
             $config = Zend_Registry::get('production');
             $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
 
-            $sql = 'SELECT * FROM banner_place, banner
+            $sql
+                = 'SELECT * FROM banner_place, banner
                     WHERE banner_place.banner_id=banner.id AND bplace_id=:bplace_id';
             $result = $db->query($sql, array('bplace_id' => $place->getId()))->fetchAll();
 
@@ -157,6 +170,7 @@ class SM_Banner_PlaceMark
      *
      *
      * @param array $values
+     *
      * @return void
      * @access public
      */

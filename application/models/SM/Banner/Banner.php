@@ -170,7 +170,7 @@ class SM_Banner_Banner
             $sql = 'INSERT INTO banner(title, link) VALUES (:title, :link)';
             $this->_db->query($sql, array('title' => $this->_title, 'link' => $this->_link));
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('banner', 'id');
 
             $fileName = $this->_img->download('img');
             if ($fileName !== false) {
