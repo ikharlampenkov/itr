@@ -1,0 +1,5 @@
+<?php if ($this->directionList !== false): ?>
+    <?php foreach ($this->directionList as $direction): ?>
+        <option value="<?php echo $this->escape($direction->id); ?>"><?php echo $this->escape($direction->title); ?></option>
+    <?php endforeach; ?>
+<?php endif; ?>

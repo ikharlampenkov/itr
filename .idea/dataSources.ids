@@ -18,7 +18,7 @@
     <schema name="public" catalog="garage"/>
     <table name="banner" schema="public" catalog="garage" type="TABLE">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgnYmFubmVyX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
-      <column name="img" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
+      <column name="img" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="link" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <column name="title" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <primary-key name="banner_pkey" columns="id"/>
@@ -340,11 +340,36 @@
       <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
     </table>
+    <table name="project" schema="public" catalog="garage" type="TABLE" remarks="0KLQsNCx0LvQuNGG0LAg0L/RgNC+0LXQutGC0L7Qsg==">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="title" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12" remarks="0J3QsNC30LLQsNC90LjQtSDQv9GA0L7QtdC60YLQsA=="/>
+      <column name="is_company" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7" def="ZmFsc2U=" remarks="0JLRiyAtINC60L7QvNC/0LDQvdC40Y8/"/>
+      <column name="company_title" sqlType="varchar" length="2147483647" precision="0" nullable="true" jdbcType="12" remarks="0J3QsNC30LLQsNC90LjQtSDQutC+0LzQsNC90LjQuA=="/>
+      <column name="company_contact_fio" sqlType="varchar" length="2147483647" precision="0" nullable="true" jdbcType="12" remarks="0KQu0Jgu0J4uINC60L7QvdGC0LDQutGC0L3QvtCz0L4g0LvQuNGG0LA="/>
+      <column name="company_contact_phone" sqlType="varchar" length="2147483647" precision="0" nullable="true" jdbcType="12" remarks="0JrQvtC90YLQsNC60YLQvdGL0Lkg0YLQtdC70LXRhNC+0L0="/>
+      <column name="company_contact_email" sqlType="varchar" length="2147483647" precision="0" nullable="true" jdbcType="12" remarks="RS1tYWlsCSoJCQkJCQ=="/>
+      <column name="description" sqlType="varchar" length="2147483647" precision="0" nullable="true" jdbcType="12" remarks="0J7Qv9C40YHQsNC90LjQtSDQv9GA0L7QtdC60YLQsA=="/>
+      <column name="resulting_products" sqlType="varchar" length="220" precision="0" nullable="true" jdbcType="12" remarks="0JLQuNC0INGA0LXQt9GD0LvRjNGC0LjRgNGD0Y7RidC10Lkg0L/RgNC+0LTRg9C60YbQuNC4ICjQuNC70Lgg0YLQtdGF0L3QvtC70L7Qs9C40LgpINC/0YDQvtC10LrRgtCw"/>
+      <column name="basic_function" sqlType="varchar" length="1024" precision="0" nullable="true" jdbcType="12" remarks="0JHQsNC30L7QstGL0LUg0YTRg9C90LrRhtC40LggKNC/0L4g0LLQvtC30LzQvtC20L3QvtGB0YLQuCDQvdC1INCx0L7Qu9C10LUgNSk="/>
+      <column name="additional_features" sqlType="varchar" length="520" precision="0" nullable="true" jdbcType="12" remarks="0JTQvtC/0L7Qu9C90LjRgtC10LvRjNC90YvQtSDRhNGD0L3QutGG0LjQuA=="/>
+      <column name="potential_customers" sqlType="varchar" length="520" precision="0" nullable="true" jdbcType="12" remarks="0J/QvtGC0LXQvdGG0LjQsNC70YzQvdGL0LUg0L/QvtGC0YDQtdCx0LjRgtC10LvQuAk="/>
+      <column name="analogs" sqlType="varchar" length="1024" precision="0" nullable="true" jdbcType="12" remarks="0KHRg9GJ0LXRgdGC0LLRg9GO0YnQuNC1INCw0L3QsNC70L7Qs9C4"/>
+      <column name="branch_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5" remarks="0J7RgtGA0LDRgdC70Yw="/>
+      <column name="stage_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5" remarks="0KHRgtCw0LTQuNGPINC/0YDQvtC10LrRgtCw"/>
+      <column name="requirements_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5" remarks="0J3QsNC00L4g0LTQu9GPINC30LDQstC10YDRiNC10L3QuNGP"/>
+      <column name="requirements_text" sqlType="varchar" length="520" precision="0" nullable="true" jdbcType="12" remarks="0J3QsNC00L4g0LTQu9GPINC30LDQstC10YDRiNC10L3QuNGPINGC0LXQutGB0YIJCQ=="/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91" remarks="0JTQsNGC0LAg0YHQvtC30LTQsNC90LjRjw=="/>
+      <primary-key name="project_pkey" columns="id"/>
+      <foreign-key name="project_branch_id_fkey" columns="branch_id" ref-table="project_branch" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+      <foreign-key name="project_requirements_id_fkey" columns="requirements_id" ref-table="project_requirements" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+      <foreign-key name="project_stage_id_fkey" columns="stage_id" ref-table="project_stage" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
     <table name="project_branch" schema="public" catalog="garage" type="TABLE" remarks="0J7RgtGA0LDRgdC70Lgg0L/RgNC+0LXQutGC0L7Qsg==">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9icmFuY2hfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
       <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
       <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91"/>
       <primary-key name="project_branch_pkey" columns="id"/>
+      <exported-key name="project_branch_id_fkey" table="project" schema="public" catalog="garage" columns="branch_id"/>
       <exported-key name="project_direction_branch_id_fkey" table="project_direction" schema="public" catalog="garage" columns="branch_id"/>
     </table>
     <table name="project_branch_id_seq" schema="public" catalog="garage" type="SEQUENCE">
@@ -363,6 +388,7 @@
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9kaXJlY3Rpb25faWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
       <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
       <column name="branch_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5"/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91"/>
       <primary-key name="project_direction_pkey" columns="id"/>
       <foreign-key name="project_direction_branch_id_fkey" columns="branch_id" ref-table="project_branch" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="2" deferrability="2"/>
     </table>
@@ -378,10 +404,24 @@
       <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
     </table>
+    <table name="project_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
     <table name="project_requirements" schema="public" catalog="garage" type="TABLE" remarks="0KfRgtC+INGC0YDQtdCx0YPQtdGC0YHRjyDQtNC70Y8g0LfQsNCy0LXRgNGI0LXQvdC40Y8g0L/RgNC+0LXQutGC0LA=">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9yZXF1aXJlbWVudHNfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
       <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91"/>
       <primary-key name="project_requirements_pkey" columns="id"/>
+      <exported-key name="project_requirements_id_fkey" table="project" schema="public" catalog="garage" columns="requirements_id"/>
     </table>
     <table name="project_requirements_id_seq" schema="public" catalog="garage" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
@@ -398,7 +438,9 @@
     <table name="project_stage" schema="public" catalog="garage" type="TABLE" remarks="0KHRgtCw0LTQuNGPINC/0YDQvtC10LrRgtCw">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9zdGFnZV9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
       <column name="title" sqlType="varchar" length="75" precision="0" nullable="false" jdbcType="12"/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91"/>
       <primary-key name="project_stage_pkey" columns="id"/>
+      <exported-key name="project_stage_id_fkey" table="project" schema="public" catalog="garage" columns="stage_id"/>
     </table>
     <table name="project_stage_id_seq" schema="public" catalog="garage" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>

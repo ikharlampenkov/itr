@@ -1,0 +1,103 @@
+<legend>Добавить проект</legend>
+
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'project', 'action' => 'register')); ?>">
+
+    <div class="control-group">
+        <label class="control-label">Название проекта</label>
+
+        <div class="controls">
+            <input type="text" name="data[title]" value="<?php echo $this->escape($this->project->title); ?>"/>
+            <span class="help-inline hide">Заполните поле</span>
+            <p class="help-block">(до 30 символов с пробелами)</p>
+        </div>
+    </div>
+
+    <div class="control-group">
+            <label class="control-label">Вы - компания?</label>
+
+            <div class="controls">
+                <input type="text" name="data[is_company]" value="<?php echo $this->escape($this->project->isCompany); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Название комании</label>
+
+            <div class="controls">
+                <input type="text" name="data[company_title]" value="<?php echo $this->escape($this->project->companyTitle); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Название</label>
+
+            <div class="controls">
+                <input type="text" name="data[title]" value="<?php echo $this->escape($this->project->title); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Название</label>
+
+            <div class="controls">
+                <input type="text" name="data[title]" value="<?php echo $this->escape($this->project->title); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Название</label>
+
+            <div class="controls">
+                <input type="text" name="data[title]" value="<?php echo $this->escape($this->project->title); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Название</label>
+
+            <div class="controls">
+                <input type="text" name="data[title]" value="<?php echo $this->escape($this->project->title); ?>"/>
+                <span class="help-inline hide">Заполните поле</span>
+            </div>
+        </div>
+
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-success" value="Сохранить"/>
+        <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
+    </div>
+</form>
+
+
+
+Название комании    company_title
+*
+Ф.И.О. контактного лица    *    company_contact_fio
+Контактный телефон    *        company_contact_phone
+E-mail    *                    company_contact_email
+Описание проекта*            description
+
+
+Вид результирующей продукции (или технологии) проекта*        resulting_products
+(до 200 символов с пробелами)
+200
+Базовые функции (по возможности не более 5)*                basic_function
+(до 200 символов с пробелами)
+200
+Дополнительные функции                                        additional_features
+(до 500 символов с пробелами)
+500
+Потенциальные потребители*                                    potential_customers
+(до 500 символов с пробелами)
+500
+Существующие аналоги (перечислите и укажите ваши основные отличия)* analogs
+(до 1000 символов с пробелами)
+1000
+Отрасль     *                    branch
+Направление     *                direction
+Добавить новое направление
+Стадия проекта     *            stage
+Надо для завершения     *        requirements
+Укажите сумму                requirements_text
+
+Введите код с картинки    *    capthe

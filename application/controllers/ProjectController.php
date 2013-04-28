@@ -21,7 +21,33 @@ class ProjectController extends Zend_Controller_Action
 
     public function registerAction()
     {
+        $this->view->assign('branchList', SM_Project_Branch::getAllInstance());
+        $this->view->assign('stageList', SM_Project_Stage::getAllInstance());
+        $this->view->assign('requirementsList', SM_Project_Requirement::getAllInstance());
+    }
 
+    public function getDirectionAction()
+    {
+        if ($this->getRequest()->isPost()) {
+
+            $this->_helper->layout()->disableLayout();
+            Zend_Controller_Action_HelperBroker::removeHelper('viewRenderer');
+
+            $branchId = $this->getRequest()->getParam('branchId', 0);
+            $directionList = SM_Project_Direction::getAllInstance($branchId);
+
+            $html = $this->view->partial(
+                "/project/_elements/get-direction.phtml",
+                array('directionList' => $directionList)
+            );
+
+            $json = Zend_Json::encode(array('html' => $html));
+
+            $this->getResponse()->setBody($json)->setHeader(
+                "content-type",
+                "application/json", true
+            );
+        }
     }
 
     public function developAction()
