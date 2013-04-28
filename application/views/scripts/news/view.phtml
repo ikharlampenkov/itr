@@ -20,10 +20,18 @@
 
                     <div class="descript">
                         <p class="title">
-                            <?php if ($this->category != null): ?>
-                                <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id, 'categoryId' => $this->category->id), $this->linkInfo->link . '-viewnews-category') ?>"><?php echo $this->escape($item->title); ?></a>
+                            <?php if ($this->linkInfo->parent != null): ?>
+                                <?php if ($this->category != null): ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id, 'categoryId' => $this->category->id), $this->linkInfo->parent->link . '-' . $this->linkInfo->link . '-viewnews-category') ?>"><?php echo $this->escape($item->title); ?></a>
+                                <?php else: ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $this->linkInfo->parent->link . '-' . $this->linkInfo->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a>
+                                <?php endif; ?>
                             <?php else: ?>
-                                <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $this->linkInfo->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a>
+                                <?php if ($this->category != null): ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id, 'categoryId' => $this->category->id), $this->linkInfo->link . '-viewnews-category') ?>"><?php echo $this->escape($item->title); ?></a>
+                                <?php else: ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'news', 'action' => 'viewnews', 'id' => $item->id), $this->linkInfo->link . '-viewnews') ?>"><?php echo $this->escape($item->title); ?></a>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </p>
 
