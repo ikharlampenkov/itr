@@ -23,6 +23,15 @@ class ProjectController extends Zend_Controller_Action
     {
         $oProject = new SM_Project_Project();
 
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getParam('data');
+
+            if (isset($_SESSION['captcha_keystring']) && $_SESSION['captcha_keystring'] === $data['captcha']) {
+
+            }
+
+        }
+
         $this->view->assign('project', $oProject);
 
         $this->view->assign('branchList', SM_Project_Branch::getAllInstance());
