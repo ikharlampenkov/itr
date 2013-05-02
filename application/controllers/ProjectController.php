@@ -21,6 +21,10 @@ class ProjectController extends Zend_Controller_Action
 
     public function registerAction()
     {
+        $oProject = new SM_Project_Project();
+
+        $this->view->assign('project', $oProject);
+
         $this->view->assign('branchList', SM_Project_Branch::getAllInstance());
         $this->view->assign('stageList', SM_Project_Stage::getAllInstance());
         $this->view->assign('requirementsList', SM_Project_Requirement::getAllInstance());
