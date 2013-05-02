@@ -71,5 +71,487 @@
 class SM_Project_Project
 {
 
+    /**
+     * @var int
+     */
+    private $_id;
+
+    /**
+     * @var string
+     */
+    private $_title;
+
+    /**
+     * @var bool
+     */
+    private $_isCompany = false;
+
+    /**
+     * @var string
+     */
+    private $_companyTitle = '';
+
+    private $_company_contact_fio = '';
+
+    private $_company_contact_phone = '';
+
+    private $_company_contact_email = '';
+
+    private $_description = '';
+
+    private $_resulting_products = '';
+
+    private $_basic_function = '';
+
+    private $_additional_features = '';
+
+    private $_potential_customers = '';
+
+    private $_analogs = '';
+
+    /**
+     * @var SM_Project_Branch
+     */
+    private $_branch = null;
+
+    /**
+     * @var SM_Project_Direction
+     */
+    private $_direction = null;
+
+    /**
+     * @var SM_Project_Stage
+     */
+    private $_stage = null;
+
+    /**
+     * @var SM_Project_Requirement
+     */
+    private $_requirement = null;
+
+    /**
+     * @var string
+     */
+    private $_requirementsText = '';
+
+    /**
+     * @var string
+     */
+    protected $_dateCreate = '';
+
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
+    private $_db;
+
+    public function setAdditionalFeatures($additional_features)
+    {
+        $this->_additional_features = $additional_features;
+    }
+
+    public function getAdditionalFeatures()
+    {
+        return $this->_additional_features;
+    }
+
+    public function setAnalogs($analogs)
+    {
+        $this->_analogs = $analogs;
+    }
+
+    public function getAnalogs()
+    {
+        return $this->_analogs;
+    }
+
+    public function setBasicFunction($basic_function)
+    {
+        $this->_basic_function = $basic_function;
+    }
+
+    public function getBasicFunction()
+    {
+        return $this->_basic_function;
+    }
+
+    /**
+     * @param \SM_Project_Branch $branch
+     */
+    public function setBranch($branch)
+    {
+        $this->_branch = $branch;
+    }
+
+    /**
+     * @return \SM_Project_Branch
+     */
+    public function getBranch()
+    {
+        return $this->_branch;
+    }
+
+    /**
+     * @param string $companyTitle
+     */
+    public function setCompanyTitle($companyTitle)
+    {
+        $this->_companyTitle = $companyTitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyTitle()
+    {
+        return $this->_companyTitle;
+    }
+
+    public function setCompanyContactEmail($company_contact_email)
+    {
+        $this->_company_contact_email = $company_contact_email;
+    }
+
+    public function getCompanyContactEmail()
+    {
+        return $this->_company_contact_email;
+    }
+
+    public function setCompanyContactFio($company_contact_fio)
+    {
+        $this->_company_contact_fio = $company_contact_fio;
+    }
+
+    public function getCompanyContactFio()
+    {
+        return $this->_company_contact_fio;
+    }
+
+    public function setCompanyContactPhone($company_contact_phone)
+    {
+        $this->_company_contact_phone = $company_contact_phone;
+    }
+
+    public function getCompanyContactPhone()
+    {
+        return $this->_company_contact_phone;
+    }
+
+    public function setDescription($description)
+    {
+        $this->_description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->_description;
+    }
+
+    /**
+     * @param \SM_Project_Direction $direction
+     */
+    public function setDirection($direction)
+    {
+        $this->_direction = $direction;
+    }
+
+    /**
+     * @return \SM_Project_Direction
+     */
+    public function getDirection()
+    {
+        return $this->_direction;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->_id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @param boolean $isCompany
+     */
+    public function setIsCompany($isCompany)
+    {
+        $this->_isCompany = $isCompany;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsCompany()
+    {
+        return $this->_isCompany;
+    }
+
+    public function setPotentialCustomers($potential_customers)
+    {
+        $this->_potential_customers = $potential_customers;
+    }
+
+    public function getPotentialCustomers()
+    {
+        return $this->_potential_customers;
+    }
+
+    /**
+     * @param \SM_Project_Requirement $requirement
+     */
+    public function setRequirement($requirement)
+    {
+        $this->_requirement = $requirement;
+    }
+
+    /**
+     * @return \SM_Project_Requirement
+     */
+    public function getRequirement()
+    {
+        return $this->_requirement;
+    }
+
+    /**
+     * @param string $requirementsText
+     */
+    public function setRequirementsText($requirementsText)
+    {
+        $this->_requirementsText = $requirementsText;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequirementsText()
+    {
+        return $this->_requirementsText;
+    }
+
+    public function setResultingProducts($resulting_products)
+    {
+        $this->_resulting_products = $resulting_products;
+    }
+
+    public function getResultingProducts()
+    {
+        return $this->_resulting_products;
+    }
+
+    /**
+     * @param \SM_Project_Stage $stage
+     */
+    public function setStage($stage)
+    {
+        $this->_stage = $stage;
+    }
+
+    /**
+     * @return \SM_Project_Stage
+     */
+    public function getStage()
+    {
+        return $this->_stage;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->_title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+
+
+    /**
+     * @param string $dateCreate
+     */
+    public function setDateCreate($dateCreate)
+    {
+        $this->_dateCreate = date('Y-m-d', strtotime($dateCreate));
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateCreate()
+    {
+        return $this->_dateCreate;
+    }
+
+    public function __get($name)
+    {
+        $method = "get{$name}";
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
+        }
+    }
+
+    /**
+     * @param SM_Project_Branch $value
+     *
+     * @return null|int
+     */
+    protected function _prepareNull($value)
+    {
+        if (is_null($value) || empty($value)) {
+            return null;
+        } else {
+            return $value->getId();
+        }
+    }
+
+    public function __construct()
+    {
+        $this->_db = Zend_Registry::get('db');
+
+        $this->_dateCreate = date('Y-m-d');
+    }
+
+    public function insertToDB()
+    {
+        try {
+            $sql = 'INSERT INTO project(title, date_create) VALUES(:title, :date_create)';
+            $this->_db->query($sql, array('title' => $this->_title, 'date_create' => $this->_dateCreate));
+
+            $this->_id = $this->_db->lastInsertId('project_branch', 'id');
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    //id, title, date_create
+
+    public function updateToDB()
+    {
+        try {
+            $sql
+                = 'UPDATE project_branch
+                              SET title=:title, date_create=:date_create
+                            WHERE id=:id';
+            $this->_db->query($sql, array('title' => $this->_title, 'date_create' => $this->_dateCreate, 'id' => $this->_id));
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function deleteFromDB()
+    {
+        try {
+            $sql = 'DELETE FROM project_branch WHERE id=:id';
+            $this->_db->query($sql, array('id' => $this->_id));
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @static
+     * @return array|bool
+     * @throws Exception
+     */
+    public static function getAllInstance()
+    {
+        try {
+            $sql = 'SELECT * FROM project_branch';
+
+            $db = Zend_Registry::get('db');
+            $result = $db->query($sql)->fetchAll();
+
+            if (isset($result[0])) {
+                $retArray = array();
+                foreach ($result as $res) {
+                    $retArray[] = SM_Project_Branch::getInstanceByArray($res);
+                }
+                return $retArray;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @static
+     *
+     * @param $values
+     *
+     * @return SM_Project_Branch
+     * @throws Exception
+     */
+    public static function getInstanceByArray($values)
+    {
+        try {
+            $o = new SM_Project_Branch();
+            $o->fillFromArray($values);
+            return $o;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @static
+     *
+     * @param $id
+     *
+     * @return bool|SM_Project_Branch
+     * @throws Exception
+     */
+    public static function getInstanceById($id)
+    {
+        try {
+            $sql = 'SELECT * FROM project_branch WHERE id=:id';
+
+            $db = Zend_Registry::get('db');
+            $result = $db->query($sql, array('id' => $id))->fetch();
+
+            if (!empty($result)) {
+                $o = new SM_Project_Branch();
+                $o->fillFromArray($result);
+                return $o;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     *
+     *
+     * @param array $values
+     *
+     * @return void
+     * @access public
+     */
+    public function fillFromArray($values)
+    {
+        $this->setId($values['id']);
+        $this->setTitle($values['title']);
+        $this->setDateCreate($values['date_create']);
+    }
+
 
 }

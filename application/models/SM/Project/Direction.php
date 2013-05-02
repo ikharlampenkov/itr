@@ -120,7 +120,6 @@ class SM_Project_Direction
         } else {
             return $value->getId();
         }
-
     }
 
     public function __construct()
