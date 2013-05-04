@@ -74,6 +74,28 @@ function refreshCalendar(id, direction) {
     });
 }
 
+function refreshDirection(object, direction, id) {
+    var branch = $(object).val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/project/get-direction/',
+        data: {branchId: branch, id: id},
+        dataType: 'json',
+        success: function (data) {
+            $(direction).empty().html(data.html);
+        }
+    });
+}
+
+function displayCompany(object, companyBlock) {
+    if ($(object).is(':checked')) {
+        $(companyBlock).removeClass('hide');
+    } else {
+        $(companyBlock).addClass('hide');
+    }
+}
+
 $(document).ready(function () {
     $('#mainmenu .menu li').hover(
         function () {

@@ -91,21 +91,21 @@ class SM_Project_Project
      */
     private $_companyTitle = '';
 
-    private $_company_contact_fio = '';
+    private $_companyContactFio = '';
 
-    private $_company_contact_phone = '';
+    private $_companyContactPhone = '';
 
-    private $_company_contact_email = '';
+    private $_companyContactEmail = '';
 
     private $_description = '';
 
-    private $_resulting_products = '';
+    private $_resultingProducts = '';
 
-    private $_basic_function = '';
+    private $_basicFunction = '';
 
-    private $_additional_features = '';
+    private $_additionalFeatures = '';
 
-    private $_potential_customers = '';
+    private $_potentialCustomers = '';
 
     private $_analogs = '';
 
@@ -146,12 +146,12 @@ class SM_Project_Project
 
     public function setAdditionalFeatures($additional_features)
     {
-        $this->_additional_features = $additional_features;
+        $this->_additionalFeatures = $additional_features;
     }
 
     public function getAdditionalFeatures()
     {
-        return $this->_additional_features;
+        return $this->_additionalFeatures;
     }
 
     public function setAnalogs($analogs)
@@ -166,12 +166,12 @@ class SM_Project_Project
 
     public function setBasicFunction($basic_function)
     {
-        $this->_basic_function = $basic_function;
+        $this->_basicFunction = $basic_function;
     }
 
     public function getBasicFunction()
     {
-        return $this->_basic_function;
+        return $this->_basicFunction;
     }
 
     /**
@@ -208,32 +208,32 @@ class SM_Project_Project
 
     public function setCompanyContactEmail($company_contact_email)
     {
-        $this->_company_contact_email = $company_contact_email;
+        $this->_companyContactEmail = $company_contact_email;
     }
 
     public function getCompanyContactEmail()
     {
-        return $this->_company_contact_email;
+        return $this->_companyContactEmail;
     }
 
     public function setCompanyContactFio($company_contact_fio)
     {
-        $this->_company_contact_fio = $company_contact_fio;
+        $this->_companyContactFio = $company_contact_fio;
     }
 
     public function getCompanyContactFio()
     {
-        return $this->_company_contact_fio;
+        return $this->_companyContactFio;
     }
 
     public function setCompanyContactPhone($company_contact_phone)
     {
-        $this->_company_contact_phone = $company_contact_phone;
+        $this->_companyContactPhone = $company_contact_phone;
     }
 
     public function getCompanyContactPhone()
     {
-        return $this->_company_contact_phone;
+        return $this->_companyContactPhone;
     }
 
     public function setDescription($description)
@@ -296,12 +296,12 @@ class SM_Project_Project
 
     public function setPotentialCustomers($potential_customers)
     {
-        $this->_potential_customers = $potential_customers;
+        $this->_potentialCustomers = $potential_customers;
     }
 
     public function getPotentialCustomers()
     {
-        return $this->_potential_customers;
+        return $this->_potentialCustomers;
     }
 
     /**
@@ -338,12 +338,12 @@ class SM_Project_Project
 
     public function setResultingProducts($resulting_products)
     {
-        $this->_resulting_products = $resulting_products;
+        $this->_resultingProducts = $resulting_products;
     }
 
     public function getResultingProducts()
     {
-        return $this->_resulting_products;
+        return $this->_resultingProducts;
     }
 
     /**
@@ -429,25 +429,48 @@ class SM_Project_Project
     public function insertToDB()
     {
         try {
-            $sql = 'INSERT INTO project(title, date_create) VALUES(:title, :date_create)';
-            $this->_db->query($sql, array('title' => $this->_title, 'date_create' => $this->_dateCreate));
+            $sql
+                = 'INSERT INTO project(title, is_company, company_title, company_contact_fio, company_contact_phone, company_contact_email, description,
+                                        resulting_products, basic_function, additional_features, potential_customers, analogs, branch_id, direction_id, stage_id,
+                                        requirements_id, requirements_text, date_create)
+                         VALUES(:title, :is_company, :company_title, :company_contact_fio, :company_contact_phone, :company_contact_email, :description,
+                                :resulting_products, :basic_function, :additional_features, :potential_customers, :analogs, :branch_id, :direction_id, :stage_id,
+                                :requirements_id, :requirements_text, :date_create)';
+            $this->_db->query(
+                $sql, array('title'                 => $this->_title, 'is_company' => $this->_isCompany, 'company_title' => $this->_companyTitle, 'company_contact_fio' => $this->_companyContactFio,
+                            'company_contact_phone' => $this->_companyContactPhone, 'company_contact_email' => $this->_companyContactEmail, 'description' => $this->_description,
+                            'resulting_products'    => $this->_resultingProducts, 'basic_function' => $this->_basicFunction, 'additional_features' => $this->_additionalFeatures,
+                            'potential_customers'   => $this->_potentialCustomers, 'analogs' => $this->_analogs, 'branch_id' => $this->_prepareNull($this->_branch),
+                            'direction_id'          => $this->_prepareNull($this->_direction), 'stage_id' => $this->_prepareNull($this->_stage),
+                            'requirements_id'       => $this->_prepareNull($this->_requirement), 'requirements_text' => $this->_requirementsText, 'date_create' => $this->_dateCreate)
+            );
 
-            $this->_id = $this->_db->lastInsertId('project_branch', 'id');
+            $this->_id = $this->_db->lastInsertId('project', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-    //id, title, date_create
+    //title, is_company, company_title, company_contact_fio, company_contact_phone, company_contact_email, description character, resulting_products, basic_function, additional_features, potential_customers, analogs character, branch_id, stage_id, requirements_id, requirements_text, date_create
 
     public function updateToDB()
     {
         try {
             $sql
-                = 'UPDATE project_branch
-                              SET title=:title, date_create=:date_create
-                            WHERE id=:id';
-            $this->_db->query($sql, array('title' => $this->_title, 'date_create' => $this->_dateCreate, 'id' => $this->_id));
+                = 'UPDATE project
+                      SET title=:title, is_company=:is_company, company_title=:company_title, company_contact_fio=:company_contact_fio, company_contact_phone=:company_contact_phone,
+                      company_contact_email=:company_contact_email, description=:description, resulting_products=:resulting_products, basic_function=:basic_function,
+                      additional_features=:additional_features, potential_customers=:potential_customers, analogs=:analogs, branch_id=:branch_id, direction_id=:direction_id,
+                      stage_id=:stage_id, requirements_id=:requirements_id, requirements_text=:requirements_text, date_create=:date_create
+                    WHERE id=:id';
+            $this->_db->query(
+                $sql, array('title'                 => $this->_title, 'is_company' => $this->_isCompany, 'company_title' => $this->_companyTitle, 'company_contact_fio' => $this->_companyContactFio,
+                            'company_contact_phone' => $this->_companyContactPhone, 'company_contact_email' => $this->_companyContactEmail, 'description' => $this->_description,
+                            'resulting_products'    => $this->_resultingProducts, 'basic_function' => $this->_basicFunction, 'additional_features' => $this->_additionalFeatures,
+                            'potential_customers'   => $this->_potentialCustomers, 'analogs' => $this->_analogs, 'branch_id' => $this->_prepareNull($this->_branch),
+                            'direction_id'          => $this->_prepareNull($this->_direction), 'stage_id' => $this->_prepareNull($this->_stage),
+                            'requirements_id'       => $this->_prepareNull($this->_requirement), 'requirements_text' => $this->_requirementsText, 'date_create' => $this->_dateCreate, 'id' => $this->_id)
+            );
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -456,7 +479,7 @@ class SM_Project_Project
     public function deleteFromDB()
     {
         try {
-            $sql = 'DELETE FROM project_branch WHERE id=:id';
+            $sql = 'DELETE FROM project WHERE id=:id';
             $this->_db->query($sql, array('id' => $this->_id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -471,7 +494,7 @@ class SM_Project_Project
     public static function getAllInstance()
     {
         try {
-            $sql = 'SELECT * FROM project_branch';
+            $sql = 'SELECT * FROM project';
 
             $db = Zend_Registry::get('db');
             $result = $db->query($sql)->fetchAll();
@@ -479,7 +502,7 @@ class SM_Project_Project
             if (isset($result[0])) {
                 $retArray = array();
                 foreach ($result as $res) {
-                    $retArray[] = SM_Project_Branch::getInstanceByArray($res);
+                    $retArray[] = SM_Project_Project::getInstanceByArray($res);
                 }
                 return $retArray;
             } else {
@@ -496,13 +519,13 @@ class SM_Project_Project
      *
      * @param $values
      *
-     * @return SM_Project_Branch
+     * @return SM_Project_Project
      * @throws Exception
      */
     public static function getInstanceByArray($values)
     {
         try {
-            $o = new SM_Project_Branch();
+            $o = new SM_Project_Project();
             $o->fillFromArray($values);
             return $o;
         } catch (Exception $e) {
@@ -515,19 +538,19 @@ class SM_Project_Project
      *
      * @param $id
      *
-     * @return bool|SM_Project_Branch
+     * @return bool|SM_Project_Project
      * @throws Exception
      */
     public static function getInstanceById($id)
     {
         try {
-            $sql = 'SELECT * FROM project_branch WHERE id=:id';
+            $sql = 'SELECT * FROM project WHERE id=:id';
 
             $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('id' => $id))->fetch();
 
             if (!empty($result)) {
-                $o = new SM_Project_Branch();
+                $o = new SM_Project_Project();
                 $o->fillFromArray($result);
                 return $o;
             } else {
@@ -550,6 +573,38 @@ class SM_Project_Project
     {
         $this->setId($values['id']);
         $this->setTitle($values['title']);
+
+        $this->setIsCompany($values['is_company']);
+        $this->setCompanyTitle($values['company_title']);
+        $this->setCompanyContactFio($values['company_contact_fio']);
+        $this->setCompanyContactPhone($values['company_contact_phone']);
+        $this->setCompanyContactEmail($values['company_contact_email']);
+
+        $this->setDescription($values['description']);
+        $this->setResultingProducts($values['resulting_products']);
+        $this->setBasicFunction($values['basic_function']);
+        $this->setAdditionalFeatures($values['additional_features']);
+        $this->setPotentialCustomers($values['potential_customers']);
+        $this->setAnalogs($values['analogs']);
+
+        $oBranch = SM_Project_Branch::getInstanceById($values['branch_id']);
+        if ($oBranch !== false) {
+            $this->setBranch($oBranch);
+        }
+        $oDirection = SM_Project_Direction::getInstanceById($values['direction_id']);
+        if ($oDirection !== false) {
+            $this->setDirection($oDirection);
+        }
+        $oStage = SM_Project_Stage::getInstanceById($values['stage_id']);
+        if ($oStage !== false) {
+            $this->setStage($oStage);
+        }
+        $oRequirements = SM_Project_Requirement::getInstanceById($values['requirements_id']);
+        if ($oRequirements !== false) {
+            $this->setRequirement($oRequirements);
+        }
+
+        $this->setRequirementsText($values['requirements_text']);
         $this->setDateCreate($values['date_create']);
     }
 

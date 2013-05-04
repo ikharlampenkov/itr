@@ -50,7 +50,7 @@ class ProjectRequirementsController extends Zend_Controller_Action
             try {
                 $oRequirement->insertToDb();
 
-                $this->_redirect('/project-handbook/index/handbook/requirement/');
+                $this->_redirect('/project-handbook/index/handbook/requirements/');
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -70,7 +70,7 @@ class ProjectRequirementsController extends Zend_Controller_Action
             try {
                 $oRequirement->updateToDB();
 
-                $this->_redirect('/project-handbook/index/handbook/requirement/');
+                $this->_redirect('/project-handbook/index/handbook/requirements/');
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -85,7 +85,7 @@ class ProjectRequirementsController extends Zend_Controller_Action
         $oRequirement = SM_Project_Requirement::getInstanceById($this->getRequest()->getParam('id'));
         try {
             $oRequirement->deleteFromDB();
-            $this->_redirect('/project-handbook/index/handbook/requirement/');
+            $this->_redirect('/project-handbook/index/handbook/requirements/');
         } catch (Exception $e) {
             $this->view->assign('exception_msg', $e->getMessage());
         }

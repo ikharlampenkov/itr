@@ -1,6 +1,13 @@
 <legend>Добавить проект</legend>
 
-<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'project', 'action' => 'register')); ?>">
+<?php if (isset($this->exception_msg)): ?>
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Ошибка!</h4>
+        <?php echo $this->escape($this->exception_msg); ?>
+    </div>
+<?php endif; ?>
+
+<form class="form-horizontal" action="<?php echo $this->url(array('controller' => 'project', 'action' => 'register')); ?>" method="post">
 
     <div class="control-group">
         <label class="control-label">Название проекта</label>
@@ -17,12 +24,12 @@
         <label class="control-label">Вы - компания?</label>
 
         <div class="controls">
-            <input type="checkbox" name="data[is_company]" <?php if ($this->project->isCompany == true): ?>checked="checked"<?php endif; ?> />
+            <input type="checkbox" name="data[is_company]" <?php if ($this->project->isCompany == true): ?>checked="checked"<?php endif; ?> onchange="displayCompany(this, '#companyBlock');"/>
             <span class="help-inline hide">Заполните поле</span>
         </div>
     </div>
 
-    <div id="companyBlock">
+    <div id="companyBlock" class="hide">
         <div class="control-group">
             <label class="control-label">Название комании</label>
 
@@ -112,7 +119,7 @@
         <label class="control-label">Отрасль</label>
 
         <div class="controls">
-            <select name="data[branch]">
+            <select name="data[branch]" id="branch" onchange="refreshDirection(this, '#direction', 0);">
                 <option value="">-- Выберите отрасль</option>
                 <?php if ($this->branchList): ?>
                     <?php foreach ($this->branchList as $branch): ?>
@@ -127,7 +134,7 @@
         <label class="control-label">Направление</label>
 
         <div class="controls">
-            <select name="data[direction]">
+            <select name="data[direction]" id="direction">
                 <option value="">-- Выберите направление</option>
 
             </select>
@@ -157,7 +164,7 @@
                 <option value="">-- Выберите что надо для завершения</option>
                 <?php if ($this->requirementsList): ?>
                     <?php foreach ($this->requirementsList as $requirements): ?>
-                        <option value="<?php echo $this->escape($requirements->id); ?>" <?php if ($this->project->requirements !== null && $this->project->requirements->id == $requirements->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($requirements->title); ?></option>
+                        <option value="<?php echo $this->escape($requirements->id); ?>" <?php if ($this->project->requirement !== null && $this->project->requirement->id == $requirements->id): ?>selected="selected"<?php endif; ?> ><?php echo $this->escape($requirements->title); ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
@@ -180,7 +187,7 @@
 
         <div class="controls">
             <img src="/kcaptcha/?<?php echo session_name() . '=' . session_id(); ?>">
-            <input type="text" name="data[capthe]" value="" class="input-mini"/>
+            <input type="text" name="data[captcha]" value="" class="input-mini"/>
             <span class="help-inline hide">Заполните поле</span>
         </div>
     </div>
@@ -190,3 +197,13 @@
         <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index')) ?>" class="btn btn-danger">Отмена</a>
     </div>
 </form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        <?php if ($this->project->branch !== null): ?>
+        refreshDirection('#branch', '#direction', <?php echo $this->project->branch->id; ?>);
+        <?php else: ?>
+        refreshDirection('#branch', '#direction', 0);
+        <?php endif; ?>
+    });
+</script>
