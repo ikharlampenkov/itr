@@ -359,10 +359,12 @@
       <column name="requirements_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5" remarks="0J3QsNC00L4g0LTQu9GPINC30LDQstC10YDRiNC10L3QuNGP"/>
       <column name="requirements_text" sqlType="varchar" length="520" precision="0" nullable="true" jdbcType="12" remarks="0J3QsNC00L4g0LTQu9GPINC30LDQstC10YDRiNC10L3QuNGPINGC0LXQutGB0YIJCQ=="/>
       <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91" remarks="0JTQsNGC0LAg0YHQvtC30LTQsNC90LjRjw=="/>
+      <column name="direction_id" sqlType="int8" length="19" precision="0" nullable="true" jdbcType="-5" remarks="0J3QsNC/0YDQsNCy0LvQtdC90LjQtQ=="/>
       <primary-key name="project_pkey" columns="id"/>
       <foreign-key name="project_branch_id_fkey" columns="branch_id" ref-table="project_branch" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
       <foreign-key name="project_requirements_id_fkey" columns="requirements_id" ref-table="project_requirements" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
       <foreign-key name="project_stage_id_fkey" columns="stage_id" ref-table="project_stage" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+      <exported-key name="project_user_project_id_fkey" table="project_user" schema="public" catalog="garage" columns="project_id"/>
     </table>
     <table name="project_branch" schema="public" catalog="garage" type="TABLE" remarks="0J7RgtGA0LDRgdC70Lgg0L/RgNC+0LXQutGC0L7Qsg==">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgncHJvamVjdF9icmFuY2hfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
@@ -454,6 +456,15 @@
       <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
     </table>
+    <table name="project_user" schema="public" catalog="garage" type="TABLE" remarks="0J/RgNC+0LXQutGC0Ysg0Lgg0L/QvtC70YzQt9C+0LLQsNGC0LXQu9C4">
+      <column name="project_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5" remarks="0J/RgNC+0LXQutGC"/>
+      <column name="user_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5" remarks="0J/QvtC70YzQt9C+0LLQsNGC0LXQu9GM"/>
+      <column name="is_moderate" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7" remarks="0J/RgNC+0LLQtdGA0LXQvQ=="/>
+      <column name="is_author" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7" def="ZmFsc2U=" remarks="0JDQstGC0L7RgCDQv9GA0L7QtdC60YLQsA=="/>
+      <primary-key name="project_user_pkey" columns="project_id,user_id"/>
+      <foreign-key name="project_user_project_id_fkey" columns="project_id" ref-table="project" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+      <foreign-key name="project_user_user_id_fkey" columns="user_id" ref-table="tm_user" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="1" delete-rule="1" deferrability="2"/>
+    </table>
     <table name="tm_acl_role" schema="public" catalog="garage" type="TABLE">
       <column name="tm_user_role_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="tm_user_resource_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
@@ -486,6 +497,7 @@
       <column name="role_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="date_create" sqlType="timestamp" length="26" precision="3" nullable="false" jdbcType="93"/>
       <primary-key name="tm_user_pkey" columns="id"/>
+      <exported-key name="project_user_user_id_fkey" table="project_user" schema="public" catalog="garage" columns="user_id"/>
     </table>
     <table name="tm_user_attribute" schema="public" catalog="garage" type="TABLE">
       <column name="user_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
