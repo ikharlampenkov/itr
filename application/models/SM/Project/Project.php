@@ -140,6 +140,11 @@ class SM_Project_Project
     protected $_dateCreate = '';
 
     /**
+     * @var TM_FileManager_Image|null
+     */
+    protected $_img;
+
+    /**
      * @var Zend_Db_Adapter_Abstract
      */
     private $_db;
@@ -395,6 +400,23 @@ class SM_Project_Project
         return $this->_dateCreate;
     }
 
+    /**
+     * @param null|\TM_FileManager_Image $img
+     */
+    public function setImg($img)
+    {
+        $this->_img = $img;
+    }
+
+    /**
+     * @return null|\TM_FileManager_Image
+     */
+    public function getImg()
+    {
+        return $this->_img;
+    }
+
+
     public function __get($name)
     {
         $method = "get{$name}";
@@ -424,6 +446,9 @@ class SM_Project_Project
         $this->_db = Zend_Registry::get('db');
 
         $this->_dateCreate = date('Y-m-d');
+
+        $config = Zend_Registry::get('production');
+        $this->_img = new TM_FileManager_Image($config->project->path);
     }
 
     public function insertToDB()
@@ -437,12 +462,12 @@ class SM_Project_Project
                                 :resulting_products, :basic_function, :additional_features, :potential_customers, :analogs, :branch_id, :direction_id, :stage_id,
                                 :requirements_id, :requirements_text, :date_create)';
             $this->_db->query(
-                $sql, array('title'                 => $this->_title, 'is_company' => $this->_isCompany, 'company_title' => $this->_companyTitle, 'company_contact_fio' => $this->_companyContactFio,
-                            'company_contact_phone' => $this->_companyContactPhone, 'company_contact_email' => $this->_companyContactEmail, 'description' => $this->_description,
-                            'resulting_products'    => $this->_resultingProducts, 'basic_function' => $this->_basicFunction, 'additional_features' => $this->_additionalFeatures,
-                            'potential_customers'   => $this->_potentialCustomers, 'analogs' => $this->_analogs, 'branch_id' => $this->_prepareNull($this->_branch),
-                            'direction_id'          => $this->_prepareNull($this->_direction), 'stage_id' => $this->_prepareNull($this->_stage),
-                            'requirements_id'       => $this->_prepareNull($this->_requirement), 'requirements_text' => $this->_requirementsText, 'date_create' => $this->_dateCreate)
+                $sql, array('title' => $this->_title, 'is_company' => $this->_isCompany, 'company_title' => $this->_companyTitle, 'company_contact_fio' => $this->_companyContactFio,
+                    'company_contact_phone' => $this->_companyContactPhone, 'company_contact_email' => $this->_companyContactEmail, 'description' => $this->_description,
+                    'resulting_products' => $this->_resultingProducts, 'basic_function' => $this->_basicFunction, 'additional_features' => $this->_additionalFeatures,
+                    'potential_customers' => $this->_potentialCustomers, 'analogs' => $this->_analogs, 'branch_id' => $this->_prepareNull($this->_branch),
+                    'direction_id' => $this->_prepareNull($this->_direction), 'stage_id' => $this->_prepareNull($this->_stage),
+                    'requirements_id' => $this->_prepareNull($this->_requirement), 'requirements_text' => $this->_requirementsText, 'date_create' => $this->_dateCreate)
             );
 
             $this->_id = $this->_db->lastInsertId('project', 'id');
@@ -464,12 +489,12 @@ class SM_Project_Project
                       stage_id=:stage_id, requirements_id=:requirements_id, requirements_text=:requirements_text, date_create=:date_create
                     WHERE id=:id';
             $this->_db->query(
-                $sql, array('title'                 => $this->_title, 'is_company' => $this->_isCompany, 'company_title' => $this->_companyTitle, 'company_contact_fio' => $this->_companyContactFio,
-                            'company_contact_phone' => $this->_companyContactPhone, 'company_contact_email' => $this->_companyContactEmail, 'description' => $this->_description,
-                            'resulting_products'    => $this->_resultingProducts, 'basic_function' => $this->_basicFunction, 'additional_features' => $this->_additionalFeatures,
-                            'potential_customers'   => $this->_potentialCustomers, 'analogs' => $this->_analogs, 'branch_id' => $this->_prepareNull($this->_branch),
-                            'direction_id'          => $this->_prepareNull($this->_direction), 'stage_id' => $this->_prepareNull($this->_stage),
-                            'requirements_id'       => $this->_prepareNull($this->_requirement), 'requirements_text' => $this->_requirementsText, 'date_create' => $this->_dateCreate, 'id' => $this->_id)
+                $sql, array('title' => $this->_title, 'is_company' => $this->_isCompany, 'company_title' => $this->_companyTitle, 'company_contact_fio' => $this->_companyContactFio,
+                    'company_contact_phone' => $this->_companyContactPhone, 'company_contact_email' => $this->_companyContactEmail, 'description' => $this->_description,
+                    'resulting_products' => $this->_resultingProducts, 'basic_function' => $this->_basicFunction, 'additional_features' => $this->_additionalFeatures,
+                    'potential_customers' => $this->_potentialCustomers, 'analogs' => $this->_analogs, 'branch_id' => $this->_prepareNull($this->_branch),
+                    'direction_id' => $this->_prepareNull($this->_direction), 'stage_id' => $this->_prepareNull($this->_stage),
+                    'requirements_id' => $this->_prepareNull($this->_requirement), 'requirements_text' => $this->_requirementsText, 'date_create' => $this->_dateCreate, 'id' => $this->_id)
             );
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

@@ -970,6 +970,7 @@ header .social {
     position: relative;
     margin: 0 328px 0 0;
     padding: 0;
+    min-height: 500px;
 }
 
 .project_content .project_left_content p {

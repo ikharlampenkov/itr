@@ -87,7 +87,11 @@ class ProjectController extends Zend_Controller_Action
 
     public function viewAction()
     {
+        $id = $this->getRequest()->getParam('id', 0);
 
+        $oProject = SM_Project_Project::getInstanceById($id);
+
+        $this->view->assign('project', $oProject);
     }
 
     public function getDirectionAction()
