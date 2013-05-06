@@ -89,6 +89,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->getEngine()->loadPlugin('smarty_block_if_object_allowed');
         return new TM_Acl_Acl();
         */
+
+        $view = $this->getResource('View');
+        $view->addHelperPath(APPLICATION_PATH . "/views/helpers/", 'View_Helpers');
+        //Zend_Loader::loadClass('Views_Helpers_IfAllowed');
+        //$helper = new Views_Helpers_IfAllowed();
+        //$view->registerHelper($helper, 'ifAllowed');
     }
 
     protected function _initViewParam()
