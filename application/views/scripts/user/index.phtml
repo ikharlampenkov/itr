@@ -1,0 +1,71 @@
+<legend class="heading">Пользователи</legend>
+
+<div class="page_block">
+<?php if_allowed resource="$controller ?>/index" priv="show-attribute-hash" ?>
+    <a href="<?php $this->url(['controller' => $controller, 'action' => 'viewHash']) ?>">Список атрибутов</a>
+<?php /if_allowed ?>
+
+<?php if_allowed resource="<?php $controller ?>/index" priv="show-attribute-type" ?>
+    <a href="<?php $this->url(['controller' => $controller, 'action' => 'viewAttributeType']) ?>">Типы атрибутов</a>
+<?php /if_allowed ?>
+
+<?php if_allowed resource="<?php $controller ?>/index" priv="show-resource" ?>
+    <a href="<?php $this->url(['controller' => $controller, 'action' => 'viewResource']) ?>">Ресурсы</a>
+<?php /if_allowed ?>
+</div>
+<br/>
+
+<table width="100%">
+    <tr>
+        <td class="ttovar" align="center" colspan="3">
+            <img src="/i/add.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'add']) ?>">добавить</a></td>
+    </tr>
+    <tr>
+        <td class="ttovar">ФИО</td>
+        <td class="ttovar">Логин</td>
+        <td class="ttovar">Роль</td>
+        <td class="ttovar"></td>
+    </tr>
+
+<?php if $userList!==false ?>
+    <?php foreach from=$userList item=user ?>
+        <?php if_object_allowed type="City" object="<?php $user->getCity() ?>" priv="moderate" ?>
+        <tr>
+            <td class="ttovar"><?php if $user->searchAttribute('name') ?><?php $user->getAttribute('name')->value ?><?php else ?>-<?php /if ?></td>
+            <td class="ttovar"><?php $user->login ?></td>
+            <td class="ttovar"><?php $user->role->rtitle ?></td>
+            <td class="tedit">
+                <img src="/i/edit.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'edit', 'id' => $user->id]) ?>">редактировать</a><br/>
+                <img src="/i/delete.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'delete', 'id' => $user->id]) ?>" onclick="return confirmDelete('<?php $user->login ?>');" style="color: #830000">удалить</a></td>
+        </tr>
+        <?php /if_object_allowed ?>
+    <?php /foreach ?>
+<?php /if ?>
+</table>
+
+
+<?php if_allowed resource="<?php $controller ?>/index" priv="show-role" ?>
+<br/>
+<h1 class="heading">Роли</h1>
+
+    <table width="100%">
+        <tr>
+            <td class="ttovar" align="center" colspan="3">
+                <img src="/i/add.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'addRole']) ?>">добавить</a>
+            </td>
+        </tr>
+
+    <?php if $userRoleList!==false ?>
+        <?php foreach from=$userRoleList item=role ?>
+            <tr>
+                <td class="ttovar"><img src="/i/group.png"/>&nbsp;<?php $role->rtitle ?></td>
+                <td class="ttovar"><?php $role->title ?></td>
+                <td class="tedit"><img src="/i/comanda.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'showRoleAcl', 'idRole' => $role->id]) ?>">права</a></td>
+                <td class="tedit">
+                    <img src="/i/edit.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'editRole', 'id' => $role->id]) ?>">редактировать</a><br/>
+                    <img src="/i/delete.png"/>&nbsp;<a href="<?php $this->url(['controller' => $controller,'action' => 'deleteRole', 'id' => $role->id]) ?>" onclick="return confirmDelete('<?php $role->rtitle ?>');" style="color: #830000">удалить</a></td>
+            </tr>
+        <?php /foreach ?>
+    <?php /if ?>
+    </table>
+<?php /if_allowed ?>
