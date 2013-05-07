@@ -32,6 +32,8 @@ class UserController extends Zend_Controller_Action
 
     public function addAction()
     {
+        $oUser = new TM_User_User();
+
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getParam('data');
 
@@ -41,10 +43,15 @@ class UserController extends Zend_Controller_Action
             $oUser->setPassword($data['password']);
             $oUser->setRole(TM_User_Role::getInstanceById($data['role_id']));
 
-            $oUser->insertToDb();
-            $this->_redirect('/user');
+            try {
+                $oUser->insertToDb();
+                $this->_redirect('/user');
+            } catch (Exception $e) {
+                $this->view->assign('exception_msg', $e->getMessage());
+            }
         }
 
+        $this->view->assign('user', $oUser);
         $this->view->assign('userRoleList', TM_User_Role::getAllInstance());
     }
 
@@ -66,8 +73,12 @@ class UserController extends Zend_Controller_Action
                 $oUser->setAttribute($key, $value);
             }
 
-            $oUser->updateToDb();
-            $this->_redirect('/user');
+            try {
+                $oUser->updateToDb();
+                $this->_redirect('/user');
+            } catch (Exception $e) {
+                $this->view->assign('exception_msg', $e->getMessage());
+            }
         }
 
         $this->view->assign('userRoleList', TM_User_Role::getAllInstance());
@@ -96,8 +107,12 @@ class UserController extends Zend_Controller_Action
             $oRole->setTitle($data['title']);
             $oRole->setRtitle($data['rtitle']);
 
-            $oRole->insertToDb();
-            $this->_redirect('/user');
+            try {
+                $oRole->insertToDb();
+                $this->_redirect('/user');
+            } catch (Exception $e) {
+                $this->view->assign('exception_msg', $e->getMessage());
+            }
         }
 
         $this->view->assign('role', $oRole);
@@ -114,8 +129,12 @@ class UserController extends Zend_Controller_Action
             $oRole->setTitle($data['title']);
             $oRole->setRtitle($data['rtitle']);
 
-            $oRole->updateToDb();
-            $this->_redirect('/user');
+            try {
+                $oRole->updateToDb();
+                $this->_redirect('/user');
+            } catch (Exception $e) {
+                $this->view->assign('exception_msg', $e->getMessage());
+            }
         }
 
         $this->view->assign('role', TM_User_Role::getInstanceById($id));

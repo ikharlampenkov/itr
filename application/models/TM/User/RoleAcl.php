@@ -38,7 +38,7 @@ class TM_User_RoleAcl
     protected $_privileges = '';
 
     /**
-     * @var StdLib_DB
+     * @var Zend_Db_Adapter_Abstract
      */
     protected $_db;
 
@@ -75,6 +75,7 @@ class TM_User_RoleAcl
 
     /**
      * @param bool $asArray
+     *
      * @return string|array
      */
     public function getPrivileges($asArray = false)
@@ -124,16 +125,19 @@ class TM_User_RoleAcl
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
     /**
      * @param TM_User_Role $role
+     *
      * @return TM_User_RoleAcl
      */
     public function __construct(TM_User_Role $role)
     {
-        $this->_db = StdLib_DB::getInstance();
+        $this->_db = Zend_Registry::get('db');
         $this->_role = $role;
     }
 
@@ -146,10 +150,20 @@ class TM_User_RoleAcl
     public function saveToDb()
     {
         try {
-            $sql = 'REPLACE INTO tm_acl_role(tm_user_role_id, tm_user_resource_id, is_allow, privileges)
-                    VALUES (' . $this->_role->getId() . ', ' . $this->_resource->getId() . ', ' . $this->_isAllow . ', "' . $this->_privileges . '")';
-            $this->_db->query($sql);
+            $this->_db->beginTransaction();
+            $sql = 'DELETE FROM tm_acl_role WHERE tm_user_role_id=:tm_user_role_id AND tm_user_resource_id=:tm_user_resource_id';
+            $this->_db->query($sql, array('tm_user_role_id' => $this->_role->getId(), 'tm_user_resource_id' => $this->_resource->getId()));
+
+            $sql
+                = 'INSERT INTO tm_acl_role(tm_user_role_id, tm_user_resource_id, is_allow, privileges)
+                    VALUES (:tm_user_role_id, :tm_user_resource_id, :is_allow, :privileges)';
+            $this->_db->query(
+                $sql, array('tm_user_role_id' => $this->_role->getId(), 'tm_user_resource_id' => $this->_resource->getId(),
+                            'is_allow'        => $this->_isAllow, 'privileges' => $this->_privileges)
+            );
+            $this->_db->commit();
         } catch (Exception $e) {
+            $this->_db->rollBack();
             throw new Exception($e->getMessage());
         }
     }
@@ -159,8 +173,9 @@ class TM_User_RoleAcl
     /**
      *
      * @param TM_User_Role $role
-     * @param array $values
-
+     * @param array        $values
+     *
+     * @throws Exception
      * @return TM_User_RoleAcl
      * @static
      * @access public
@@ -179,6 +194,7 @@ class TM_User_RoleAcl
     /**
      *
      * @param TM_User_Role $role
+     *
      * @return array
      * @static
      * @access public
@@ -186,9 +202,9 @@ class TM_User_RoleAcl
     public static function getAllInstance(TM_User_Role $role)
     {
         try {
-            $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_acl_role WHERE tm_user_role_id=' . $role->getId();
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_acl_role WHERE tm_user_role_id=:tm_user_role_id';
+            $result = $db->query($sql, array('tm_user_role_id' => $role->getId()))->fetchAll();;
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -208,7 +224,7 @@ class TM_User_RoleAcl
      *
      *
      * @param array $values
-
+     *
      * @return void
      * @access public
      */
@@ -218,5 +234,5 @@ class TM_User_RoleAcl
         $this->setIsAllow($values['is_allow']);
         $this->setPrivileges($values['privileges']);
     } // end of member function fillFromArray
-    
+
 }

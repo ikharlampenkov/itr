@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Views_Helpers_IfAllowed extends Zend_View_Helper_Abstract
+class View_Helpers_IfAllowed extends Zend_View_Helper_Abstract
 {
     public function ifAllowed($resource, $privilege = 'show')
     {

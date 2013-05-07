@@ -1,6 +1,6 @@
-<h1>Добавить пользователя</h1>
+<legend>Добавить пользователя</legend>
 
-<form action="{$this->url(['controller' => $controller,'action' => 'add'])}" method="post">
+<form action="<?php echo $this->url(array('controller' => $controller,'action' => 'add'])}" method="post">
     <table>
         <tr>
             <td class="ttovar" width="200">Логин</td>
@@ -12,14 +12,14 @@
         </tr>
         <tr>
             <td class="ttovar">Дата создания</td>
-            <td class="ttovar"><input name="data[date_create]" value="{$smarty.now|date_format:"%d.%m.%Y %H:%M:%S"}" class="datepicker"/></td>
+            <td class="ttovar"><input name="data[date_create]" value="<?php echo $smarty.now|date_format:"%d.%m.%Y %H:%M:%S"}" class="datepicker"/></td>
         </tr>
         <tr>
             <td class="ttovar">Роль</td>
             <td class="ttovar"><select name="data[role_id]">
-            {foreach from=$userRoleList item=role}
-                <option value="{$role->id}">{$role->title}</option>
-            {/foreach}
+            <?php echo foreach from=$userRoleList item=role}
+                <option value="<?php echo $role->id}"><?php echo $role->title}</option>
+            <?php echo /foreach}
             </select>
             </td>
         </tr>

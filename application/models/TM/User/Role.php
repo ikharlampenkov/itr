@@ -113,6 +113,7 @@ class TM_User_Role
      *
      * @param int $id
      *
+     * @throws Exception
      * @return TM_User_Role
      * @static
      * @access public
