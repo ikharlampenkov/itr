@@ -257,7 +257,7 @@ class TM_Attribute_Attribute
      */
     public function fillFromArray($values)
     {
-        $o_type = TM_Attribute_AttributeTypeFactory::getAttributeTypeById(new TM_Task_AttributeTypeMapper(), $values['type_id']);
+        $o_type = TM_Attribute_AttributeTypeFactory::getAttributeTypeById(new TM_User_AttributeTypeMapper(), $values['type_id']);
         $this->setType($o_type);
 
         $this->setAttribyteKey($values['attribute_key']);

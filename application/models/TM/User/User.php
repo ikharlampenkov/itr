@@ -100,6 +100,7 @@ class TM_User_User
     public function __construct()
     {
         $this->_db = Zend_Registry::get('db');
+        $this->_dateCreate = date('Y-m-d H:i:s');
     }
 
     /**
@@ -112,7 +113,7 @@ class TM_User_User
     {
         try {
             $sql = 'INSERT INTO tm_user(login, password, role_id, date_create) VALUES (:login, :password, :role, :date_create)';
-            $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role_id' => $this->_role->getId(), 'date_create' => $this->_dateCreate));
+            $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role' => $this->_role->getId(), 'date_create' => $this->_dateCreate));
 
             $this->_id = $this->_db->lastInsertId();
         } catch (Exception $e) {
@@ -132,9 +133,9 @@ class TM_User_User
             $sql
                 = 'UPDATE tm_user
                     SET login=:login, role_id=:role,
-                    date_create=:dateCreate, password=:password
+                    date_create=:date_create, password=:password
                     WHERE id=:id';
-            $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role_id' => $this->_role->getId(), 'date_create' => $this->_dateCreate, 'id' => $this->_id));
+            $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role' => $this->_role->getId(), 'date_create' => $this->_dateCreate, 'id' => $this->_id));
             $this->saveAttributeList();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

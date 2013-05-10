@@ -40,7 +40,7 @@ class TM_User_Hash
     protected $_listValue = '';
 
     /**
-     *
+     * @var Zend_Db_Adapter_Abstract
      * @access protected
      */
     protected $_db;
@@ -48,7 +48,7 @@ class TM_User_Hash
     /**
      *
      *
-     * @return User::TM_User_User
+     * @return TM_User_User
      * @access public
      */
     public function getUser()
@@ -59,7 +59,7 @@ class TM_User_Hash
     /**
      *
      *
-     * @return Attribute::TM_Attribute_AttribyteType
+     * @return TM_Attribute_AttribyteType
      * @access public
      */
     public function getType()
@@ -80,22 +80,23 @@ class TM_User_Hash
 
     public function setAttributeKey($value)
     {
-        $this->_attributeKey = $this->_db->prepareString($value);
+        $this->_attributeKey = $value;
     }
 
     /**
      *
      *
-     * @param User::TM_User_User value
-
-     * @return
-     * @access protected
+     * @param TM_User_User $value
+     *
+     * @internal param $User ::TM_User_User value
+     * @return void
+    @access protected
      */
     protected function setUser(TM_User_User $value)
     {
         $this->_user = $value;
 
-    } // end of member function setUser
+    }
 
     /**
      *
@@ -105,45 +106,47 @@ class TM_User_Hash
      */
     public function getTitle()
     {
-        return $this->_db->prepareStringToOut($this->_title);
-    } // end of member function getTitle
+        return $this->_title;
+    }
 
     /**
      *
      *
      * @param TM_Attribute_AttributeType $value
+     *
      * @return void
      * @access protected
      */
-    public function setType(TM_Attribute_AttributeType $value ) {
+    public function setType(TM_Attribute_AttributeType $value)
+    {
         $this->_type = $value;
-    } // end of member function setType
+    }
 
     /**
      *
      *
      * @param string $value
-
+     *
      * @return void
      * @access public
      */
     public function setTitle($value)
     {
-        $this->_title = $this->_db->prepareString($value);
-    } // end of member function setTitle
+        $this->_title = $value;
+    }
 
-     /**
+    /**
      *
      *
      * @param array|string $value
-
+     *
      * @return void
      * @access public
      */
     public function setValueList($value)
     {
         if (is_array($value)) {
-            $this->_listValue = $this->_db->prepareString(implode('||', $value));
+            $this->_listValue = implode('||', $value);
         } else {
             $this->_listValue = $value;
         }
@@ -153,6 +156,7 @@ class TM_User_Hash
      *
      *
      * @param bool $asString
+     *
      * @return array|string
      * @access public
      */
@@ -161,13 +165,14 @@ class TM_User_Hash
         if ($asString) {
             return $this->_listValue;
         } else {
-            return explode('||', $this->_db->prepareStringToOut($this->_listValue));
+            return explode('||', $this->_listValue);
         }
 
-    } // end of member function getValueList
+    }
 
     /**
      * @param $name
+     *
      * @return mixed
      */
     public function __get($name)
@@ -175,20 +180,21 @@ class TM_User_Hash
         $method = "get{$name}";
         if (method_exists($this, $method)) {
             return $this->$method();
+        } else {
+            throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
         }
     }
 
     /**
      *
      *
-
      * @return TM_User_Hash
      * @access public
      */
     public function __construct()
     {
-        $this->_db = StdLib_DB::getInstance();
-    } // end of member function __construct
+        $this->_db = Zend_Registry::get('db');
+    }
 
     /**
      *
@@ -199,15 +205,16 @@ class TM_User_Hash
     public function insertToDb()
     {
         try {
-            $sql = 'INSERT INTO tm_user_hash(user_id, attribute_key, title, type_id, list_value)
-                    VALUES (NULL, "' . $this->_attributeKey . '", "' . $this->_title . '", ' . $this->_type->getId() . ', "' . $this->_listValue . ' ")';
-            $this->_db->query($sql);
+            $sql
+                = 'INSERT INTO tm_user_hash(user_id, attribute_key, title, type_id, list_value)
+                    VALUES (:user_id, :attribute_key, :title, :type_id, :list_value)';
+            $this->_db->query($sql, array('user_id' => null, 'attribute_key' => $this->_attributeKey, 'title' => $this->_title, 'type_id' => $this->_type->getId(), 'list_value' => $this->_listValue));
 
-            $this->_id = $this->_db->getLastInsertId();
+            $this->_id = $this->_db->getLastInsertId('tm_user_hash', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    } // end of member function insertToDb
+    }
 
     /**
      *
@@ -218,10 +225,10 @@ class TM_User_Hash
     public function updateToDb()
     {
         try {
-            $sql = 'UPDATE tm_user_hash
-                    SET title="' . $this->_title . '", type_id=' . $this->_type->getId() . ', list_value="' . $this->_listValue . ' "
-                    WHERE user_id IS NULL AND attribute_key="' . $this->_attributeKey . '"';
-            $this->_db->query($sql);
+            $sql
+                = 'UPDATE tm_user_hash SET title=:title, type_id=:type_id, list_value=:list_value
+                    WHERE user_id IS NULL AND attribute_key=:attribute_key';
+            $this->_db->query($sql, array('attribute_key' => $this->_attributeKey, 'title' => $this->_title, 'type_id' => $this->_type->getId(), 'list_value' => $this->_listValue));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -236,9 +243,8 @@ class TM_User_Hash
     public function deleteFromDb()
     {
         try {
-            $sql = 'DELETE FROM tm_user_hash
-                    WHERE user_id IS NULL AND attribute_key="' . $this->_attributeKey . '"';
-            $this->_db->query($sql);
+            $sql = 'DELETE FROM tm_user_hash WHERE user_id IS NULL AND attribute_key=:attribute_key';
+            $this->_db->query($sql, array('attribute_key' => $this->_attributeKey));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -248,7 +254,7 @@ class TM_User_Hash
      *
      *
      * @param int $key идентификатор задачи
-
+     *
      * @return TM_User_Hash
      * @static
      * @access public
@@ -256,9 +262,9 @@ class TM_User_Hash
     public static function getInstanceById($key)
     {
         try {
-            $db = StdLib_DB::getInstance();
-            $sql = 'SELECT * FROM tm_user_hash WHERE user_id IS NULL AND attribute_key="' . $key . '"';
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT * FROM tm_user_hash WHERE user_id IS NULL AND attribute_key=:attribute_key';
+            $result = $db->query($sql, array('attribute_key' => $key))->fetchAll();
 
             if (isset($result[0])) {
                 $o = new TM_User_Hash();
@@ -270,14 +276,15 @@ class TM_User_Hash
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    } // end of member function getInstanceById
+    }
 
     /**
      *
      *
      * @param array $values
-
-     * @return User::TM_User_Hash
+     *
+     * @throws Exception
+     * @return TM_User_Hash
      * @static
      * @access public
      */
@@ -290,12 +297,12 @@ class TM_User_Hash
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    } // end of member function getInstanceByArray
+    }
 
     /**
      *
      * @param $object
-
+     *
      * @return array
      * @static
      * @access public
@@ -303,35 +310,24 @@ class TM_User_Hash
     public static function getAllInstance($object = null)
     {
         try {
-            $db = StdLib_DB::getInstance();
+            $db = Zend_Registry::get('db');
+            $bind = array();
 
-            /*
-            if (!is_null($object)) {
-                $sql = 'SELECT COUNT(attribute_key) FROM tm_user_attribute WHERE user_id=' . $object->id;
-                $result = $db->query($sql, StdLib_DB::QUERY_MODE_NUM);
-            }
-
-            $sql = 'SELECT tm_user_hash.attribute_key, title, tm_user_hash.type_id, list_value FROM tm_user_hash';
-
-            if (!is_null($object) && isset($result[0][0]) && $result[0][0] > 0) {
-                $sql .= ' LEFT JOIN tm_user_attribute ON tm_user_hash.attribute_key=tm_user_attribute.attribute_key
-                          WHERE tm_user_attribute.user_id=' . $object->id . '
-                          ORDER BY is_fill DESC, title';
-            }
-            */
-
-            $sql = 'SELECT tm_user_hash.attribute_key, title, tm_user_hash.type_id, list_value
+            $sql
+                = 'SELECT tm_user_hash.attribute_key, title, tm_user_hash.type_id, list_value
                     FROM tm_user_hash ';
             if (!is_null($object)) {
-                $sql .= 'LEFT JOIN (
-                        SELECT * FROM tm_user_attribute WHERE tm_user_attribute.user_id=' . $object->id . '
+                $sql
+                    .= 'LEFT JOIN (
+                        SELECT * FROM tm_user_attribute WHERE tm_user_attribute.user_id=:user_id
                      ) t2 ON tm_user_hash.attribute_key=t2.attribute_key
                      ORDER BY t2.is_fill DESC, title';
+                $bind['user_id'] = $object->id;
             } else {
                 $sql .= ' ORDER BY title';
             }
 
-            $result = $db->query($sql, StdLib_DB::QUERY_MOD_ASSOC);
+            $result = $db->query($sql, $bind)->fetchAll();
 
             if (isset($result[0])) {
                 $retArray = array();
@@ -345,14 +341,14 @@ class TM_User_Hash
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    } // end of member function getAllInstance
+    }
 
 
     /**
      *
      *
      * @param array $values
-
+     *
      * @return void
      * @access public
      */
@@ -363,6 +359,6 @@ class TM_User_Hash
 
         $this->setType(TM_Attribute_AttributeTypeFactory::getAttributeTypeById(new TM_User_AttributeTypeMapper(), $values['type_id']));
         $this->setValueList($values['list_value']);
-    } // end of member function fillFromArray
+    }
 
 }
