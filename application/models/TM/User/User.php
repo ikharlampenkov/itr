@@ -112,10 +112,16 @@ class TM_User_User
     public function insertToDb()
     {
         try {
+            if (TM_User_User::checkLogin($this->_login)) {
+                throw new Exception('Пользователь с таким логином существует');
+            }
+
             $sql = 'INSERT INTO tm_user(login, password, role_id, date_create) VALUES (:login, :password, :role, :date_create)';
             $this->_db->query($sql, array('login' => $this->_login, 'password' => $this->_password, 'role' => $this->_role->getId(), 'date_create' => $this->_dateCreate));
 
-            $this->_id = $this->_db->lastInsertId();
+            $this->_id = $this->_db->lastInsertId('tm_user', 'id');
+
+            $this->saveAttributeList();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -202,8 +208,7 @@ class TM_User_User
         try {
             $db = Zend_Registry::get('db');
             $sql = 'SELECT * FROM tm_user WHERE login=:login';
-            $result = $db->query($sql, array('login' => $login))->fetchAll();
-            ;
+            $result = $db->query($sql, array('login' => $login))->fetchAll();;
 
             if (isset($result[0])) {
                 $o = new TM_User_User();
@@ -215,6 +220,24 @@ class TM_User_User
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    public static function checkLogin($login)
+    {
+        try {
+            $db = Zend_Registry::get('db');
+            $sql = 'SELECT COUNT(id) AS cnt FROM tm_user WHERE login=:login';
+            $result = $db->query($sql, array('login' => $login))->fetchAll();;
+
+            if (isset($result[0]['cnt']) && $result[0]['cnt'] > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
     }
 
     /**
@@ -326,7 +349,7 @@ class TM_User_User
             $oAttribute->setValue($value);
 
             $this->_attributeList[$key] = $oAttribute;
-            $oAttribute->insertToDB();
+            //$oAttribute->insertToDB();
         }
     }
 
@@ -343,7 +366,11 @@ class TM_User_User
     {
         if (!is_null($this->_attributeList) && !empty($this->_attributeList)) {
             foreach ($this->_attributeList as $attribute) {
-                $attribute->updateToDB();
+                try {
+                    $attribute->insertToDB();
+                } catch (Exception $e) {
+                    $attribute->updateToDB();
+                }
             }
         }
     }

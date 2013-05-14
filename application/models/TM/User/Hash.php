@@ -209,8 +209,6 @@ class TM_User_Hash
                 = 'INSERT INTO tm_user_hash(user_id, attribute_key, title, type_id, list_value)
                     VALUES (:user_id, :attribute_key, :title, :type_id, :list_value)';
             $this->_db->query($sql, array('user_id' => null, 'attribute_key' => $this->_attributeKey, 'title' => $this->_title, 'type_id' => $this->_type->getId(), 'list_value' => $this->_listValue));
-
-            $this->_id = $this->_db->getLastInsertId('tm_user_hash', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

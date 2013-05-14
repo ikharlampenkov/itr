@@ -21,7 +21,7 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
     public function insertToDB($type)
     {
         try {
-            $sql = 'INSERT INTO tm_user_attribute_type(title, `handler`, description) VALUES (:title, :handler, :description)';
+            $sql = 'INSERT INTO tm_user_attribute_type(title, handler, description) VALUES (:title, :handler, :description)';
             $this->_db->query($sql, array('title' => $type->title, 'handler' => $type->handler, 'description' => $type->description));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -40,7 +40,7 @@ class TM_User_AttributeTypeMapper extends TM_Attribute_AttributeTypeMapper
         try {
             $sql
                 = 'UPDATE tm_user_attribute_type
-                    SET title=:title, `handler`=:handler, description=:description
+                    SET title=:title, handler=:handler, description=:description
                     WHERE id=:id';
             $this->_db->query($sql, array('title' => $type->title, 'handler' => $type->handler, 'description' => $type->description, 'id' => $type->id));
         } catch (Exception $e) {

@@ -362,4 +362,38 @@ class UserController extends Zend_Controller_Action
         }
     }
 
+    public function registrationAction()
+    {
+        $oUser = new TM_User_User();
+        $oUser->setRole(TM_User_Role::getInstanceById(7));
+        $oUser->setDateCreate(date('d.m.Y H:i:s'));
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getParam('data');
+
+            $oUser->setLogin($data['login']);
+            $oUser->setPassword($data['password']);
+
+            foreach ($data['attribute'] as $key => $value) {
+                $oUser->setAttribute($key, $value);
+            }
+
+            $oUser->setAttribute('email', $data['login']);
+
+            try {
+                if (isset($_SESSION['captcha_keystring']) && $_SESSION['captcha_keystring'] === $data['captcha']) {
+                    $oUser->insertToDb();
+                    $this->_redirect('/');
+                } else {
+                    throw new Exception('Введите код с картинки заново');
+                }
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
+            }
+        }
+
+        $this->view->assign('user', $oUser);
+        $this->view->assign('attributeHashList', TM_User_Hash::getAllInstance($oUser));
+    }
+
 }

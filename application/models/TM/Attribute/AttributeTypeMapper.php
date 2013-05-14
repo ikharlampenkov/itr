@@ -26,7 +26,7 @@ abstract class TM_Attribute_AttributeTypeMapper {
      */
     public function __construct()
     {
-        $this->_db = StdLib_DB::getInstance();
+        $this->_db = Zend_Registry::get('db');
     }
 
     /**
