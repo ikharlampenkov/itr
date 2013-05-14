@@ -48,7 +48,7 @@ function changeHandbook(object, handbook, link) {
         success: function (data) {
             $(object).empty().html(data.html);
             if (link != null) {
-                $('.nav-list li').each(function() {
+                $('.nav-list li').each(function () {
                     $(this).removeClass('active');
                 });
                 $(link).parent().addClass('active');
