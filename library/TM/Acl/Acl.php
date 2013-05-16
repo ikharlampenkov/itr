@@ -131,8 +131,8 @@ class TM_Acl_Acl extends Zend_Acl {
         }
 
         //Инициируем роль
-        $storage_data = Zend_Auth::getInstance()->getStorage()->read();
-        $role = array_key_exists('role', $storage_data)?$storage_data->role : 'guest';
+        $storage_data = Zend_Auth::getInstance()->getIdentity();
+        $role = !empty($storage_data->role)?$storage_data->role : 'guest';
 
         //StdLib_Log::logMsg('role ' . $role . ' resource ' . $resource . ' priv ' . $privilege);
 
@@ -147,8 +147,8 @@ class TM_Acl_Acl extends Zend_Acl {
         }
 
         //Инициируем роль
-        $storage_data = Zend_Auth::getInstance()->getStorage()->read();
-        $role = array_key_exists('role', $storage_data)?$storage_data->role : 'guest';
+        $storage_data = Zend_Auth::getInstance()->getIdentity();
+        $role = !empty($storage_data->role)?$storage_data->role : 'guest';
 
         return $this->isAllowed($role, $resource, $privilege);        
     }

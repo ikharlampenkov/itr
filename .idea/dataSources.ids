@@ -505,6 +505,7 @@
       <column name="type_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="attribute_value" sqlType="text" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
       <column name="is_fill" sqlType="bit" length="1" precision="0" nullable="false" jdbcType="-7" def="QicwJzo6ImJpdCI="/>
+      <primary-key name="tm_user_attribute_pkey" columns="user_id,attribute_key"/>
     </table>
     <table name="tm_user_attribute_type" schema="public" catalog="garage" type="TABLE">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgndG1fdXNlcl9hdHRyaWJ1dGVfdHlwZV9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
@@ -531,6 +532,7 @@
       <column name="title" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <column name="type_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="list_value" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="12"/>
+      <primary-key name="tm_user_hash_pkey" columns="attribute_key"/>
     </table>
     <table name="tm_user_id_seq" schema="public" catalog="garage" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>

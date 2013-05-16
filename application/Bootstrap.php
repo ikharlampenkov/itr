@@ -57,15 +57,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initAuth()
     {
         $auth = Zend_Auth::getInstance();
-        $data = $auth->getStorage()->read();
+        $data = $auth->getIdentity();
 
-        if (!isset($data->role)) {
+        if ($data == null) {
+            /*
             $storage_data = new stdClass();
             $storage_data->id = 0;
             $storage_data->login = 'guest';
             $storage_data->token = '';
             $storage_data->role = 'guest';
             $auth->getStorage()->write($storage_data);
+            */
 
             $view = $this->getResource('View');
             $view->authUser = 'guest';
