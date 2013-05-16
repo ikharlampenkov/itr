@@ -1,0 +1,24 @@
+<div class="page_project">
+    <div class="page_project_inner">
+
+        <?php if ($this->branchInfo !== null): ?>
+            <div class="nav"><a href="<?php echo $this->url(array('controller' => 'project', 'action' => 'index', 'branchId' => 0)); ?>/">Проекты</a> / <?php echo $this->escape($this->branchInfo->title); ?></div>
+
+            <?php if ($this->projectList !== false): ?>
+                <?php foreach ($this->projectList as $project): ?>
+                    <a href="<?php echo $this->url(array('controller' => 'project', 'action' => 'view', 'id' => $project->id)); ?>" class="branch"><?php echo $this->escape($project->title); ?></a><br/><br/>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+        <?php else: ?>
+            <h1>Проекты </h1>
+
+            <?php if ($this->branchList !== false): ?>
+                <?php foreach ($this->branchList as $branch): ?>
+                    <a href="<?php echo $this->url(array('controller' => 'project', 'action' => 'index', 'branchId' => $branch->id)); ?>" class="branch"><?php echo $this->escape($branch->title); ?></a><br/><br/>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+
+    </div>
+</div>

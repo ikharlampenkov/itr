@@ -16,11 +16,26 @@ class ProjectController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        $branchId = $this->getRequest()->getParam('branchId', 0);
 
+        if ($branchId != 0) {
+            $this->view->assign('branchInfo', SM_Project_Branch::getInstanceById($branchId));
+            $this->view->assign('projectList', SM_Project_Project::getAllInstance());
+            $this->view->assign('branchList', false);
+        } else {
+            $this->view->assign('branchList', SM_Project_Branch::getAllInstance());
+            $this->view->assign('branchInfo', null);
+
+
+        }
     }
 
     public function registerAction()
     {
+        if (!Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_redirect('/login/');
+        }
+
         $oProject = new SM_Project_Project();
 
         if ($this->getRequest()->isPost()) {
@@ -121,6 +136,10 @@ class ProjectController extends Zend_Controller_Action
 
     public function developAction()
     {
+        if (!Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_redirect('/login/');
+        }
+
 
     }
 

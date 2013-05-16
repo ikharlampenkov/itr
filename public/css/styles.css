@@ -1237,6 +1237,15 @@ a.ttovar {
     top: 5px;
 }
 
+.branch {
+    font-family: Tahoma, sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    margin: 15px 0 25px 0;
+    color: #569bde;
+}
+
+
 /* Main menu */
 
 #menu li {

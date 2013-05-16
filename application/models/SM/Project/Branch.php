@@ -199,7 +199,7 @@ class SM_Project_Branch
                 $o->fillFromArray($result);
                 return $o;
             } else {
-                return false;
+                return null;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
