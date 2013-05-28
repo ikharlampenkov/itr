@@ -1,14 +1,29 @@
 <?php
 /*
-CREATE TABLE `tblguestbook` (
-`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-`name` VARCHAR( 50 ) NOT NULL DEFAULT ' ',
-`email` VARCHAR( 50 ) NOT NULL DEFAULT ' ',
-`subject` VARCHAR( 255 ) NOT NULL DEFAULT ' ',
-`message` TEXT NOT NULL ,
-`answer` TEXT NULL ,
-`moderate` TINYINT( 1 ) NOT NULL DEFAULT '0'
-) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE TABLE guestbook
+(
+  id bigserial NOT NULL,
+  link_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  email character varying(50) NOT NULL,
+  subject character varying(255) NOT NULL,
+  question text,
+  answer text,
+  moderate boolean NOT NULL DEFAULT false,
+  date_create date NOT NULL,
+  CONSTRAINT guestbook_pkey PRIMARY KEY (id),
+  CONSTRAINT guestbook_link_id_fkey FOREIGN KEY (link_id)
+      REFERENCES menu_item (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE guestbook
+  OWNER TO garage;
+COMMENT ON TABLE guestbook
+  IS 'Вопрос-Ответ';
+
 
 */
 class SM_Module_GuestBook
@@ -220,7 +235,6 @@ class SM_Module_GuestBook
 
     public function __construct()
     {
-        $config = Zend_Registry::get('production');
         $this->_db = Zend_Registry::get('db');
 
         $this->_dateCreate = date('Y-m-d');
@@ -230,21 +244,19 @@ class SM_Module_GuestBook
     {
         try {
             $sql
-                = 'INSERT INTO news(link_id, title, date_public, date_create, short_text, full_text, category_id)
-                             VALUES(:link_id, :title, :date_public, :date_create, :short_text, :full_text, :category_id)';
-            $this->_db->query(
-                $sql, array('link_id' => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
-                    'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText,
-                    'category_id' => $this->_prepareNullCategory($this->_category))
+                = 'INSERT INTO guestbook(link_id, name, email, subject, question, answer, moderate, date_create)
+                             VALUES(:link_id, :name, :email, :subject, :question, :answer, :moderate, :date_create)';
+            $this->_db->query($sql,
+                array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
+                    'email' => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
+                    'answer' => $this->_answer, 'moderate' => $this->_moderate)
             );
 
-            $this->_id = $this->_db->lastInsertId('news', 'id');
-
-            $fileName = $this->_file->download('file');
-            if ($fileName !== false) {
-                $this->_file->createPreview(40, 40);
-                $this->_db->query('UPDATE news SET file=:file WHERE id=:id', array('file' => $fileName, 'id' => $this->_id));
+            if ($this->_moderate == false) {
+                $this->_sendMail($this->_name, $this->_answer);
             }
+
+            $this->_id = $this->_db->lastInsertId('guestbook', 'id');
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -256,21 +268,15 @@ class SM_Module_GuestBook
     {
         try {
             $sql
-                = 'UPDATE news
-                      SET link_id=:link_id, title=:title, date_public=:date_public, date_create=:date_create,
-                           short_text=:short_text, full_text=:full_text, category_id=:category_id
+                = 'UPDATE guestbook
+                      SET link_id=:link_id, name=:name, date_create=:date_create, subject=:subject,
+                           email=:email, question=:question, answer=:answer
                     WHERE id=:id';
             $this->_db->query(
-                $sql, array('link_id' => $this->_link->getId(), 'title' => $this->_title, 'date_create' => $this->_dateCreate,
-                    'date_public' => $this->_datePublic, 'short_text' => $this->_shortText, 'full_text' => $this->_fullText,
-                    'category_id' => $this->_prepareNullCategory($this->_category), 'id' => $this->_id)
+                $sql, array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
+                    'email' => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
+                    'answer' => $this->_answer, 'moderate' => $this->_moderate, 'id' => $this->_id)
             );
-
-            $fileName = $this->_file->download('file');
-            if ($fileName !== false) {
-                $this->_file->createPreview(40, 40);
-                $this->_db->query('UPDATE news SET file=:file WHERE id=:id', array('file' => $fileName, 'id' => $this->_id));
-            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -279,9 +285,7 @@ class SM_Module_GuestBook
     public function deleteFromDB()
     {
         try {
-            $this->_file->delete();
-
-            $sql = 'DELETE FROM news WHERE id=:id';
+            $sql = 'DELETE FROM guestbook WHERE id=:id';
             $this->_db->query($sql, array('id' => $this->_id));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -291,22 +295,22 @@ class SM_Module_GuestBook
     /**
      * @static
      *
-     * @param                             $link
-     * @param SM_Module_NewsCategory|null $category
-     *
+     * @param  SM_Menu_Item $link
+     * @param null $moderate
      * @throws Exception
+     *
      * @return array|bool
      */
-    public static function getAllInstance($link, $category = null)
+    public static function getAllInstance($link, $moderate = null)
     {
         try {
             $db = Zend_Registry::get('db');
 
-            if ($category != null) {
-                $sql = 'SELECT * FROM news WHERE link_id=:link_id AND category_id=:category_id ORDER BY date_public DESC';
-                $bind = array('link_id' => $link->getId(), 'category_id' => $category->getId());
+            if ($moderate != null) {
+                $sql = 'SELECT * FROM guestbook WHERE link_id=:link_id AND moderate=:moderate ORDER BY date_create DESC';
+                $bind = array('link_id' => $link->getId(), 'moderate' => $moderate);
             } else {
-                $sql = 'SELECT * FROM news WHERE link_id=:link_id ORDER BY date_public DESC';
+                $sql = 'SELECT * FROM guestbook WHERE link_id=:link_id ORDER BY moderate DESC, date_create DESC';
                 $bind = array('link_id' => $link->getId());
             }
 
@@ -357,7 +361,7 @@ class SM_Module_GuestBook
     public static function getInstanceById($id)
     {
         try {
-            $sql = 'SELECT * FROM news WHERE id=:id';
+            $sql = 'SELECT * FROM guestbook WHERE id=:id';
 
             $db = Zend_Registry::get('db');
             $result = $db->query($sql, array('id' => $id))->fetchAll();
@@ -398,76 +402,7 @@ class SM_Module_GuestBook
         $this->setLink($oMenuItem);
     }
 
-    public function getAllMsg($idrubric)
-    {
-        try {
-            $res = $this->_db->query('SELECT * FROM tblguestbook WHERE catalogid=' . $idrubric . ' ORDER BY moderate', 2);
-            if (isset($res) && !empty($res)) {
-                $o_catalog = new vlm_catalog();
-                $o_doctor = new vlm_doctors();
-                foreach ($res as &$resi) {
-                    $rubric = $o_catalog->getRubric($resi['catalogid']);
-                    $resi['rubric'] = $rubric['name'];
-                    $doctor = $o_doctor->getDoctor($resi['doctorid']);
-                    $resi['doctor'] = $doctor['fio'];
-                    foreach ($resi as &$value) {
-                        if (is_string($value)) $value = stripslashes($value);
-                    }
-                }
-                return $res;
-            } else return false;
-        } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
-            return false;
-        }
-    }
-
-    public function getMsg($id)
-    {
-        try {
-            $res = $this->_db->query('SELECT * FROM tblguestbook WHERE id=' . (int)$id, 2);
-            if (isset($res[0]) && !empty($res[0])) {
-                $o_catalog = new vlm_catalog();
-                $o_doctor = new vlm_doctors();
-                $rubric = $o_catalog->getRubric($res[0]['catalogid']);
-                $res[0]['rubric'] = $rubric['name'];
-                $doctor = $o_doctor->getDoctor($res[0]['doctorid']);
-                $res[0]['doctor'] = $doctor['fio'];
-                foreach ($res[0] as &$value) {
-                    if (is_string($value)) $value = stripslashes($value);
-                }
-                return $res[0];
-            } else return false;
-        } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
-            return false;
-        }
-    }
-
-    public function getModerateMsg($idrubric)
-    {
-        try {
-            $res = $this->_db->query('SELECT * FROM tblguestbook WHERE moderate=1 AND catalogid=' . $idrubric, 2);
-            if (isset($res) && !empty($res)) {
-                $o_catalog = new vlm_catalog();
-                $o_doctor = new vlm_doctors();
-                foreach ($res as &$resi) {
-                    $rubric = $o_catalog->getRubric($resi['catalogid']);
-                    $resi['rubric'] = $rubric['name'];
-                    $doctor = $o_doctor->getDoctor($resi['doctorid']);
-                    $resi['doctor'] = $doctor['fio'];
-                    foreach ($resi as &$value) {
-                        if (is_string($value)) $value = stripslashes($value);
-                    }
-                }
-                return $res;
-            } else return false;
-        } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
-            return false;
-        }
-    }
-
+    /*
     public function getAnswerCount()
     {
         try {
@@ -485,90 +420,35 @@ class SM_Module_GuestBook
             echo '<!--' . $e->getMessage() . '-->';
         }
     }
+    */
 
-    public function addMsg($data)
+    private function _sendMail($name, $uMessage)
     {
         try {
-            $data = $this->_db->prepareArray($data);
-            $data['message'] = trim($data['message']);
-            $this->_db->query('INSERT INTO tblguestbook(name, email, catalogid, doctorid, message) VALUES("' . $data['name'] . '", "' . $data['email'] . '",
-                       ' . $data['catalogid'] . ', ' . $data['doctorid'] . ', "' . $data['message'] . '")');
-            if ($data['doctorid'] != 0) {
-                $this->_sendMail($data['doctorid'], $data['name'], $data['message']);
-            }
+            $mail = SM_Module_Vote::getVoteEmail($this->_link);
 
-            $this->_sendMail($data['doctorid'], $data['name'], $data['message'], true);
-
-        } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
-        }
-    }
-
-    public function addAnswer($id, $data)
-    {
-        try {
-            $data = $this->_db->prepareArray($data);
-            if (isset($data['moderate'])) {
-                $data['moderate'] = 1;
-            } else $data['moderate'] = 0;
-            $data['answer'] = trim($data['answer']);
-
-            $sql = 'UPDATE tblguestbook SET answer="' . $data['answer'] . '", moderate=' . $data['moderate'];
-            if (isset($data['name']) && !empty($data['name'])) $sql .= ', name="' . $data['name'] . '"';
-            if (isset($data['email']) && !empty($data['email'])) $sql .= ', email="' . $data['email'] . '"';
-            if (isset($data['subject']) && !empty($data['subject'])) $sql .= ', subject="' . $data['subject'] . '"';
-            if (isset($data['message']) && !empty($data['message'])) $sql .= ', message="' . $data['message'] . '"';
-            if (isset($data['catalogid']) && !empty($data['catalogid'])) $sql .= ', catalogid="' . $data['catalogid'] . '"';
-            if (isset($data['doctorid']) && !empty($data['doctorid'])) $sql .= ', doctorid="' . $data['doctorid'] . '"';
-            $sql .= ' WHERE id=' . (int)$id;
-
-            $this->_db->query($sql);
-        } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
-        }
-    }
-
-    public function delMsg($id)
-    {
-        try {
-            $this->_db->query('DELETE FROM tblguestbook WHERE id=' . (int)$id);
-        } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
-        }
-    }
-
-    private function _sendMail($doctorid, $name, $umessage, $iscontrol = false)
-    {
-        try {
-            if ($iscontrol) {
-                $email = $this->_db->query('SELECT value AS email FROM tblconfig WHERE namevar="smail"', 2);
-            } else {
-                $email = $this->_db->query('SELECT email FROM tbldoctors WHERE id=' . (int)$doctorid, 2);
-            }
-            if (isset($email) && !empty($email)) {
+            if (!empty($mail['email'])) {
                 $message = 'Пожалуйста,  не отвечайте на это письмо.
                         Оно отослано Вам автоматической службой отправки писем.
 
                         Посетитель задал вопрос. Информация о посетителе: 
  
                         ФИО: ' . $name . '
-                        Вопрос: ' . $umessage . '
+                        Вопрос: ' . $uMessage . '
  
                         С наилучшими пожеланиями,
-                        Автоматический Диспетчер Запросов,
-                        "ОВП",
-                        http://ovp.tomck.net';
-                $subject = iconv('UTF-8', 'WINDOWS-1251//IGNORE', 'ОВП. Автоматический Диспетчер Запросов');
-                $message = iconv('UTF-8', 'KOI8-R//IGNORE', $message);
+                        Автоматический Диспетчер Запросов';
+                $subject = mb_convert_encoding('Автоматический Диспетчер Запросов', 'windows-1251', 'UTF-8');
+                $message = mb_convert_encoding($message, 'windows-1251', 'UTF-8');
 
-                if (isset($email['email'])) {
-                    return mail($email['email'], $subject, $message, 'From: support@ovp.tomck.net');
-                }
-                return true;
+                $config = Zend_Registry::get('production');
+                $header = 'From: ' . $config->guestbook->fromEmail;
+                return mail($mail['email'], $subject, $message, $header);
             }
         } catch (Exception $e) {
-            echo '<!--' . $e->getMessage() . '-->';
+            throw new Exception($e->getMessage());
         }
+        return false;
     }
 
 }

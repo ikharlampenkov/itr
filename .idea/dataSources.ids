@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="Data Source [2]" product="PostgreSQL" version="9.1.9" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.1 JDBC4 (build 901)" uuid="476a30ec-02ff-47f0-9883-7ffa7359936c">
+  <data-source source="LOCAL" name="Data Source [2]" product="PostgreSQL" version="9.2.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.2 JDBC4 (build 1002)" uuid="476a30ec-02ff-47f0-9883-7ffa7359936c">
     <identifier-quote-string>&quot;</identifier-quote-string>
     <synchronize>true</synchronize>
     <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-    <jdbc-url>jdbc:postgresql://127.0.0.1/garage</jdbc-url>
+    <jdbc-url>jdbc:postgresql://inngarage.ru/garage</jdbc-url>
     <user-name>garage</user-name>
     <user-password>df99df9cdf9ddf93df9fdfc9dfc8dfccdf9edf9fdf9ddf9fdf9ddf9bdf9adf9edf9edf9bdfcbdf9adfcbdfcbdf92dfccdf9fdf98df9cdf9fdfccdf92df9edf9f</user-password>
     <schema-pattern>garage.public</schema-pattern>
@@ -12,13 +12,13 @@
     <default-dialect>PostgreSQL</default-dialect>
     <libraries>
       <library>
-        <url>file://C:/Program Files (x86)/PostgreSQL/pgJDBC/postgresql-9.1-901.jdbc4.jar</url>
+        <url>file://$PROJECT_DIR$/../postgresql-9.2-1002.jdbc4.jar</url>
       </library>
     </libraries>
     <schema name="public" catalog="garage"/>
     <table name="banner" schema="public" catalog="garage" type="TABLE">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgnYmFubmVyX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
-      <column name="img" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="img" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <column name="link" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <column name="title" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <primary-key name="banner_pkey" columns="id"/>
@@ -182,6 +182,31 @@
       <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
     </table>
+    <table name="guestbook" schema="public" catalog="garage" type="TABLE" remarks="0JLQvtC/0YDQvtGBLdCe0YLQstC10YI=">
+      <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgnZ3Vlc3Rib29rX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="link_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="name" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="subject" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
+      <column name="question" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="12"/>
+      <column name="answer" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="12"/>
+      <column name="moderate" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7" def="ZmFsc2U="/>
+      <column name="date_create" sqlType="date" length="13" precision="0" nullable="false" jdbcType="91"/>
+      <primary-key name="guestbook_pkey" columns="id"/>
+      <foreign-key name="guestbook_link_id_fkey" columns="link_id" ref-table="menu_item" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="guestbook_id_seq" schema="public" catalog="garage" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
     <table name="menu_handler" schema="public" catalog="garage" type="TABLE">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgnbWVudV9oYW5kbGVyX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
       <column name="title" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
@@ -212,6 +237,7 @@
       <primary-key name="menu_item_pkey" columns="id"/>
       <foreign-key name="menu_item_handler_id_fkey" columns="handler_id" ref-table="menu_handler" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
       <foreign-key name="menu_item_parent_id_fkey" columns="parent_id" ref-table="menu_item" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="0" delete-rule="1" deferrability="2"/>
+      <exported-key name="guestbook_link_id_fkey" table="guestbook" schema="public" catalog="garage" columns="link_id"/>
       <exported-key name="menu_item_parent_id_fkey" table="menu_item" schema="public" catalog="garage" columns="parent_id"/>
       <exported-key name="menu_menu_item_item_id_fkey" table="menu_menu_item" schema="public" catalog="garage" columns="item_id"/>
       <exported-key name="partners_link_id_fkey" table="partners" schema="public" catalog="garage" columns="link_id"/>
@@ -505,7 +531,6 @@
       <column name="type_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="attribute_value" sqlType="text" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
       <column name="is_fill" sqlType="bit" length="1" precision="0" nullable="false" jdbcType="-7" def="QicwJzo6ImJpdCI="/>
-      <primary-key name="tm_user_attribute_pkey" columns="user_id,attribute_key"/>
     </table>
     <table name="tm_user_attribute_type" schema="public" catalog="garage" type="TABLE">
       <column name="id" sqlType="bigserial" length="19" precision="0" nullable="false" jdbcType="-5" def="bmV4dHZhbCgndG1fdXNlcl9hdHRyaWJ1dGVfdHlwZV9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
@@ -532,7 +557,6 @@
       <column name="title" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
       <column name="type_id" sqlType="int8" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="list_value" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="12"/>
-      <primary-key name="tm_user_hash_pkey" columns="attribute_key"/>
     </table>
     <table name="tm_user_id_seq" schema="public" catalog="garage" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>
