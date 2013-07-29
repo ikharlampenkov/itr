@@ -221,7 +221,6 @@ class SM_Module_Document
         } else {
             return $value->getId();
         }
-
     }
 
     public function  __construct()

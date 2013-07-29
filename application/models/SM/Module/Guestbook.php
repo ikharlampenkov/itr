@@ -11,6 +11,8 @@ CREATE TABLE guestbook
   answer text,
   moderate boolean NOT NULL DEFAULT false,
   date_create date NOT NULL,
+  parrent_id bigint DEFAULT NULL ,
+  is_folder boolean NOT NULL DEFAULT false
   CONSTRAINT guestbook_pkey PRIMARY KEY (id),
   CONSTRAINT guestbook_link_id_fkey FOREIGN KEY (link_id)
       REFERENCES menu_item (id) MATCH SIMPLE
@@ -28,6 +30,14 @@ COMMENT ON TABLE guestbook
 */
 class SM_Module_GuestBook
 {
+
+    const IS_MODERATE = 1;
+
+    const IS_NO_MODERATE = 0;
+
+    const IS_FOLDER = 1;
+
+    const IS_ROOT = null;
 
     /**
      * @var int
@@ -58,6 +68,16 @@ class SM_Module_GuestBook
      * @var string
      */
     private $_question = '';
+
+    /**
+     * @var SM_Module_GuestBook|null
+     */
+    private $_parent = null;
+
+    /**
+     * @var bool
+     */
+    private $_isFolder = false;
 
     /**
      * @var string
@@ -223,6 +243,39 @@ class SM_Module_GuestBook
         return $this->_dateCreate;
     }
 
+    /**
+     * @param boolean $isFolder
+     */
+    public function setIsFolder($isFolder)
+    {
+        $this->_isFolder = $isFolder;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsFolder()
+    {
+        return $this->_isFolder;
+    }
+
+    /**
+     * @param null|\SM_Module_GuestBook $parent
+     */
+    public function setParent($parent)
+    {
+        $this->_parent = $parent;
+    }
+
+    /**
+     * @return null|\SM_Module_GuestBook
+     */
+    public function getParent()
+    {
+        return $this->_parent;
+    }
+
+
     public function __get($name)
     {
         $method = "get{$name}";
@@ -230,6 +283,19 @@ class SM_Module_GuestBook
             return $this->$method();
         } else {
             throw new Exception('Can not find method ' . $method . ' in class ' . __CLASS__);
+        }
+    }
+
+    /**
+     * @param null|SM_Module_GuestBook $value
+     * @return int|null
+     */
+    protected function _prepareNull($value)
+    {
+        if (is_null($value) || empty($value)) {
+            return null;
+        } else {
+            return $value->getId();
         }
     }
 
@@ -244,12 +310,12 @@ class SM_Module_GuestBook
     {
         try {
             $sql
-                = 'INSERT INTO guestbook(link_id, name, email, subject, question, answer, moderate, date_create)
-                             VALUES(:link_id, :name, :email, :subject, :question, :answer, :moderate, :date_create)';
+                = 'INSERT INTO guestbook(link_id, name, email, subject, question, answer, moderate, date_create, parent_id, is_folder)
+                             VALUES(:link_id, :name, :email, :subject, :question, :answer, :moderate, :date_create, :parent_id, :is_folder)';
             $this->_db->query($sql,
                 array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
                     'email' => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
-                    'answer' => $this->_answer, 'moderate' => $this->_moderate)
+                    'answer' => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder)
             );
 
             if ($this->_moderate == false) {
@@ -270,12 +336,12 @@ class SM_Module_GuestBook
             $sql
                 = 'UPDATE guestbook
                       SET link_id=:link_id, name=:name, date_create=:date_create, subject=:subject,
-                           email=:email, question=:question, answer=:answer
+                           email=:email, question=:question, answer=:answer, parent_id=:parent_id, is_folder=:is_folder
                     WHERE id=:id';
             $this->_db->query(
                 $sql, array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
                     'email' => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
-                    'answer' => $this->_answer, 'moderate' => $this->_moderate, 'id' => $this->_id)
+                    'answer' => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder, 'id' => $this->_id)
             );
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -296,23 +362,66 @@ class SM_Module_GuestBook
      * @static
      *
      * @param  SM_Menu_Item $link
+     * @param null $parent
      * @param null $moderate
      * @throws Exception
-     *
      * @return array|bool
      */
-    public static function getAllInstance($link, $moderate = null)
+    public static function getAllInstance($link, $parent = null, $moderate = null)
     {
         try {
             $db = Zend_Registry::get('db');
 
-            if ($moderate != null) {
-                $sql = 'SELECT * FROM guestbook WHERE link_id=:link_id AND moderate=:moderate ORDER BY date_create DESC';
-                $bind = array('link_id' => $link->getId(), 'moderate' => $moderate);
+            $sql = 'SELECT * FROM guestbook WHERE link_id=:link_id ';
+            $bind = array('link_id' => $link->getId());
+
+            if ($parent == null) {
+                $sql .= ' parent_id IS NULL';
             } else {
-                $sql = 'SELECT * FROM guestbook WHERE link_id=:link_id ORDER BY moderate DESC, date_create DESC';
-                $bind = array('link_id' => $link->getId());
+                $sql .= ' AND parent_id=:parent';
+                $bind['parent'] = $parent;
             }
+
+            if ($moderate != null) {
+                $sql .= ' AND moderate=:moderate ';
+                $bind['moderate'] = $moderate;
+            }
+
+            $sql .= ' ORDER BY moderate DESC, date_create DESC';
+
+            $result = $db->query($sql, $bind)->fetchAll();
+
+            if (isset($result[0])) {
+                $retArray = array();
+                foreach ($result as $res) {
+                    $retArray[] = SM_Module_GuestBook::getInstanceByArray($res);
+                }
+                return $retArray;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public static function getFolderList($link, $parent = null)
+    {
+        try {
+            $db = Zend_Registry::get('db');
+
+            $sql = 'SELECT * FROM guestbook WHERE link_id=:link_id AND is_folder=:is_folder ';
+            $bind = array('link_id' => $link->getId(), 'is_folder' => true);
+
+            if ($parent == null) {
+                $sql .= ' parent_id IS NULL';
+            } else {
+                $sql .= ' AND parent_id=:parent';
+                $bind['parent'] = $parent;
+            }
+
+            $sql .= ' ORDER BY question';
 
             $result = $db->query($sql, $bind)->fetchAll();
 
@@ -355,7 +464,7 @@ class SM_Module_GuestBook
      *
      * @param $id
      *
-     * @return bool|SM_Module_News
+     * @return bool|SM_Module_GuestBook
      * @throws Exception
      */
     public static function getInstanceById($id)
@@ -397,6 +506,11 @@ class SM_Module_GuestBook
         $this->setQuestion($values['question']);
         $this->setAnswer($values['answer']);
         $this->setModerate($values['moderate']);
+        $this->setIsFolder($values['is_folder']);
+
+        if (!empty($values['parent_id'])) {
+            $this->setParent(SM_Module_GuestBook::getInstanceById($values['parent_id']));
+        }
 
         $oMenuItem = SM_Menu_Item::getInstanceById($values['link_id']);
         $this->setLink($oMenuItem);
@@ -452,5 +566,3 @@ class SM_Module_GuestBook
     }
 
 }
-
-?>
