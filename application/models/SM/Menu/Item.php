@@ -230,6 +230,8 @@ class SM_Menu_Item
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } elseif ($this->_handler->getController() == 'Vote') {
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
+            } elseif ($this->_handler->getController() == 'GuestBook') {
+                $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } else {
                 if ($this->_parent !== null) {
                     $tempURL .= $this->_parent->getLink() . '/' . $this->_link . '/';

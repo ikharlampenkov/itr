@@ -11,12 +11,15 @@ CREATE TABLE guestbook
   answer text,
   moderate boolean NOT NULL DEFAULT false,
   date_create date NOT NULL,
-  parrent_id bigint DEFAULT NULL ,
-  is_folder boolean NOT NULL DEFAULT false
+  parent_id bigint,
+  is_folder boolean NOT NULL DEFAULT false,
   CONSTRAINT guestbook_pkey PRIMARY KEY (id),
   CONSTRAINT guestbook_link_id_fkey FOREIGN KEY (link_id)
       REFERENCES menu_item (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE RESTRICT
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT guestbook_parent_id_fkey FOREIGN KEY (parent_id)
+      REFERENCES guestbook (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
@@ -25,15 +28,19 @@ ALTER TABLE guestbook
   OWNER TO garage;
 COMMENT ON TABLE guestbook
   IS 'Вопрос-Ответ';
-
-
 */
+
+/**
+ * Class SM_Module_GuestBook
+ */
 class SM_Module_GuestBook
 {
 
     const IS_MODERATE = 1;
 
     const IS_NO_MODERATE = 0;
+
+    const IS_ANY_MODERATE = null;
 
     const IS_FOLDER = 1;
 
@@ -376,10 +383,10 @@ class SM_Module_GuestBook
             $bind = array('link_id' => $link->getId());
 
             if ($parent == null) {
-                $sql .= ' parent_id IS NULL';
+                $sql .= ' AND parent_id IS NULL';
             } else {
                 $sql .= ' AND parent_id=:parent';
-                $bind['parent'] = $parent;
+                $bind['parent'] = $parent->getId();
             }
 
             if ($moderate != null) {
@@ -387,7 +394,7 @@ class SM_Module_GuestBook
                 $bind['moderate'] = $moderate;
             }
 
-            $sql .= ' ORDER BY moderate DESC, date_create DESC';
+            $sql .= ' ORDER BY is_folder DESC, moderate DESC, date_create DESC';
 
             $result = $db->query($sql, $bind)->fetchAll();
 
@@ -406,7 +413,7 @@ class SM_Module_GuestBook
         }
     }
 
-    public static function getFolderList($link, $parent = null)
+    public static function getFolderList(SM_Menu_Item $link, $parent = null)
     {
         try {
             $db = Zend_Registry::get('db');
@@ -415,10 +422,10 @@ class SM_Module_GuestBook
             $bind = array('link_id' => $link->getId(), 'is_folder' => true);
 
             if ($parent == null) {
-                $sql .= ' parent_id IS NULL';
+                $sql .= ' AND parent_id IS NULL';
             } else {
                 $sql .= ' AND parent_id=:parent';
-                $bind['parent'] = $parent;
+                $bind['parent'] = $parent->getId();
             }
 
             $sql .= ' ORDER BY question';

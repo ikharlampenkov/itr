@@ -17,6 +17,7 @@ class GuestBookController extends Zend_Controller_Action
     public function init()
     {
         $this->_link = SM_Menu_Item::getInstanceByLink($this->getRequest()->getParam('link'));
+
         $this->view->assign('link', $this->_link->getLink());
         $this->view->assign('linkInfo', $this->_link);
         $this->view->assign('pathway', $this->_link->getPathWay());
@@ -25,13 +26,14 @@ class GuestBookController extends Zend_Controller_Action
         if (!empty($parent)) {
             $this->_parent = SM_Module_GuestBook::getInstanceById($parent);
         }
+        $this->view->assign('parentItem', $this->_parent);
         /* Initialize action controller here */
     }
 
     public function indexAction()
     {
+        //$this->view->assign('folderList', SM_Module_GuestBook::getFolderList($this->_link, $this->_parent));
         $this->view->assign('questionList', SM_Module_GuestBook::getAllInstance($this->_link, $this->_parent));
-        $this->view->assign('folder', $this->_parent);
     }
 
     public function viewQuestionAction()
