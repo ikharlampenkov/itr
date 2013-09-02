@@ -173,7 +173,7 @@ class SM_Module_GuestBook
     /**
      * @param boolean $moderate
      */
-    public function setModerate($moderate)
+    public function setIsModerate($moderate)
     {
         $this->_moderate = $moderate;
     }
@@ -181,7 +181,7 @@ class SM_Module_GuestBook
     /**
      * @return boolean
      */
-    public function getModerate()
+    public function getIsModerate()
     {
         return $this->_moderate;
     }
@@ -295,6 +295,7 @@ class SM_Module_GuestBook
 
     /**
      * @param null|SM_Module_GuestBook $value
+     *
      * @return int|null
      */
     protected function _prepareNull($value)
@@ -319,10 +320,11 @@ class SM_Module_GuestBook
             $sql
                 = 'INSERT INTO guestbook(link_id, name, email, subject, question, answer, moderate, date_create, parent_id, is_folder)
                              VALUES(:link_id, :name, :email, :subject, :question, :answer, :moderate, :date_create, :parent_id, :is_folder)';
-            $this->_db->query($sql,
+            $this->_db->query(
+                $sql,
                 array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
-                    'email' => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
-                    'answer' => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder)
+                      'email'   => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
+                      'answer'  => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder)
             );
 
             if ($this->_moderate == false) {
@@ -343,12 +345,12 @@ class SM_Module_GuestBook
             $sql
                 = 'UPDATE guestbook
                       SET link_id=:link_id, name=:name, date_create=:date_create, subject=:subject,
-                           email=:email, question=:question, answer=:answer, parent_id=:parent_id, is_folder=:is_folder
+                           email=:email, question=:question, answer=:answer, moderate=:moderate, parent_id=:parent_id, is_folder=:is_folder
                     WHERE id=:id';
             $this->_db->query(
                 $sql, array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
-                    'email' => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
-                    'answer' => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder, 'id' => $this->_id)
+                            'email'   => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
+                            'answer'  => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder, 'id' => $this->_id)
             );
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -369,8 +371,9 @@ class SM_Module_GuestBook
      * @static
      *
      * @param  SM_Menu_Item $link
-     * @param null $parent
-     * @param null $moderate
+     * @param null          $parent
+     * @param null          $moderate
+     *
      * @throws Exception
      * @return array|bool
      */
@@ -512,7 +515,7 @@ class SM_Module_GuestBook
         $this->setEmail($values['email']);
         $this->setQuestion($values['question']);
         $this->setAnswer($values['answer']);
-        $this->setModerate($values['moderate']);
+        $this->setIsModerate($values['moderate']);
         $this->setIsFolder($values['is_folder']);
 
         if (!empty($values['parent_id'])) {
@@ -549,7 +552,8 @@ class SM_Module_GuestBook
             $mail = SM_Module_Vote::getVoteEmail($this->_link);
 
             if (!empty($mail['email'])) {
-                $message = 'Пожалуйста,  не отвечайте на это письмо.
+                $message
+                    = 'Пожалуйста,  не отвечайте на это письмо.
                         Оно отослано Вам автоматической службой отправки писем.
 
                         Посетитель задал вопрос. Информация о посетителе: 
@@ -572,4 +576,33 @@ class SM_Module_GuestBook
         return false;
     }
 
+
+    public function getChild()
+    {
+        return $this::getFolderList($this->_link, $this->_id);
+    }
+
+    /**
+     * Позволяет оперделить наличие потомков
+     *
+     * @param int $isFolder
+     *
+     * @throws Exception
+     * @return bool
+     */
+    public function hasChild($isFolder = SM_Module_GuestBook::IS_FOLDER)
+    {
+        try {
+            $sql = 'SELECT COUNT(id) AS child_cnt FROM guestbook WHERE parent_id=:parent AND is_folder=:is_folder';
+            $result = $this->_db->query($sql, array('parent' => $this->_id, 'is_folder' => $isFolder))->fetch();
+
+            if (isset($result['child_cnt']) && $result['child_cnt'] > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
 }

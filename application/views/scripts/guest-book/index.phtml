@@ -16,7 +16,7 @@
             <?php endif; ?>
             <li><a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $this->parentItem->parent->id)); ?>"><?php echo $this->escape($this->parentItem->parent->getTitle()); ?></a> <span class="divider">/</span></li>
         <?php endif; ?>
-        <li class="active"><?php echo $this->escape($this->parentItem->title); ?></li>
+        <li class="active"><?php echo $this->escape($this->parentItem->question); ?></li>
     </ul>
 <?php endif; ?>
 
@@ -39,20 +39,20 @@
         <?php foreach ($this->questionList as $item): ?>
             <tr>
                 <td>
-                    <?php if ($item->isFolder()): ?>
+                    <?php if ($item->isFolder): ?>
                         <a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $item->id)); ?>"><?php echo $this->escape($item->question); ?></a>
                     <?php else: ?>
                         <?php echo $this->escape($item->question); ?>
                     <?php endif; ?>
                 </td>
                 <td>
-                    <?php if (!$item->isFolder()): ?>
+                    <?php if (!$item->isFolder): ?>
                         <?php echo $this->escape(substr($item->answer, 0, 100)); ?>
                     <?php endif; ?>
                 </td>
                 <td><?php if ($item->isModerate): ?><i class="icon-ok"></i><?php else: ?><i class="icon-minus"></i><?php endif; ?></td>
                 <td class="tedit">
-                    <?php if ($item->isFolder()): ?>
+                    <?php if ($item->isFolder): ?>
                         <a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'edit-folder', 'id' => $item->id)); ?> "><i class="icon-pencil"></a>
                         <a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'delete-folder', 'id' => $item->id)); ?> " onclick="return confirmDelete('<?php $this->escape($item->question); ?> ');"><i class="icon-remove"></i></a>
                     <?php else: ?>
