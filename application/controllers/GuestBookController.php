@@ -85,28 +85,41 @@ class GuestBookController extends Zend_Controller_Action
         $oQuestion->setLink($this->_link);
         $oQuestion->setParent($this->_parent);
 
+        //Инициализируем форму
+        $form = new Application_Form_GuestBook_Question();
+        $helperUrl = new Zend_View_Helper_Url();
+        $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'add')));
+        $form->submit->setLabel('Добавить');
+
+        $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
+
+        $form->setDefault('parent', $oQuestion->getParent()->getId());
+
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getParam('data');
-            $oQuestion->setQuestion($data['question']);
-            $oQuestion->setAnswer($data['answer']);
-            $oQuestion->setParent($data['parent']);
-            $oQuestion->setSubject($data['subject']);
-            $oQuestion->setName($data['name']);
-            $oQuestion->setEmail($data['email']);
-            $oQuestion->setIsModerate(true);
-            $oQuestion->setIsFolder(false);
+            if ($form->isValid($this->_request->getPost())) {
+                $oQuestion->setQuestion($form->getValue('question'));
+                $oQuestion->setAnswer($form->getValue('answer'));
+                $oQuestion->setParent(SM_Module_GuestBook::getInstanceById($form->getValue('parent')));
+                $oQuestion->setSubject($form->getValue('subject'));
+                $oQuestion->setName($form->getValue('name'));
+                $oQuestion->setEmail($form->getValue('email'));
 
-            try {
-                $oQuestion->insertToDb();
-                $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
-            } catch (Exception $e) {
-                $this->view->assign('exception_msg', $e->getMessage());
+                $oQuestion->setIsModerate(true);
+                $oQuestion->setIsFolder(false);
+
+                try {
+                    $oQuestion->insertToDb();
+                    $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                } catch (Exception $e) {
+                    $this->view->assign('exception_msg', $e->getMessage());
+                }
             }
-
         }
 
-        $this->view->assign('question', $oQuestion);
-        $this->view->assign('folderList', SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
+        $this->view->form = $form;
+
+        //$this->view->assign('question', $oQuestion);
+        //$this->view->assign('folderList', SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
     }
 
     public function editAction()
