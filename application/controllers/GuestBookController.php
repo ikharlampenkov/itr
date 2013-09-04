@@ -126,28 +126,47 @@ class GuestBookController extends Zend_Controller_Action
     {
         $oQuestion = SM_Module_GuestBook::getInstanceById($this->getRequest()->getParam('id'));
 
+        $form = new Application_Form_GuestBook_Question();
+        $helperUrl = new Zend_View_Helper_Url();
+        $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'add')));
+        $form->submit->setLabel('Добавить');
+
+        $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
+
+        $form->setDefault('question', $oQuestion->getQuestion());
+        $form->setDefault('parent', $oQuestion->getParent()->getId());
+
+        $form->setDefault('answer', $oQuestion->getAnswer());
+        $form->setDefault('subject', $oQuestion->getSubject());
+        $form->setDefault('name', $oQuestion->getName());
+        $form->setDefault('email', $oQuestion->getEmail());
+        $form->setDefault('isModerate', $oQuestion->getIsModerate());
+
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getParam('data');
-            $oQuestion->setQuestion($data['question']);
-            $oQuestion->setAnswer($data['answer']);
-            $oQuestion->setParent($data['parent']);
-            $oQuestion->setSubject($data['subject']);
-            $oQuestion->setName($data['name']);
-            $oQuestion->setEmail($data['email']);
-            $oQuestion->setIsModerate(true);
-            $oQuestion->setIsFolder(false);
+            if ($form->isValid($this->_request->getPost())) {
+                $oQuestion->setQuestion($form->getValue('question'));
+                $oQuestion->setAnswer($form->getValue('answer'));
+                $oQuestion->setParent(SM_Module_GuestBook::getInstanceById($form->getValue('parent')));
+                $oQuestion->setSubject($form->getValue('subject'));
+                $oQuestion->setName($form->getValue('name'));
+                $oQuestion->setEmail($form->getValue('email'));
+                $oQuestion->setIsModerate($form->getValue('isModerate'));
 
-            try {
-                $oQuestion->updateToDB();
-                $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
-            } catch (Exception $e) {
-                $this->view->assign('exception_msg', $e->getMessage());
+                $oQuestion->setIsFolder(false);
+
+                try {
+                    $oQuestion->updateToDB();
+                    $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                } catch (Exception $e) {
+                    $this->view->assign('exception_msg', $e->getMessage());
+                }
             }
-
         }
 
-        $this->view->assign('question', $oQuestion);
-        $this->view->assign('folderList', SM_Module_GuestBook::getFolderList($this->_link, $this->_parent));
+        $this->view->form = $form;
+
+        //$this->view->assign('question', $oQuestion);
+        //$this->view->assign('folderList', SM_Module_GuestBook::getFolderList($this->_link, $this->_parent));
     }
 
     public function deleteAction()
