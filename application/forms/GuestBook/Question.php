@@ -43,14 +43,13 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
 
 
         $this->addElement(
-            'text', 'question',
+            'textarea', 'question',
             array(
                  'label'       => 'Вопрос',
                  'placeholder' => 'Вопрос',
                  'required'    => true,
-                 'maxlength'   => '255',
                  'validators'  => array(
-                     array('StringLength', true, array(0, 255))
+                     array('StringLength', true, array(0, 5000))
                  ),
                  'filters'     => array('StringTrim')
             )
