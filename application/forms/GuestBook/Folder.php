@@ -17,18 +17,18 @@ class Application_Form_GuestBook_Folder extends Twitter_Bootstrap_Form_Horizonta
             foreach ($parentList as $folder) {
                 $element->addMultiOption($folder->getId(), $folder->getQuestion());
                 if ($folder->hasChild()) {
-                    $this->_setChildList($folder->getChild(), $element);
+                    $this->_setChildList($folder->getChild(), $element, '--');
                 }
             }
         }
     }
 
-    protected function _setChildList($child, $element)
+    protected function _setChildList($child, $element, $wid)
     {
         foreach ($child as $folder) {
-            $element->addMultiOption($folder->getId(), $folder->getQuestion());
+            $element->addMultiOption($folder->getId(), $wid . $folder->getQuestion());
             if ($folder->hasChild()) {
-                $this->_setChildList($folder->getChild(), $element);
+                $this->_setChildList($folder->getChild(), $element, $wid . '--');
             }
         }
     }

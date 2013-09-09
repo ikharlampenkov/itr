@@ -416,6 +416,12 @@ class SM_Module_GuestBook
         }
     }
 
+    /**
+     * @param SM_Menu_Item $link
+     * @param SM_Module_GuestBook|null $parent
+     * @return array|bool
+     * @throws Exception
+     */
     public static function getFolderList(SM_Menu_Item $link, $parent = null)
     {
         try {
@@ -431,7 +437,7 @@ class SM_Module_GuestBook
                 $bind['parent'] = $parent->getId();
             }
 
-            $sql .= ' ORDER BY question';
+            $sql .= ' ORDER BY id';
 
             $result = $db->query($sql, $bind)->fetchAll();
 
@@ -579,7 +585,7 @@ class SM_Module_GuestBook
 
     public function getChild()
     {
-        return $this::getFolderList($this->_link, $this->_id);
+        return $this::getFolderList($this->_link, $this);
     }
 
     /**

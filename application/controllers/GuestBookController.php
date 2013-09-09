@@ -104,12 +104,20 @@ class GuestBookController extends Zend_Controller_Action
                 $oQuestion->setName($form->getValue('name'));
                 $oQuestion->setEmail($form->getValue('email'));
 
-                $oQuestion->setIsModerate(true);
-                $oQuestion->setIsFolder(false);
+                if ($form->getValue('moderate') == '1') {
+                    $oQuestion->setIsModerate(true);
+                } else {
+                    $oQuestion->setIsModerate(0);
+                }
+                $oQuestion->setIsFolder(0);
 
                 try {
                     $oQuestion->insertToDb();
-                    $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    if ($this->_parent != null) {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+                    } else {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    }
                 } catch (Exception $e) {
                     $this->view->assign('exception_msg', $e->getMessage());
                 }
@@ -128,8 +136,8 @@ class GuestBookController extends Zend_Controller_Action
 
         $form = new Application_Form_GuestBook_Question();
         $helperUrl = new Zend_View_Helper_Url();
-        $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'add')));
-        $form->submit->setLabel('Добавить');
+        $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'edit', 'id' => $oQuestion->getId())));
+        $form->submit->setLabel('Сохранить');
 
         $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
 
@@ -150,13 +158,20 @@ class GuestBookController extends Zend_Controller_Action
                 $oQuestion->setSubject($form->getValue('subject'));
                 $oQuestion->setName($form->getValue('name'));
                 $oQuestion->setEmail($form->getValue('email'));
-                $oQuestion->setIsModerate($form->getValue('isModerate'));
-
-                $oQuestion->setIsFolder(false);
+                if ($form->getValue('moderate') == '1') {
+                    $oQuestion->setIsModerate(true);
+                } else {
+                    $oQuestion->setIsModerate(0);
+                }
+                $oQuestion->setIsFolder(0);
 
                 try {
                     $oQuestion->updateToDB();
-                    $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    if ($this->_parent != null) {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+                    } else {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    }
                 } catch (Exception $e) {
                     $this->view->assign('exception_msg', $e->getMessage());
                 }
@@ -174,7 +189,11 @@ class GuestBookController extends Zend_Controller_Action
         $oQuestion = SM_Module_GuestBook::getInstanceById($this->getRequest()->getParam('id'));
         try {
             $oQuestion->deleteFromDB();
-            $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+            if ($this->_parent != null) {
+                $this->_redirect('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+            } else {
+                $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+            }
         } catch (Exception $e) {
             $this->view->assign('exception_msg', $e->getMessage());
         }
@@ -193,7 +212,9 @@ class GuestBookController extends Zend_Controller_Action
         $form->submit->setLabel('Добавить');
 
         $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
-        $form->setDefault('parent', $this->_parent->getId());
+        if ($this->_parent !== null) {
+            $form->setDefault('parent', $this->_parent->getId());
+        }
 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->_request->getPost())) {
@@ -214,7 +235,11 @@ class GuestBookController extends Zend_Controller_Action
 
                 try {
                     $oQuestion->insertToDb();
-                    $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    if ($this->_parent != null) {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+                    } else {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    }
                 } catch (Exception $e) {
                     $this->view->assign('exception_msg', $e->getMessage());
                 }
@@ -266,7 +291,11 @@ class GuestBookController extends Zend_Controller_Action
 
                 try {
                     $oQuestion->updateToDB();
-                    $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    if ($this->_parent != null) {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+                    } else {
+                        $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+                    }
                 } catch (Exception $e) {
                     $this->view->assign('exception_msg', $e->getMessage());
                 }
@@ -284,7 +313,11 @@ class GuestBookController extends Zend_Controller_Action
         $oQuestion = SM_Module_GuestBook::getInstanceById($this->getRequest()->getParam('id'));
         try {
             $oQuestion->deleteFromDB();
-            $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+            if ($this->_parent != null) {
+                $this->_redirect('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+            } else {
+                $this->_redirect('/guest-book/index/link/' . $this->_link->getLink());
+            }
         } catch (Exception $e) {
             $this->view->assign('exception_msg', $e->getMessage());
         }
