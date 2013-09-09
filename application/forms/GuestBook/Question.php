@@ -45,19 +45,19 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
         $this->addElement(
             'textarea', 'question',
             array(
-                 'label'       => 'Вопрос',
+                 'label' => 'Вопрос',
                  'placeholder' => 'Вопрос',
-                 'required'    => true,
-                 'validators'  => array(
+                 'required' => true,
+                 'validators' => array(
                      array('StringLength', true, array(0, 5000))
                  ),
-                 'filters'     => array('StringTrim')
+                 'filters' => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
             'select', 'parent',
-            array('label'    => 'Родительский элемент',
+            array('label' => 'Родительский элемент',
                   'required' => true
             )
         );
@@ -65,22 +65,77 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
         $this->addElement(
             'textarea', 'answer',
             array(
-                 'label'       => 'Ответ',
+                 'label' => 'Ответ',
                  'placeholder' => 'Ответ',
-                 'required'    => true,
-                 'maxlength'   => '255',
-                 'validators'  => array(
-                     array('StringLength', true, array(0, 255))
+                 'required' => true,
+                 'validators' => array(
+                     array('StringLength', true, array(0, 5000))
                  ),
-                 'filters'     => array('StringTrim')
+                 'filters' => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
+            'text', 'name',
+            array(
+                 'label' => 'ФИО',
+                 'placeholder' => 'Фамилия Имя Отчество',
+                 'required' => false,
+                 'maxlength' => '255',
+                 'validators' => array(
+                     array('StringLength', true, array(0, 255))
+                 ),
+                 'filters' => array('StringTrim', 'StripTags')
+            )
+        );
+
+        $this->addElement(
+            'text', 'email',
+            array(
+                 'label' => 'E-mail',
+                 'placeholder' => 'E-mail',
+                 'required' => false,
+                 'maxlength' => '255',
+                 'validators' => array(
+                     array('StringLength', true, array(0, 255))
+                 ),
+                 'filters' => array('StringTrim', 'StripTags')
+            )
+        );
+
+        $this->addElement(
+            'text', 'subject',
+            array(
+                 'label' => 'Тема',
+                 'placeholder' => 'Тема обсуждения',
+                 'required' => false,
+                 'maxlength' => '255',
+                 'validators' => array(
+                     array('StringLength', true, array(0, 255))
+                 ),
+                 'filters' => array('StringTrim', 'StripTags')
+            )
+        );
+
+        $this->addElement(
+            'chechbox', 'moderate',
+            array(
+                 'label' => 'Модерация',
+                 'placeholder' => 'Модерация',
+                 'required' => true,
+                 'validators' => array(
+                     array('StringLength', true, array(0, 255))
+                 ),
+                 'filters' => array('StringTrim')
+            )
+        );
+
+
+        $this->addElement(
             'button', 'submit',
             array(
-                 'label'      => 'Добавить',
-                 'type'       => 'submit',
+                 'label' => 'Добавить',
+                 'type' => 'submit',
                  'buttonType' => 'success'
             )
         );
@@ -89,7 +144,7 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
             'button', 'reset',
             array(
                  'label' => 'Очистить',
-                 'type'  => 'reset'
+                 'type' => 'reset'
             )
         );
 
@@ -98,7 +153,7 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
             'actions',
             array(
                  'disableLoadDefaultDecorators' => true,
-                 'decorators'                   => array('Actions')
+                 'decorators' => array('Actions')
             )
         );
 
