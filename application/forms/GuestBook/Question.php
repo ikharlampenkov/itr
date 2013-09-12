@@ -45,85 +45,85 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
         $this->addElement(
             'textarea', 'question',
             array(
-                'label' => 'Вопрос',
-                'placeholder' => 'Вопрос',
-                'required' => true,
-                'validators' => array(
-                    array('StringLength', true, array(0, 5000))
-                ),
-                'filters' => array('StringTrim', 'StripTags')
+                 'label'       => 'Вопрос',
+                 'placeholder' => 'Вопрос',
+                 'required'    => true,
+                 'validators'  => array(
+                     array('StringLength', true, array(0, 5000))
+                 ),
+                 'filters'     => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
             'select', 'parent',
-            array('label' => 'Родительский элемент',
-                'required' => true
+            array('label'    => 'Родительский элемент',
+                  'required' => true
             )
         );
 
         $this->addElement(
             'textarea', 'answer',
             array(
-                'label' => 'Ответ',
-                'placeholder' => 'Ответ',
-                'required' => false,
-                'validators' => array(
-                    array('StringLength', true, array(0, 5000))
-                ),
-                'filters' => array('StringTrim', 'StripTags')
+                 'label'       => 'Ответ',
+                 'placeholder' => 'Ответ',
+                 'required'    => false,
+                 'validators'  => array(
+                     array('StringLength', true, array(0, 5000))
+                 ),
+                 'filters'     => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
             'text', 'name',
             array(
-                'label' => 'ФИО',
-                'placeholder' => 'Фамилия Имя Отчество',
-                'required' => false,
-                'maxlength' => '255',
-                'validators' => array(
-                    array('StringLength', true, array(0, 255))
-                ),
-                'filters' => array('StringTrim', 'StripTags')
+                 'label'       => 'ФИО',
+                 'placeholder' => 'Фамилия Имя Отчество',
+                 'required'    => false,
+                 'maxlength'   => '255',
+                 'validators'  => array(
+                     array('StringLength', true, array(0, 255))
+                 ),
+                 'filters'     => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
             'text', 'email',
             array(
-                'label' => 'E-mail',
-                'placeholder' => 'E-mail',
-                'required' => false,
-                'maxlength' => '255',
-                'validators' => array(
-                    array('StringLength', true, array(0, 255)),
-                    array('EmailAddress')
-                ),
-                'filters' => array('StringTrim', 'StripTags')
+                 'label'       => 'E-mail',
+                 'placeholder' => 'E-mail',
+                 'required'    => false,
+                 'maxlength'   => '255',
+                 'validators'  => array(
+                     array('StringLength', true, array(0, 255)),
+                     array('EmailAddress')
+                 ),
+                 'filters'     => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
             'text', 'subject',
             array(
-                'label' => 'Тема',
-                'placeholder' => 'Тема обсуждения',
-                'required' => false,
-                'maxlength' => '255',
-                'validators' => array(
-                    array('StringLength', true, array(0, 255))
-                ),
-                'filters' => array('StringTrim', 'StripTags')
+                 'label'       => 'Тема',
+                 'placeholder' => 'Тема обсуждения',
+                 'required'    => false,
+                 'maxlength'   => '255',
+                 'validators'  => array(
+                     array('StringLength', true, array(0, 255))
+                 ),
+                 'filters'     => array('StringTrim', 'StripTags')
             )
         );
 
         $this->addElement(
             'checkbox', 'moderate',
             array(
-                'label' => 'Модерация',
-                'placeholder' => 'Модерация',
-                'required' => false
+                 'label'       => 'Модерация',
+                 'placeholder' => 'Модерация',
+                 'required'    => false
             )
         );
 
@@ -131,26 +131,27 @@ class Application_Form_GuestBook_Question extends Twitter_Bootstrap_Form_Horizon
         $this->addElement(
             'button', 'submit',
             array(
-                'label' => 'Добавить',
-                'type' => 'submit',
-                'buttonType' => 'success'
+                 'label'      => 'Добавить',
+                 'type'       => 'submit',
+                 'buttonType' => 'success'
             )
         );
 
         $this->addElement(
-            'button', 'reset',
+            'cancel', 'cancel',
             array(
-                'label' => 'Очистить',
-                'type' => 'reset'
+                 'label'      => 'Отмена',
+                 'buttonType' => 'danger',
+                 'href' => '/'
             )
         );
 
         $this->addDisplayGroup(
-            array('submit', 'reset'),
+            array('submit', 'cancel'),
             'actions',
             array(
-                'disableLoadDefaultDecorators' => true,
-                'decorators' => array('Actions')
+                 'disableLoadDefaultDecorators' => true,
+                 'decorators'                   => array('Actions')
             )
         );
 

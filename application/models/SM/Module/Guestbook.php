@@ -285,7 +285,7 @@ class SM_Module_GuestBook
 
     public function __get($name)
     {
-        $method = "get{$name}";
+        $method = 'get' . ucfirst($name);
         if (method_exists($this, $method)) {
             return $this->$method();
         } else {
