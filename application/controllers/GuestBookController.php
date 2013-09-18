@@ -64,7 +64,7 @@ class GuestBookController extends Zend_Controller_Action
 
             try {
                 $mainSession->isComplite = true;
-                $this->_redirect('/' . $this->_link->getParent()->getLink() . '/' . $this->_link->getLink());
+                $this->_redirect('/' . $this->_link->getFullUrl() . '/');
             } catch (Exception $e) {
                 $this->view->assign('exception_msg', $e->getMessage());
             }
@@ -76,7 +76,7 @@ class GuestBookController extends Zend_Controller_Action
             $mainSession->isComplite = false;
         }
 
-        $this->view->assign('questionList', SM_Module_GuestBook::getAllInstance($this->_link, SM_Module_GuestBook::IS_MODERATE));
+        $this->view->assign('questionList', SM_Module_GuestBook::getAllInstance($this->_link, $this->_parent, SM_Module_GuestBook::IS_MODERATE));
     }
 
     public function addAction()

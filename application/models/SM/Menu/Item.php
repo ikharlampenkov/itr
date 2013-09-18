@@ -363,7 +363,7 @@ class SM_Menu_Item
             $router->addRoute($this->getFullUrl('-'), $route);
         } elseif ($this->_handler->getController() == 'GuestBook') {
             $defaults['controller'] = $this->_handler->getController();
-            $defaults['action'] = 'sendmsg';
+            $defaults['action'] = 'view';
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
