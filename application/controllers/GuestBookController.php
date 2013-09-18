@@ -141,6 +141,11 @@ class GuestBookController extends Zend_Controller_Action
         $form = new Application_Form_GuestBook_Question();
         $helperUrl = new Zend_View_Helper_Url();
         $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'edit', 'id' => $oQuestion->getId())));
+        if ($this->_parent != null) {
+            $form->getElement('cancel')->setHref('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+        } else {
+            $form->getElement('cancel')->setHref('/guest-book/index/link/' . $this->_link->getLink());
+        }
         $form->submit->setLabel('Сохранить');
 
         $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
@@ -213,6 +218,11 @@ class GuestBookController extends Zend_Controller_Action
         $form = new Application_Form_GuestBook_Folder();
         $helperUrl = new Zend_View_Helper_Url();
         $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'add-folder')));
+        if ($this->_parent != null) {
+            $form->getElement('cancel')->setHref('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+        } else {
+            $form->getElement('cancel')->setHref('/guest-book/index/link/' . $this->_link->getLink());
+        }
         $form->submit->setLabel('Добавить');
 
         $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
@@ -265,6 +275,11 @@ class GuestBookController extends Zend_Controller_Action
         $form = new Application_Form_GuestBook_Folder();
         $helperUrl = new Zend_View_Helper_Url();
         $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'edit-folder', 'id' => $oQuestion->getId())));
+        if ($this->_parent != null) {
+            $form->getElement('cancel')->setHref('/guest-book/index/link/' . $this->_link->getLink() . '/parent/' . $this->_parent->getId() . '/');
+        } else {
+            $form->getElement('cancel')->setHref('/guest-book/index/link/' . $this->_link->getLink());
+        }
         $form->submit->setLabel('Сохранить');
 
         $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));

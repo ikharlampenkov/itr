@@ -75,15 +75,16 @@ class Application_Form_GuestBook_Folder extends Twitter_Bootstrap_Form_Horizonta
         );
 
         $this->addElement(
-            'button', 'reset',
+            'cancel', 'cancel',
             array(
-                 'label' => 'Очистить',
-                 'type'  => 'reset'
+                'label'      => 'Отмена',
+                'buttonType' => 'danger',
+                'href' => '/'
             )
         );
 
         $this->addDisplayGroup(
-            array('submit', 'reset'),
+            array('submit', 'cancel'),
             'actions',
             array(
                  'disableLoadDefaultDecorators' => true,

@@ -40,7 +40,7 @@
             <tr>
                 <td>
                     <?php if ($item->isFolder): ?>
-                        <a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $item->id)); ?>"><?php echo $this->escape($item->question); ?></a>
+                        <i class="icon-folder-close"></i><a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $item->id)); ?>"><?php echo $this->escape($item->question); ?></a>
                     <?php else: ?>
                         <?php echo $this->escape($item->question); ?>
                     <?php endif; ?>
