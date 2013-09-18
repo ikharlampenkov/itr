@@ -214,11 +214,7 @@ class SM_Menu_Item
     {
         $tempURL = '/';
         if ($mode == 'guest') {
-            if ($this->_parent !== null) {
-                $tempURL .= $this->_parent->getLink() . '/' . $this->_link . '/';
-            } else {
-                $tempURL .= $this->_link . '/';
-            }
+            $tempURL .= $this->getFullUrl() . '/';
         } elseif ($mode == 'admin') {
             if ($this->_handler->getController() == 'Contentpage') {
                 $tempURL .= $this->_handler->getController() . '/edit/title/' . $this->_link . '/link/' . $this->_link . '/';
@@ -244,42 +240,37 @@ class SM_Menu_Item
         return $tempURL;
     }
 
+    public function getFullUrl($delimiter = '/')
+    {
+        if ($this->_parent !== null) {
+            return $this->_parent->getFullUrl($delimiter) . $delimiter . $this->_link;
+        } else {
+            return $this->_link;
+        }
+    }
+
 
     public function getRoute(Zend_Controller_Router_Rewrite &$router)
     {
         $defaults = array();
-        $reqs = array();
+        $requaments = array();
 
         if ($this->_handler->getController() == 'Contentpage') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
             $defaults['link'] = $this->_link;
 
-            if ($this->_parent !== null) {
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                    $defaults, $reqs
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/',
+                $defaults, $requaments
+            );
+            $router->addRoute($this->getFullUrl('-'), $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/subtitle/:subtitle/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('subtitle' => '[\w\-]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-subtitle', $route);
-            } else {
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/',
-                    $defaults, $reqs
-                );
-                $router->addRoute($this->_link, $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/subtitle/:subtitle/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('subtitle' => '[\w\-]+')
-                );
-                $router->addRoute($this->_link . '-subtitle', $route);
-            }
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/subtitle/:subtitle/',
+                array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('subtitle' => '[\w\-]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-subtitle', $route);
         } elseif ($this->_handler->getController() == 'Document') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
@@ -287,141 +278,89 @@ class SM_Menu_Item
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                $defaults, $reqs
+                '/' . $this->getFullUrl() . '/',
+                $defaults, $requaments
             );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            $router->addRoute($this->getFullUrl('-'), $route);
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/parent/:parent/',
+                '/' . $this->getFullUrl() . '/parent/:parent/',
                 array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('parent' => '[\w\-]+')
             );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-parent', $route);
+            $router->addRoute($this->getFullUrl('-') . '-parent', $route);
 
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewdoc/:id/parent/:parent/',
+                '/' . $this->getFullUrl() . '/viewdoc/:id/parent/:parent/',
                 array('controller' => $this->_handler->getController(), 'action' => 'viewdoc', 'link' => $this->_link), array('id' => '[\w\-]+', 'parent' => '[\w\-]+')
             );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewdoc', $route);
+            $router->addRoute($this->getFullUrl('-') . '-viewdoc', $route);
         } elseif ($this->_handler->getController() == 'News') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
             $defaults['link'] = $this->_link;
 
-            if ($this->_parent !== null) {
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                    $defaults, $reqs
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/',
+                $defaults, $requaments
+            );
+            $router->addRoute($this->getFullUrl('-'), $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-category', $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/categoryId/:categoryId/',
+                array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-category', $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews', $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/viewnews/:id/',
+                array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-viewnews', $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewnews/:id/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewnews-category', $route);
-            } else {
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/',
-                    $defaults, $reqs
-                );
-                $router->addRoute($this->_link, $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
-                );
-                $router->addRoute($this->_link . '-category', $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/viewnews/:id/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+')
-                );
-                $router->addRoute($this->_link . '-viewnews', $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/viewnews/:id/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
-                );
-                $router->addRoute($this->_link . '-viewnews-category', $route);
-            }
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/viewnews/:id/categoryId/:categoryId/',
+                array('controller' => $this->_handler->getController(), 'action' => 'viewnews', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-viewnews-category', $route);
         } elseif ($this->_handler->getController() == 'Calendar') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'view';
             $defaults['link'] = $this->_link;
 
-            if ($this->_parent !== null) {
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                    $defaults, $reqs
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/',
+                $defaults, $requaments
+            );
+            $router->addRoute($this->getFullUrl('-'), $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-category', $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/categoryId/:categoryId/',
+                array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-category', $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewcalendar/:id/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewcalendar', $route);
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/viewcalendar/:id/',
+                array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-viewcalendar', $route);
 
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_parent->getLink() . '/' . $this->_link . '/viewcalendar/:id/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
-                );
-                $router->addRoute($this->_parent->getLink() . '-' . $this->_link . '-viewcalendar-category', $route);
-            } else {
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/',
-                    $defaults, $reqs
-                );
-                $router->addRoute($this->_link, $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('categoryId' => '[\w\-]+')
-                );
-                $router->addRoute($this->_link . '-category', $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/viewcalendar/:id/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+')
-                );
-                $router->addRoute($this->_link . '-viewcalendar', $route);
-
-                $route = new Zend_Controller_Router_Route(
-                    '/' . $this->_link . '/viewcalendar/:id/categoryId/:categoryId/',
-                    array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
-                );
-                $router->addRoute($this->_link . '-viewcalendar-category', $route);
-            }
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/viewcalendar/:id/categoryId/:categoryId/',
+                array('controller' => $this->_handler->getController(), 'action' => 'viewcalendar', 'link' => $this->_link), array('id' => '[\d]+', 'categoryId' => '[\d]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-viewcalendar-category', $route);
         } elseif ($this->_handler->getController() == 'Vote') {
             $defaults['controller'] = $this->_handler->getController();
             $defaults['action'] = 'sendmsg';
             $defaults['link'] = $this->_link;
 
             $route = new Zend_Controller_Router_Route(
-                '/' . $this->_parent->getLink() . '/' . $this->_link . '/',
-                $defaults, $reqs
+                '/' . $this->getFullUrl() . '/',
+                $defaults, $requaments
             );
-            $router->addRoute($this->_parent->getLink() . '-' . $this->_link, $route);
+            $router->addRoute($this->getFullUrl('-'), $route);
         } else {
 
         }
@@ -458,8 +397,8 @@ class SM_Menu_Item
                 = 'INSERT INTO menu_item(title, link, parent_id, handler_id, is_visible, sort_order)
                         VALUES (:title, :link, :parent_id, :handler_id, :is_visible, :sort_order)';
             $this->_db->query(
-                $sql, array('title'      => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
-                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible, 'sort_order' => $this->_sortOrder)
+                $sql, array('title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
+                    'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible, 'sort_order' => $this->_sortOrder)
             );
 
             $this->_id = $this->_db->lastInsertId('menu_item', 'id');
@@ -478,8 +417,8 @@ class SM_Menu_Item
                        SET title=:title, link=:link, parent_id=:parent_id, handler_id=:handler_id, is_visible=:is_visible, sort_order=:sort_order
                      WHERE id=:id';
             $this->_db->query(
-                $sql, array('id'         => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
-                            'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible, 'sort_order' => $this->_sortOrder)
+                $sql, array('id' => $this->_id, 'title' => $this->_title, 'link' => $this->_link, 'parent_id' => $this->_prepareNull($this->_parent),
+                    'handler_id' => $this->_handler->getId(), 'is_visible' => $this->_isVisible, 'sort_order' => $this->_sortOrder)
             );
             $this->updateMenuList();
         } catch (Exception $e) {
