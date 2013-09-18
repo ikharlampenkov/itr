@@ -253,7 +253,7 @@ class SM_Menu_Item
     public function getRoute(Zend_Controller_Router_Rewrite &$router)
     {
         $defaults = array();
-        $requaments = array();
+        $requirements = array();
 
         if ($this->_handler->getController() == 'Contentpage') {
             $defaults['controller'] = $this->_handler->getController();
@@ -262,7 +262,7 @@ class SM_Menu_Item
 
             $route = new Zend_Controller_Router_Route(
                 '/' . $this->getFullUrl() . '/',
-                $defaults, $requaments
+                $defaults, $requirements
             );
             $router->addRoute($this->getFullUrl('-'), $route);
 
@@ -279,7 +279,7 @@ class SM_Menu_Item
 
             $route = new Zend_Controller_Router_Route(
                 '/' . $this->getFullUrl() . '/',
-                $defaults, $requaments
+                $defaults, $requirements
             );
             $router->addRoute($this->getFullUrl('-'), $route);
 
@@ -302,7 +302,7 @@ class SM_Menu_Item
 
             $route = new Zend_Controller_Router_Route(
                 '/' . $this->getFullUrl() . '/',
-                $defaults, $requaments
+                $defaults, $requirements
             );
             $router->addRoute($this->getFullUrl('-'), $route);
 
@@ -330,7 +330,7 @@ class SM_Menu_Item
 
             $route = new Zend_Controller_Router_Route(
                 '/' . $this->getFullUrl() . '/',
-                $defaults, $requaments
+                $defaults, $requirements
             );
             $router->addRoute($this->getFullUrl('-'), $route);
 
@@ -358,9 +358,33 @@ class SM_Menu_Item
 
             $route = new Zend_Controller_Router_Route(
                 '/' . $this->getFullUrl() . '/',
-                $defaults, $requaments
+                $defaults, $requirements
             );
             $router->addRoute($this->getFullUrl('-'), $route);
+        } elseif ($this->_handler->getController() == 'GuestBook') {
+            $defaults['controller'] = $this->_handler->getController();
+            $defaults['action'] = 'sendmsg';
+            $defaults['link'] = $this->_link;
+
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/',
+                $defaults, $requirements
+            );
+            $router->addRoute($this->getFullUrl('-'), $route);
+
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/parent/:parent/',
+                array('controller' => $this->_handler->getController(), 'action' => 'view', 'link' => $this->_link), array('parent' => '[\w\-]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-parent', $route);
+
+
+            $route = new Zend_Controller_Router_Route(
+                '/' . $this->getFullUrl() . '/view-question/:id/parent/:parent/',
+                array('controller' => $this->_handler->getController(), 'action' => 'viewdoc', 'link' => $this->_link), array('id' => '[\w\-]+', 'parent' => '[\w\-]+')
+            );
+            $router->addRoute($this->getFullUrl('-') . '-view-question', $route);
+
         } else {
 
         }
