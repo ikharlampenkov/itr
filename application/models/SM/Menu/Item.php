@@ -381,7 +381,7 @@ class SM_Menu_Item
 
             $route = new Zend_Controller_Router_Route(
                 '/' . $this->getFullUrl() . '/view-question/:id/parent/:parent/',
-                array('controller' => $this->_handler->getController(), 'action' => 'viewdoc', 'link' => $this->_link), array('id' => '[\w\-]+', 'parent' => '[\w\-]+')
+                array('controller' => $this->_handler->getController(), 'action' => 'view-question', 'link' => $this->_link), array('id' => '[\w\-]+', 'parent' => '[\w\-]+')
             );
             $router->addRoute($this->getFullUrl('-') . '-view-question', $route);
 
