@@ -1245,7 +1245,6 @@ a.ttovar {
     color: #569bde;
 }
 
-
 /* Main menu */
 
 #menu li {
@@ -1345,12 +1344,12 @@ a.ttovar {
 }
 
 *html #menu ul a /* IE6 */
- {
+   {
     height: 10px;
 }
 
 *:first-child+html #menu ul a /* IE7 */
- {
+   {
     height: 10px;
 }
 
@@ -1427,3 +1426,47 @@ a.ttovar {
 
 /* IE7 */
 
+/*************** guest book ******************/
+.page_guestbook {
+    width: 100%;
+    min-height: 500px;
+    margin: 0 0 20px 0;
+}
+
+.page_guestbook_inner {
+    width: 836px;
+    margin: 53px auto 0 auto;
+    position: relative;
+    padding: 0 0 30px 0;
+}
+
+.page_guestbook .page_guestbook_inner h1 {
+    color: #4e90cd;
+    font-family: Tahoma, sans-serif;
+    font-size: 31px;
+    font-weight: 100;
+    padding: 0;
+    margin: 0 0 35px 0;
+}
+
+.page_guestbook .page_guestbook_inner p {
+    text-align: justify;
+}
+
+.answer_question {
+    color: #4e90cd;
+    font-family: Tahoma, sans-serif;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 0;
+    margin: 0;
+}
+
+.question_title {
+    color: #4e90cd;
+    font-family: Tahoma, sans-serif;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 0;
+    margin: 0;
+}

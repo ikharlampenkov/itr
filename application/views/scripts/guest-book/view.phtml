@@ -1,81 +1,58 @@
-<div class="right">
-    <ul class="secand_menu">
-        <li>
-            <a href="/">ИЗБРАННОЕ</a>
-            <ul>
-                <li><a href="/">Рекомендуемые</a></li>
-                <li><a href="/">Популярные</a></li>
-                <li><a href="/">Новые</a></li>
-                <li><a href="/">Завершающиеся</a></li>
-                <li><a href="/">Мини-проекты</a></li>
-                <li><a href="/">Рекордсмены</a></li>
-                <li><a href="/">Кураторы</a></li>
-            </ul>
+<div class="page_guestbook">
+    <div class="page_guestbook_inner">
 
-        </li>
-        <li>
-            <a href="/">КАТЕГОРИИ</a>
-            <ul>
-                <li><a href="/">Дизайн</a></li>
-                <li><a href="/">Еда</a></li>
-                <li><a href="/">Игры</a></li>
-                <li><a href="/">Издания</a></li>
-                <li><a href="/">Искусство</a></li>
-                <li><a href="/">Мода</a></li>
-                <li><a href="/">Музыка</a></li>
-                <li><a href="/">Театр</a></li>
-                <li><a href="/">Технологии</a></li>
-                <li><a href="/">Фильмы и видео</a></li>
-                <li><a href="/">Фотография</a></li>
-                <li><a href="/">Хореография</a></li>
-            </ul>
+        <?php if (isset($this->exception_msg)): ?>
+            <div class="alert alert-error">
+                <h4 class="alert-heading">Ошибка!</h4>
+                <?php echo $this->escape($this->exception_msg); ?>
+            </div>
+        <?php endif; ?>
 
-        </li>
-        <li>
-            <a href="/">ГОРОДА</a>
-            <ul>
-                <li><a href="/">Москва</a></li>
-                <li><a href="/">Санкт-Петербург</a></li>
-                <li><a href="/">Новосибирск</a></li>
-                <li><a href="/">Волгоград</a></li>
-                <li><a href="/">Краснодар</a></li>
-                <li><a href="/">Нижний Новгород</a></li>
-                <li><a href="/">Воронеж</a></li>
-                <li><a href="/">Казань</a></li>
-                <li><a href="/">Братск</a></li>
-                <li><a href="/">Ростов-на-Дону</a></li>
-                <li><a href="/">Уфа</a></li>
-            </ul>
-
-        </li>
-
-    </ul>
-
-</div>
-<div class="content">
-
-    <?php if (isset($this->exception_msg)): ?>
-        <div class="alert alert-error">
-            <h4 class="alert-heading">Ошибка!</h4>
-            <?php echo $this->escape($this->exception_msg); ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if ($this->parentItem != null): ?>
-        <ul class="breadcrumb">
-            <li><a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => ''), $this->linkInfo->getFullUrk()); ?>"><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Гостевая книга<?php endif; ?></a> <span class="divider">/</span></li>
-            <?php if ($this->parentItem->parent !== null): ?>
-                <?php if ($this->parentItem->parent->parent !== null): ?>
-                    <?php echo $this->partial('guest-book/_elements/public_breadcrumb.phtml', array('parentItem' => $this->parentItem->parent->parent, 'linkInfo' => $this->linkInfo)); ?>
+        <?php if ($this->parentItem != null): ?>
+            <ul class="breadcrumb">
+                <li><a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'view', 'parent' => ''), $this->linkInfo->getFullUrl('-')); ?>"><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Гостевая книга<?php endif; ?></a> <span class="divider">/</span></li>
+                <?php if ($this->parentItem->parent !== null): ?>
+                    <?php if ($this->parentItem->parent->parent !== null): ?>
+                        <?php echo $this->partial('guest-book/_elements/public_breadcrumb.phtml', array('parentItem' => $this->parentItem->parent->parent, 'linkInfo' => $this->linkInfo)); ?>
+                    <?php endif; ?>
+                    <li><a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'view', 'parent' => $this->parentItem->parent->id), $this->linkInfo->getFullUrl('-') . '-parent'); ?>"><?php echo $this->escape($this->parentItem->parent->getQuestion()); ?></a> <span class="divider">/</span></li>
                 <?php endif; ?>
-                <li><a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $this->parentItem->parent->id), $this->linkInfo->getFullUrk() . '-parent'); ?>"><?php echo $this->escape($this->parentItem->parent->getQuestion()); ?></a> <span class="divider">/</span></li>
-            <?php endif; ?>
-            <li class="active"><?php echo $this->escape($this->parentItem->question); ?></li>
-        </ul>
-    <?php endif; ?>
+                <li class="active"><?php echo $this->escape($this->parentItem->question); ?></li>
+            </ul>
+        <?php endif; ?>
 
-    <h1><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Новости<?php endif; ?></h1>
+        <h1><?php if (is_object($this->linkInfo)): ?><?php echo $this->escape($this->linkInfo->title); ?><?php else: ?>Гостевая книга<?php endif; ?></h1>
 
-    questionList
+        <?php if ($this->isComplite): ?>
+            <div class="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Внимание!</strong> Ваша заявка отправлена!
+            </div>
+            <br/>
+        <?php endif; ?>
 
+        <?php if ($this->questionList !== false): ?>
+            <ul class="document">
+                <?php foreach ($this->questionList as $question): ?>
+                    <li>
+                        <?php if ($question->isFolder): ?>
+                            <img src="/images/icon/folder.png"/>&nbsp;<a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'view', 'parent' => $question->id), $this->linkInfo->getFullUrl('-') . '-parent'); ?>"><?php echo $this->escape($question->question); ?></a>
+                        <?php else: ?>
+                            <a href="<?php echo $this->url(array('controller' => 'guest-book', 'action' => 'view-question', 'id' => $question->id, 'parent' => $question->parent->id), $this->linkInfo->getFullUrl('-') . '-view-question'); ?>"><?php echo $this->escape($question->question); ?></a>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <br/>
+
+        <?php if ($this->parentItem != null): ?>
+            <a href="#" class="answer_question" onclick="showQuestionForm();">Задать вопрос</a>
+            <br/>
+
+            <div id="questionForm" style="display: none;">
+                <?php echo $this->form; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 </div>

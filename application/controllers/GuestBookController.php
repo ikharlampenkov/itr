@@ -44,6 +44,26 @@ class GuestBookController extends Zend_Controller_Action
 
     public function viewAction()
     {
+        $oQuestion = new SM_Module_GuestBook();
+        $oQuestion->setLink($this->_link);
+        $oQuestion->setParent($this->_parent);
+
+        //Инициализируем форму
+        $form = new Application_Form_GuestBook_Question();
+        $helperUrl = new Zend_View_Helper_Url();
+        if ($this->_parent != null) {
+            $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $this->_parent->getId()), $this->_link->getFullUrl('-') . '-parent'));
+        } else {
+            $form->setAction($helperUrl->url(array('controller' => 'guest-book', 'action' => 'index'), $this->_link->getFullUrl('-')));
+        }
+        $form->removeElement('cancel');
+        $form->removeElement('moderate');
+        $form->removeElement('answer');
+        $form->submit->setLabel('Отправить вопрос');
+        $form->setParentList(SM_Module_GuestBook::getFolderList($this->_link, SM_Module_GuestBook::IS_ROOT));
+        if ($this->_parent != null) {
+            $form->setDefault('parent', $oQuestion->getParent()->getId());
+        }
         $mainSession = new Zend_Session_Namespace('guestBook');
 
         if (!isset($mainSession->isComplite)) {
@@ -51,22 +71,23 @@ class GuestBookController extends Zend_Controller_Action
         }
 
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getParam('data');
+            if ($form->isValid($this->_request->getPost())) {
+                $oQuestion->setQuestion($form->getValue('question'));
+                $oQuestion->setParent(SM_Module_GuestBook::getInstanceById($form->getValue('parent')));
+                $oQuestion->setSubject($form->getValue('subject'));
+                $oQuestion->setName($form->getValue('name'));
+                $oQuestion->setEmail($form->getValue('email'));
 
-            $oQuestion = new SM_Module_GuestBook();
-            $oQuestion->setLink($this->_link);
-            $oQuestion->setQuestion($data['question']);
-            $oQuestion->setAnswer($data['answer']);
-            $oQuestion->setSubject($data['subject']);
-            $oQuestion->setName($data['name']);
-            $oQuestion->setEmail($data['email']);
-            $oQuestion->setIsModerate(false);
+                $oQuestion->setIsModerate(false);
+                $oQuestion->setIsFolder(false);
 
-            try {
-                $mainSession->isComplite = true;
-                $this->_redirect('/' . $this->_link->getFullUrl() . '/');
-            } catch (Exception $e) {
-                $this->view->assign('exception_msg', $e->getMessage());
+                try {
+                    $oQuestion->insertToDB();
+                    $mainSession->isComplite = true;
+                    $this->_redirect($helperUrl->url(array('controller' => 'guest-book', 'action' => 'index', 'parent' => $this->_parent->getId()), $this->_link->getFullUrl('-') . '-parent'));
+                } catch (Exception $e) {
+                    $this->view->assign('exception_msg', $e->getMessage());
+                }
             }
         }
 
@@ -77,6 +98,7 @@ class GuestBookController extends Zend_Controller_Action
         }
 
         $this->view->assign('questionList', SM_Module_GuestBook::getAllInstance($this->_link, $this->_parent, SM_Module_GuestBook::IS_MODERATE));
+        $this->view->form = $form;
     }
 
     public function addAction()

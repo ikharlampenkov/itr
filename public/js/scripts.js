@@ -96,6 +96,14 @@ function displayCompany(object, companyBlock) {
     }
 }
 
+function showQuestionForm() {
+    if ($('#questionForm').css("display") == "none") {
+        $('#questionForm').slideDown();
+    } else {
+        $('#questionForm').css("display", "none");
+    }
+}
+
 $(document).ready(function () {
     $('#mainmenu .menu li').hover(
         function () {
