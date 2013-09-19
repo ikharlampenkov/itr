@@ -324,7 +324,7 @@ class SM_Module_GuestBook
                 $sql,
                 array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
                       'email'   => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
-                      'answer'  => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder)
+                      'answer'  => $this->_answer, 'moderate' => (int)$this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => (int)$this->_isFolder)
             );
 
             if ($this->_moderate == false) {
@@ -350,7 +350,7 @@ class SM_Module_GuestBook
             $this->_db->query(
                 $sql, array('link_id' => $this->_link->getId(), 'name' => $this->_name, 'date_create' => $this->_dateCreate,
                             'email'   => $this->_email, 'subject' => $this->_subject, 'question' => $this->_question,
-                            'answer'  => $this->_answer, 'moderate' => $this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => $this->_isFolder, 'id' => $this->_id)
+                            'answer'  => $this->_answer, 'moderate' => (int)$this->_moderate, 'parent_id' => $this->_prepareNull($this->_parent), 'is_folder' => (int)$this->_isFolder, 'id' => $this->_id)
             );
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
