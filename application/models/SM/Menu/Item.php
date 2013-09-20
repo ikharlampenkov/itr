@@ -229,11 +229,7 @@ class SM_Menu_Item
             } elseif ($this->_handler->getController() == 'GuestBook') {
                 $tempURL .= $this->_handler->getController() . '/index/link/' . $this->_link . '/';
             } else {
-                if ($this->_parent !== null) {
-                    $tempURL .= $this->_parent->getLink() . '/' . $this->_link . '/';
-                } else {
-                    $tempURL .= $this->_link . '/';
-                }
+                $tempURL .= $this->getFullUrl() . '/';
             }
 
         }
@@ -384,7 +380,6 @@ class SM_Menu_Item
                 array('controller' => $this->_handler->getController(), 'action' => 'view-question', 'link' => $this->_link), array('id' => '[\w\-]+', 'parent' => '[\w\-]+')
             );
             $router->addRoute($this->getFullUrl('-') . '-view-question', $route);
-
         } else {
 
         }
