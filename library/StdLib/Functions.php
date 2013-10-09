@@ -19,11 +19,9 @@ class StdLib_Functions
 
     static public function translitIt($str)
     {
-        $str = trim($str);
-        $str = preg_replace('/([^A-Za-zА-Яа-я0-9 _]*)/', '', $str);
+        $str = mb_convert_encoding(preg_replace(mb_convert_encoding('/([^A-Za-zА-Яа-я0-9 ]*)/', 'windows-1251', 'UTF-8'), '', mb_convert_encoding($str, 'windows-1251', 'UTF-8')), 'UTF-8', 'windows-1251');
         $str = str_replace(' ', '_', $str);
 
-        /*
         $tr = array(
             "А" => "A", "Б" => "B", "В" => "V", "Г" => "G",
             "Д" => "D", "Е" => "E", "Ж" => "J", "З" => "Z", "И" => "I",
@@ -37,32 +35,13 @@ class StdLib_Functions
             "м" => "m", "н" => "n", "о" => "o", "п" => "p", "р" => "r",
             "с" => "s", "т" => "t", "у" => "u", "ф" => "f", "х" => "h",
             "ц" => "ts", "ч" => "ch", "ш" => "sh", "щ" => "sch", "ъ" => "y",
-            "ы" => "yi", "ь" => "", "э" => "e", "ю" => "yu", "я" => "ya",
-            " " => "_", "." => "", "/" => "_", "«" => "", "»" => "",
-            "'" => "", "\"" => ""
+            "ы" => "yi", "ь" => "", "э" => "e", "ю" => "yu", "я" => "ya"
         );
+        //$rus = array_keys($tr);
+        //$lat = array_values($tr);
+
         return strtr($str, $tr);
-        */
-
-        // Таблица русского алфавита:
-        $trans_table_ru = array(
-            'А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Д', 'д', 'Е', 'е', 'Ё', 'ё',
-            'Ж', 'ж', 'З', 'з', 'И', 'и', 'Й', 'й', 'К', 'к', 'Л', 'л', 'М', 'м',
-            'Н', 'н', 'О', 'о', 'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т', 'У', 'у',
-            'Ф', 'ф', 'Х', 'х', 'Ц', 'ц', 'Ы', 'ы', 'Э', 'э', 'Ч', 'ч', 'Ш', 'ш',
-            'Щ', 'щ', 'Ю', 'ю', 'Я', 'я'
-        );
-        // Таблица латинского алфавита для адекватной замены букв (транслит):
-        $trans_table_lat = array(
-            'A', 'a', 'B', 'b', 'V', 'v', 'G', 'g', 'D', 'd', 'E', 'e', 'E', 'e',
-            'J', 'j', 'Z', 'z', 'I', 'i', 'Y', 'y', 'K', 'k', 'L', 'l', 'M', 'm',
-            'N', 'n', 'O', 'o', 'P', 'p', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u',
-            'F', 'f', 'H', 'h', 'C', 'c', 'I', 'i', 'E', 'e',
-            'Ch', 'ch', 'Sh', 'sh', 'Sh', 'sh', 'Yu', 'yu', 'Ya', 'ya'
-        );
-
-        return mb_convert_encoding(str_replace($trans_table_ru, $trans_table_lat, $str), 'UTF-8', 'UTF-8');
-
+        //return mb_convert_encoding(str_replace($rus, $lat, $str), "UTF-8", "UTF-8");
     }
 
     static public function getFileExt($fname)
